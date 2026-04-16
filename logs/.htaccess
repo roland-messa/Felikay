@@ -1,0 +1,9 @@
+# 1. Interdire l'accès à tous les fichiers de ce dossier
+Deny from all
+
+# 2. Empêcher le listage des fichiers du répertoire
+Options -Indexes
+
+# 3. Redirection personnalisée si quelqu'un tente d'accéder à un log
+ErrorDocument 403 /ProjetFelykay/pages/404.php
+ErrorDocument 404 /ProjetFelykay/pages/404.php

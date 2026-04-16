@@ -1,0 +1,579 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
+require_once '../config/db.php';
+require_once '../includes/function.php';
+isAdmin();
+
+$pageTitle = "Felikay Admin | Dashboard";
+include '../includes/header.php';
+
+// --- RÉCUPÉRATION DES STATS CLASSIQUES ---
+$countArticles = $pdo->query("SELECT COUNT(*) FROM produits")->fetchColumn();
+$totalVentes = $pdo->query("SELECT SUM(total_ttc) FROM commandes WHERE statut = 'paye'")->fetchColumn() ?? 0;
+$countCommandes = $pdo->query("SELECT COUNT(*) FROM commandes")->fetchColumn();
+
+
+// --- RÉCUPÉRATION DES STATS D'AUDIENCE (VUES & AUDIENCE) ---
+try {
+  // 1. Nombre total de vues aujourd'hui
+  $viewsToday = $pdo->query("SELECT COUNT(*) FROM visites WHERE DATE(date_visite) = CURDATE()")->fetchColumn() ?? 0;
+
+  // 2. Nombre de visiteurs uniques (par IP)
+  $uniqueVisitors = $pdo->query("SELECT COUNT(DISTINCT ip_address) FROM visites")->fetchColumn() ?? 0;
+
+  // 3. Pages les plus visitées (Top 5)
+  $topPages = $pdo->query("SELECT page_visitee, COUNT(*) as nb FROM visites GROUP BY page_visitee ORDER BY nb DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC) ?? [];
+} catch (Exception $e) {
+  // Si la table 'visites' n'existe pas, on initialise à vide pour éviter les erreurs "Undefined variable"
+  $viewsToday = 0;
+  $uniqueVisitors = 0;
+  $topPages = [];
+}
+
+// On récupère les produits avec leur catégorie pour le tableau
+$produits = $pdo->query("SELECT p.*, c.nom as cat_nom FROM produits p LEFT JOIN categories c ON p.categorie_id = c.id ORDER BY p.created_at DESC")->fetchAll();
+$allColors = $pdo->query("SELECT * FROM couleurs ORDER BY nom ASC")->fetchAll(PDO::FETCH_ASSOC);
+$allSizes = $pdo->query("SELECT * FROM tailles ORDER BY id ASC")->fetchAll(PDO::FETCH_ASSOC);
+
+?>
+
+
+<div id="successToast" class="fixed top-10 left-1/2 -translate-x-1/2 z-[100] transform transition-all duration-500 translate-y-[-150%] opacity-0">
+  <div class="bg-black text-white px-8 py-4 rounded-2xl shadow-2xl flex items-center gap-4 border border-white/20">
+    <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+      <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+      </svg>
+    </div>
+    <div class="flex flex-col">
+      <span class="text-[11px] uppercase tracking-[0.2em] font-bold">Succès</span>
+      <span class="text-[10px] text-slate-300">L'article a été ajouté au catalogue.</span>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div class="flex min-h-screen bg-gray-100 font-sans text-slate-700">
+
+  <aside class="w-64 bg-gray-100 border-r border-slate-100 flex flex-col fixed h-full z-50">
+    <div class="p-8 flex flex-col items-center justify-center">
+      <img src="/ProjetFelykay/assets/img/felikay.jpg" class="w-16 h-16 rounded-xl mb-4 shadow-md text-center">
+      <h2 class="font-serif italic text-xl text-center">Felikay Admin</h2>
+    </div>
+
+    <nav class="flex-1 px-4 space-y-2 ">
+      <button onclick="switchTab('overview')" class="nav-link active w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition">
+        <span>📊</span> Dashboard
+      </button>
+      <button onclick="switchTab('products')" class="nav-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition">
+        <span>👗</span> Catalogue & Stocks
+      </button>
+      <button onclick="switchTab('orders')" class="nav-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition">
+        <span>🛒</span> Commandes Clients
+      </button>
+      <button onclick="switchTab('analytics')" class="nav-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition">
+        <span>📈</span> Vues & Audience
+      </button>
+      <button onclick="switchTab('settings')" class="nav-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition">
+        <span>⚙️</span> Paramètres
+      </button>
+    </nav>
+
+    <div class="p-6 border-t border-slate-50">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-8 h-8 rounded-full bg-stone-200 flex items-center justify-center text-[10px] font-bold">RM</div>
+        <div class="text-[11px]">
+          <p class="font-bold text-slate-800"><?php echo htmlspecialchars($_SESSION['user_nom'] ?? 'Administrateur'); ?></p>
+
+          <p class="text-slate-400 mb-1"><?php echo htmlspecialchars($_SESSION['user_email'] ?? 'admin@felikay.com'); ?></p>
+
+          <a href="javascript:void(0)" onclick="confirmLogout()" class="text-red-400 hover:underline">Déconnexion</a>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="flex-1 ml-64 p-8">
+    <header class="flex justify-between items-center mb-10">
+      <h2 id="current-title" class="text-2xl font-bold tracking-tight">Dashboard</h2>
+      <div class="flex gap-3">
+        <a href="../index.php" class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold uppercase tracking-wider hover:bg-slate-50 transition">Site public</a>
+        <button onclick="openModal()" class="px-4 py-2 bg-black text-white rounded-lg text-xs font-bold uppercase tracking-wider hover:bg-zinc-800 shadow-md transition">+ Nouveau</button>
+      </div>
+    </header>
+
+    <div id="section-overview" class="tab-content block">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex justify-between items-center">
+          <div>
+            <p class="text-slate-400 text-xs uppercase font-bold tracking-widest mb-1">Ventes Totales</p>
+            <h3 class="text-3xl font-serif"><?php echo number_format($totalVentes, 2); ?> $</h3>
+          </div>
+          <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-xl">💰</div>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex justify-between items-center">
+          <div>
+            <p class="text-slate-400 text-xs uppercase font-bold tracking-widest mb-1">Articles</p>
+            <h3 class="text-3xl font-serif"><?php echo $countArticles; ?></h3>
+          </div>
+          <div class="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center text-xl">📦</div>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex justify-between items-center">
+          <div>
+            <p class="text-slate-400 text-xs uppercase font-bold tracking-widest mb-1">Commandes</p>
+            <h3 class="text-3xl font-serif"><?php echo $countCommandes; ?></h3>
+          </div>
+          <div class="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center text-xl">📜</div>
+        </div>
+      </div>
+
+      <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm">
+        <h4 class="text-sm font-bold mb-6 italic font-serif">Activité récente</h4>
+        <div class="h-48 bg-slate-50 rounded-2xl border border-dashed border-slate-200 flex items-center justify-center text-slate-400 text-xs italic">
+          Graphique des ventes bientôt disponible...
+        </div>
+      </div>
+    </div>
+
+
+
+    <div id="section-products" class="tab-content hidden">
+      <div class="bg-gray-100 rounded-3xl border border-slate-300 shadow-sm p-8 mb-10">
+        <h4 class="font-serif italic text-xl mb-6">Ajouter un nouvel article</h4>
+
+        <form action="../assets/actions/process_article.php" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+          <div class="space-y-4">
+            <div>
+              <label class="text-[10px] uppercase font-bold text-slate-800 block mb-1">Nom du produit</label>
+              <input type="text" name="nom" required class="w-full p-3 bg-white rounded-xl border border-black text-sm focus:ring-2 focus:ring-slate-200 outline-none transition-all" placeholder="Ex: Robe de soirée">
+            </div>
+
+            <div>
+              <label class="text-[10px] uppercase font-bold text-slate-800 block mb-1">Catégorie</label>
+              <select name="categorie_id" id="main_cat" onchange="toggleEnfantFields()" class="w-full p-3 bg-white rounded-xl border border-black text-sm cursor-pointer">
+                <option value="1">Homme</option>
+                <option value="2">Femme</option>
+                <option value="3">Enfants</option>
+                <option value="4">Accessoires</option>
+                <option value="5">Chaussures</option>
+              </select>
+            </div>
+
+            <div class="p-4 bg-white rounded-2xl border border-black shadow-sm">
+              <label class="text-[10px] uppercase font-bold text-slate-800 block mb-3 text-center">
+                Choisir les couleurs
+              </label>
+
+              <!-- Input color SIMPLE -->
+              <div class="flex justify-center mb-3">
+                <input type="color" id="colorPicker" value="#000000"
+                  class="w-16 h-10 border border-black rounded-lg cursor-pointer">
+              </div>
+
+              <!-- Bouton ajouter -->
+              <div class="text-center mb-3">
+                <button type="button" onclick="addColor()"
+                  class="px-4 py-2 bg-black text-white text-[10px] uppercase rounded-lg">
+                  + Ajouter
+                </button>
+              </div>
+
+              <!-- Liste -->
+              <div id="colorsList" class="flex flex-wrap gap-2 justify-center"></div>
+
+              <!-- Champ caché -->
+              <input type="hidden" name="colors" id="colorsInput">
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label id="label_taille" class="text-[10px] uppercase font-bold text-slate-800 block mb-1">Taille de l'article</label>
+              <input type="text" name="taille_nom" id="input_taille" placeholder="Ex: XL, 42, L..." class="w-full p-3 bg-white rounded-xl border border-black text-sm uppercase font-bold outline-none focus:bg-slate-50 transition-all" required>
+            </div>
+
+            <div id="fields_enfant" class="hidden p-4 bg-blue-50/50 rounded-2xl border border-blue-200 space-y-3">
+              <label class="text-[10px] uppercase font-bold text-blue-600 block">Détails Enfant</label>
+              <div class="flex gap-2">
+                <select name="genre" class="flex-1 p-2.5 bg-white rounded-lg border border-blue-300 text-xs outline-none">
+                  <option value="garcon">Garçon</option>
+                  <option value="fille">Fille</option>
+                </select>
+                <select name="tranche_age" class="flex-1 p-2.5 bg-white rounded-lg border border-blue-300 text-xs outline-none">
+                  <option value="0-12m">0-12 mois</option>
+                  <option value="1-18j">1-18 ans</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="fields_accessoire" class="hidden p-4 bg-orange-50/50 rounded-2xl border border-orange-200">
+              <label class="text-[10px] uppercase font-bold text-orange-600 block mb-2">Type Accessoire</label>
+              <select name="type_accessoire" class="w-full p-2.5 bg-white rounded-lg border border-orange-300 text-sm outline-none">
+                <option value="electronique">Électronique</option>
+                <option value="perruque">Perruque</option>
+                <option value="parfum">Parfum</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-[10px] uppercase font-bold text-slate-800 block mb-1">Prix et Devise</label>
+              <div class="flex gap-2">
+                <input type="number" step="0.01" name="prix" required class="flex-1 p-3 bg-white rounded-xl border border-black text-sm outline-none" placeholder="0.00">
+                <select name="devise" class="w-28 p-3 bg-black text-white rounded-xl border border-black text-xs font-bold cursor-pointer">
+                  <option value="USD">USD ($)</option>
+                  <option value="CDF">CDF (FC)</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="text-[10px] uppercase font-bold text-slate-800 block mb-1">Stock Initial</label>
+              <input type="number" name="stock_total" value="1" class="w-full p-3 bg-white rounded-xl border border-black text-sm outline-none">
+            </div>
+          </div>
+
+          <div class="space-y-4 flex flex-col">
+            <div class="flex-1">
+              <label class="text-[10px] uppercase font-bold text-slate-800 block mb-1">Description</label>
+              <textarea name="description" class="w-full p-3 bg-white rounded-xl border border-black text-sm h-32 resize-none outline-none focus:bg-slate-50 transition-all" placeholder="Détails du produit, matière, coupe..."></textarea>
+            </div>
+
+            <div class="mt-4">
+              <label class="text-[10px] uppercase font-bold text-slate-800 block mb-1">Image Principale</label>
+              <div class="relative group">
+                <input type="file" name="image_principale" required class="text-[10px] w-full p-4 border-2 border-dashed border-slate-300 rounded-xl group-hover:border-black transition-colors cursor-pointer bg-white">
+              </div>
+            </div>
+
+            <button type="submit" class="w-full mt-6 bg-black text-white p-4 rounded-2xl font-bold text-[11px] uppercase tracking-[0.2em] shadow-[0_10px_20px_-10px_rgba(0,0,0,0.5)] hover:bg-zinc-800 hover:scale-[1.02] active:scale-95 transition-all">
+              Enregistrer le produit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-3xl border border-slate-300 shadow-sm overflow-hidden">
+      <table class="w-full text-left text-sm">
+        <thead class="bg-slate-50/50 border-b border-slate-100">
+          <tr class="text-[10px] uppercase font-bold text-slate-800">
+            <th class="p-6">Produit</th>
+            <th class="p-6 text-center">Stock</th>
+            <th class="p-6">Prix</th>
+            <th class="p-6 text-right">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($produits as $p): ?>
+            <tr class="border-b border-slate-50 hover:bg-slate-50/30 transition">
+              <td class="p-6 flex items-center gap-4">
+                <img src="/ProjetFelykay/<?php echo trim($p['image_principale'], './'); ?>"
+                  class="w-10 h-12 rounded-lg object-cover shadow-sm"
+                  onerror="this.src='/ProjetFelykay/assets/img/felikay.jpg'">
+                <div>
+                  <p class="font-bold"><?php echo htmlspecialchars($p['nom']); ?></p>
+                  <p class="text-[10px] text-slate-400 uppercase"><?php echo htmlspecialchars($p['cat_nom']); ?></p>
+                </div>
+              </td>
+              <td class="p-6 text-center">
+                <span class="px-3 py-1 rounded-lg bg-slate-100 <?php echo ($p['stock_total'] < 5) ? 'text-red-500 font-bold' : ''; ?>">
+                  <?php echo $p['stock_total']; ?>
+                </span>
+              </td>
+              <td class="p-6 font-serif">
+                <?php echo number_format($p['prix'], 2, '.', ' '); ?>
+                <span class="text-[10px] font-bold ml-1"><?php echo htmlspecialchars($p['devise'] ?? 'USD'); ?></span>
+              </td>
+              <td class="p-6 text-right">
+                <button class="p-2 hover:bg-slate-100 rounded-lg">✏️</button>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>
+</div>
+
+
+
+
+<div id="section-orders" class="tab-content hidden">
+  <div class="bg-white rounded-3xl border border-slate-300 shadow-sm overflow-hidden">
+    <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+      <h4 class="text-xs font-bold uppercase tracking-widest text-slate-800">Historique des commandes</h4>
+      <div class="flex gap-2">
+        <span class="px-3 py-1 bg-green-50 text-green-600 rounded-full text-[9px] font-bold uppercase border border-green-200">Livré / Payé</span>
+        <span class="px-3 py-1 bg-orange-50 text-orange-600 rounded-full text-[9px] font-bold uppercase border border-orange-100">En cours</span>
+      </div>
+    </div>
+
+    <table class="w-full text-left text-sm">
+      <thead class="bg-white border-b border-black">
+        <tr class="text-[10px] uppercase font-bold text-black">
+          <th class="p-6">ID / Client</th>
+          <th class="p-6">Expédition (Ville & Adresse)</th>
+          <th class="p-6">Date</th>
+          <th class="p-6">Montant</th>
+          <th class="p-6 text-center">Statut</th>
+          <th class="p-6 text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+        // On s'assure de récupérer adresse_livraison et ville
+        $stmt = $pdo->query("SELECT * FROM commandes ORDER BY created_at DESC");
+        while ($c = $stmt->fetch()):
+          $statusColor = ($c['statut'] == 'paye' || $c['statut'] == 'livre') ? 'text-green-600 bg-green-50 border-green-200' : 'text-orange-600 bg-orange-50 border-orange-200';
+        ?>
+          <tr class="border-b border-slate-100 hover:bg-slate-50 transition">
+            <td class="p-6">
+              <p class="font-bold text-black">#ORD-<?php echo $c['id']; ?></p>
+              <p class="text-[10px] text-slate-500 uppercase font-semibold"><?php echo htmlspecialchars($c['client_nom']); ?></p>
+            </td>
+
+            <td class="p-6">
+              <div class="flex flex-col">
+                <span class="text-black font-medium text-xs">📍 <?php echo htmlspecialchars($c['ville']); ?></span>
+                <span class="text-[10px] text-slate-400 italic truncate w-48"><?php echo htmlspecialchars($c['adresse_livraison']); ?></span>
+              </div>
+            </td>
+
+            <td class="p-6 text-slate-500 text-[11px]">
+              <?php echo date('d/m/Y H:i', strtotime($c['created_at'])); ?>
+            </td>
+
+            <td class="p-6 font-serif font-bold text-black text-base">
+              <?php echo number_format($c['total_ttc'], 2); ?> $
+            </td>
+
+            <td class="p-6 text-center">
+              <span class="px-3 py-1 rounded-full text-[9px] font-bold border <?php echo $statusColor; ?>">
+                <?php echo strtoupper($c['statut']); ?>
+              </span>
+            </td>
+
+            <td class="p-6 text-right">
+              <div class="flex justify-end gap-2">
+                <select onchange="updateOrderStatus(<?php echo $c['id']; ?>, this.value)"
+                  class="p-1 text-[10px] font-bold border border-black rounded-lg bg-white outline-none focus:bg-black focus:text-white transition-all cursor-pointer">
+                  <option value="en_attente" <?php echo ($c['statut'] == 'en_attente') ? 'selected' : ''; ?>>🕒 Attente</option>
+                  <option value="paye" <?php echo ($c['statut'] == 'paye') ? 'selected' : ''; ?>>✅ Payé</option>
+                  <option value="livre" <?php echo ($c['statut'] == 'livre') ? 'selected' : ''; ?>>📦 Livré</option>
+                  <option value="annule" <?php echo ($c['statut'] == 'annule') ? 'selected' : ''; ?>>❌ Annulé</option>
+                </select>
+
+                <button title="Détails" class="p-2 border border-black rounded-lg hover:bg-black hover:text-white transition-all">👁️</button>
+              </div>
+            </td>
+          </tr>
+        <?php endwhile; ?>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+<div id="section-analytics" class="tab-content hidden">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+    <div class="bg-white p-8 rounded-3xl border border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+      <p class="text-[10px] uppercase font-bold text-slate-400 mb-2">Vues aujourd'hui</p>
+      <h3 class="text-4xl font-serif font-bold"><?php echo $viewsToday; ?></h3>
+      <p class="text-[10px] text-green-500 mt-2">▲ Temps réel activé</p>
+    </div>
+    <div class="bg-white p-8 rounded-3xl border border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+      <p class="text-[10px] uppercase font-bold text-slate-400 mb-2">Visiteurs Uniques</p>
+      <h3 class="text-4xl font-serif font-bold"><?php echo $uniqueVisitors; ?></h3>
+      <p class="text-[10px] text-slate-400 mt-2">Total cumulé</p>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-3xl border border-slate-300 shadow-sm overflow-hidden">
+    <div class="p-6 bg-slate-50/50 border-b border-slate-100">
+      <h4 class="font-serif italic text-lg">Pages les plus consultées</h4>
+    </div>
+    <table class="w-full text-left text-sm">
+      <thead class="bg-white border-b border-black">
+        <tr class="text-[10px] uppercase font-bold text-black">
+          <th class="p-6">URL de la page</th>
+          <th class="p-6 text-right">Nombre de vues</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($topPages as $page): ?>
+          <tr class="border-b border-slate-50 hover:bg-slate-50/50 transition">
+            <td class="p-6 font-mono text-xs text-blue-600">
+              <?php echo htmlspecialchars($page['page_visitee']); ?>
+            </td>
+            <td class="p-6 text-right font-bold">
+              <span class="bg-black text-white px-3 py-1 rounded-full text-xs">
+                <?php echo $page['nb']; ?> vues
+              </span>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+        <?php if (empty($topPages)): ?>
+          <tr>
+            <td colspan="2" class="p-10 text-center italic text-slate-400">Aucune donnée de visite pour le moment.</td>
+          </tr>
+        <?php endif; ?>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+
+
+<div id="section-settings" class="tab-content hidden">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+
+    <div class="bg-white p-8 rounded-3xl border border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+      <h4 class="font-serif italic text-xl mb-6">Informations Boutique</h4>
+      <form action="../assets/actions/update_settings.php" method="POST" class="space-y-4">
+        <div>
+          <label class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Nom du Site</label>
+          <input type="text" name="site_name" value="Felikay" class="w-full p-3 bg-slate-50 rounded-xl border border-black text-sm outline-none">
+        </div>
+        <div>
+          <label class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Email de contact</label>
+          <input type="email" name="contact_email" value="contact@felikay.com" class="w-full p-3 bg-slate-50 rounded-xl border border-black text-sm outline-none">
+        </div>
+        <div>
+          <label class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Devise</label>
+          <select name="currency" class="w-full p-3 bg-slate-50 rounded-xl border border-black text-sm outline-none">
+            <option value="USD">Dollar ($)</option>
+            <option value="EUR">Euro (€)</option>
+            <option value="CDF">Franc Congolais (FC)</option>
+          </select>
+        </div>
+        <button type="submit" class="bg-black text-white px-6 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest hover:bg-zinc-800 transition">Enregistrer les infos</button>
+      </form>
+    </div>
+
+    <div class="bg-white p-8 rounded-3xl border border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+      <h4 class="font-serif italic text-xl mb-6">Sécurité du Compte</h4>
+      <form action="../assets/actions/update_password.php" method="POST" class="space-y-4">
+        <div>
+          <label class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Nouveau mot de passe</label>
+          <input type="password" name="new_pass" placeholder="••••••••" class="w-full p-3 bg-slate-50 rounded-xl border border-black text-sm outline-none">
+        </div>
+        <div>
+          <label class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Confirmer le mot de passe</label>
+          <input type="password" name="confirm_pass" placeholder="••••••••" class="w-full p-3 bg-slate-50 rounded-xl border border-black text-sm outline-none">
+        </div>
+        <div class="p-4 bg-orange-50 border border-orange-200 rounded-xl">
+          <p class="text-[10px] text-orange-600 font-bold uppercase italic">Note :</p>
+          <p class="text-[11px] text-orange-700">La déconnexion sera automatique après le changement.</p>
+        </div>
+        <button type="submit" class="bg-black text-white px-6 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest hover:bg-zinc-800 transition">Mettre à jour l'accès</button>
+      </form>
+    </div>
+
+    <div class="lg:col-span-2 bg-slate-900 p-8 rounded-3xl border border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-white">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+        <div>
+          <h4 class="font-serif italic text-xl">Mode Maintenance</h4>
+          <p class="text-slate-400 text-xs">Si activé, les clients verront une page "Bientôt de retour" au lieu du catalogue.</p>
+        </div>
+        <div class="flex items-center gap-4">
+          <span class="text-[10px] font-bold uppercase tracking-tighter text-red-500">Désactivé</span>
+          <button class="w-14 h-8 bg-slate-700 rounded-full relative p-1 transition-all">
+            <div class="w-6 h-6 bg-white rounded-full shadow-md"></div>
+          </button>
+          <span class="text-[10px] font-bold uppercase tracking-tighter text-slate-500">Activé</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+</main>
+</div>
+
+
+<div id="orderModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+  <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden border border-black animate-slideUp">
+    <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+      <div>
+        <h3 class="font-serif italic text-2xl" id="modalOrderId">Détails Commande</h3>
+        <p class="text-[10px] uppercase font-bold text-slate-400" id="modalOrderCustomer"></p>
+      </div>
+      <button onclick="closeOrderModal()" class="text-2xl hover:rotate-90 transition-transform">✕</button>
+    </div>
+
+    <div class="p-8">
+      <div id="orderItemsList" class="space-y-4 max-h-[400px] overflow-y-auto pr-2">
+      </div>
+
+      <div class="mt-8 pt-6 border-t border-black flex justify-between items-end">
+        <div>
+          <p class="text-[10px] uppercase font-bold text-slate-400">Adresse de livraison</p>
+          <p id="modalOrderAddress" class="text-sm italic text-slate-700"></p>
+        </div>
+        <div class="text-right">
+          <p class="text-[10px] uppercase font-bold text-slate-400">Total payé</p>
+          <p id="modalOrderTotal" class="text-3xl font-serif font-bold text-black"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/ProjetFelykay/assets/js/dashboard.js"></script>
+
+
+<style>
+  .nav-link {
+    color: #94a3b8;
+  }
+
+  .nav-link:hover {
+    background: #f8fafc;
+    color: #0f172a;
+  }
+
+  .nav-link.active {
+    background: #0f172a;
+    color: white;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+
+  .tab-content.hidden {
+    display: none;
+  }
+
+  .tab-content.block {
+    display: block;
+    animation: slideUp 0.4s ease;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+</body>
+
+</html>

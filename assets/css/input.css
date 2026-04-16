@@ -1,0 +1,195 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans text-black antialiased;
+  }
+}
+
+/* Styles personnalisés pour l'élégance Felikay */
+.font-serif {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-sans {
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Loader Styles */
+#main-loader.opacity-0 {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.8s ease-out, visibility 0.8s;
+}
+
+/* Custom Scrollbar pour le luxe */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #000;
+}
+
+@layer components {
+  .nav-scrolled {
+    @apply bg-white/95 backdrop-blur-md shadow-md border-b border-stone-100 text-black py-4 !important;
+  }
+
+  .nav-scrolled a,
+  .nav-scrolled button,
+  .nav-scrolled i {
+    @apply text-black !important;
+  }
+
+  .nav-transition {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+}
+
+
+/* --- GESTION DU PANIER LATÉRAL (DRAWER) CORRIGÉE --- */
+
+/* L'overlay (fond sombre) */
+#cart-overlay {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease-in-out;
+  @apply fixed inset-0 bg-black/40 backdrop-blur-sm z-[60];
+}
+
+/* Quand le panier est ouvert, l'overlay devient visible */
+#cart-drawer.open+#cart-overlay,
+/* Si l'overlay est juste après */
+#cart-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Le panneau blanc (Drawer) */
+#cart-drawer {
+  transform: translateX(100%);
+  /* Caché à droite */
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  @apply fixed top-0 right-0 h-full w-full md:w-[450px] bg-white z-[70] shadow-2xl;
+}
+
+/* État ouvert du panneau */
+#cart-drawer.open {
+  transform: translateX(0);
+  /* Glisse vers la gauche */
+}
+
+/* --- PETITS AJUSTEMENTS DE LUXE --- */
+#cart-items-container::-webkit-scrollbar {
+  width: 3px;
+}
+
+#cart-items-container::-webkit-scrollbar-thumb {
+  background: #e5e7eb;
+}
+
+@keyframes fadeInItem {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cart-item-animate {
+  animation: fadeInItem 0.4s ease forwards;
+}
+
+/* --- PETITS AJUSTEMENTS DE LUXE --- */
+
+/* Scrollbar fine pour la liste des produits dans le panier */
+#cart-items-container::-webkit-scrollbar {
+  width: 3px;
+}
+
+#cart-items-container::-webkit-scrollbar-thumb {
+  background: #e5e7eb;
+  /* Gris très clair */
+}
+
+/* Animation d'apparition des articles */
+@keyframes fadeInItem {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cart-item-animate {
+  animation: fadeInItem 0.4s ease forwards;
+}
+
+#cart-overlay {
+  @apply backdrop-blur-sm bg-black/30;
+}
+
+
+
+/* toogle choisir la taille de l'enfants */
+
+.animate-fade-in {
+  animation: fadeInSub 0.3s ease-out;
+}
+
+@keyframes fadeInSub {
+  from {
+    opacity: 0;
+    transform: translateX(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.rotate-90 {
+  transform: rotate(90deg);
+}
+
+/* Style de la bordure latérale des sous-menus */
+.pl-4.border-l {
+  border-color: #f3f2ee;
+  /* Couleur très discrète */
+}
+
+
+
+#pickerContainer .IroWheel {
+  display: block !important;
+  margin: 0 auto !important;
+}
+
+/* Pour s'assurer que le conteneur n'est pas écrasé */
+#pickerContainer {
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
