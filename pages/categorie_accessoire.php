@@ -92,7 +92,7 @@ if (basename($_SERVER['PHP_SELF']) == 'categorie_accessoire.php') :
                 <div class="relative aspect-square overflow-hidden bg-[#F3F3F3] mb-6 border border-stone-50">
                   <img src="<?php echo $final_img; ?>" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
                   <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center">
-                    <button onclick="addToCart('<?php echo addslashes($article['nom']); ?>', <?php echo $article['prix']; ?>, '<?php echo $final_img; ?>')"
+                    <button onclick="addToCart(<?php echo $article['id']; ?>, '<?php echo addslashes($article['nom']); ?>', <?php echo $article['prix']; ?>, '<?php echo $final_img; ?>')"
                       class="bg-white px-8 py-4 text-[10px] uppercase font-bold tracking-[0.2em] shadow-2xl hover:bg-black hover:text-white transition transform translate-y-4 group-hover:translate-y-0">
                       Ajouter au panier
                     </button>

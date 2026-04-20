@@ -69,7 +69,7 @@ if (basename($_SERVER['PHP_SELF']) == 'Nouvelles_Collections.php') :
               <span class="absolute top-4 left-4 bg-black text-white text-[9px] px-3 py-1 uppercase tracking-widest z-10 font-bold">Nouveau</span>
 
               <div class="absolute inset-x-4 bottom-6 space-y-2 opacity-0 transform translate-y-4 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 z-20">
-                <button onclick="addToCart('<?php echo addslashes($produit['nom']); ?>', <?php echo $produit['prix']; ?>, '<?php echo $final_img; ?>')"
+                <button onclick="addToCart(<?php echo $produit['id']; ?>, '<?php echo addslashes($produit['nom']); ?>', <?php echo $produit['prix']; ?>, '<?php echo $final_img; ?>')"
                   class="w-full bg-white text-black text-[10px] uppercase tracking-widest py-4 hover:bg-black hover:text-white transition-colors flex items-center justify-center gap-2 shadow-xl">
                   <i data-lucide="shopping-bag" class="w-4 h-4"></i> Ajouter au panier
                 </button>

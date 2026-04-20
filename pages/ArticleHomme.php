@@ -1,22 +1,24 @@
 <?php
-
 include '../config/db.php';
 
+// 1. RÉCUPÉRATION DES FILTRES
 $categorie_filter = $_GET['cat'] ?? 'tous';
 
 try {
-
-  $query = "SELECT * FROM produits WHERE categorie_id IN (1, 5)";
+  // CORRECTION : categorie_id 1 (Habits) et 4 (Chaussures Hommes)
+  // On utilise une requête préparée pour plus de sécurité
+  $base_sql = "SELECT * FROM produits WHERE categorie_id IN (1, 4)";
 
   if ($categorie_filter === 'vetements') {
-    $query .= " AND categorie_id = 1";
+    $base_sql .= " AND categorie_id = 1";
   } elseif ($categorie_filter === 'chaussures') {
-    $query .= " AND categorie_id = 5";
+    $base_sql .= " AND categorie_id = 4";
   }
 
-  $query .= " ORDER BY created_at DESC";
+  $base_sql .= " ORDER BY created_at DESC";
 
-  $stmt = $pdo->query($query);
+  $stmt = $pdo->prepare($base_sql);
+  $stmt->execute();
   $articles_hommes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
   $articles_hommes = [];
@@ -73,7 +75,6 @@ if (basename($_SERVER['PHP_SELF']) == 'ArticleHomme.php') :
         <div class="swiper menCarousel pb-12">
           <div class="swiper-wrapper">
             <?php foreach ($articles_hommes as $item) :
-
               $img_path = str_replace('../', '', $item['image_principale']);
               $final_img = "../" . $img_path;
             ?>
@@ -81,7 +82,7 @@ if (basename($_SERVER['PHP_SELF']) == 'ArticleHomme.php') :
                 <div class="relative overflow-hidden mb-6 aspect-[3/4] bg-white border border-gray-100 shadow-sm">
                   <img src="<?php echo $final_img; ?>" class="product-img w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
                   <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
-                    <button onclick="addToCart('<?php echo addslashes($item['nom']); ?>', <?php echo $item['prix']; ?>, '<?php echo $final_img; ?>')"
+                    <button onclick="addToCart(<?php echo $item['id']; ?>, '<?php echo addslashes($item['nom']); ?>', <?php echo $item['prix']; ?>, '<?php echo $final_img; ?>')"
                       class="bg-white p-4 rounded-full shadow-lg hover:bg-black hover:text-white transition transform translate-y-8 group-hover:translate-y-0">
                       <i data-lucide="shopping-bag" class="w-5 h-5"></i>
                     </button>
@@ -89,9 +90,9 @@ if (basename($_SERVER['PHP_SELF']) == 'ArticleHomme.php') :
                 </div>
                 <div class="text-left px-2">
                   <span class="text-[9px] uppercase tracking-widest text-stone-400 block mb-1">
-                    <?php echo ($item['categorie_id'] == 5) ? 'Souliers' : 'Prêt-à-porter'; ?>
+                    <?php echo ($item['categorie_id'] == 4) ? 'Souliers' : 'Prêt-à-porter'; ?>
                   </span>
-                  <h3 class="product-name text-[11px] uppercase tracking-[0.2em] font-medium mb-2"><?php echo $item['nom']; ?></h3>
+                  <h3 class="product-name text-[11px] uppercase tracking-[0.2em] font-medium mb-2"><?php echo htmlspecialchars($item['nom']); ?></h3>
                   <span class="product-price text-[14px] font-light italic text-stone-500">
                     <?php echo number_format($item['prix'], 2); ?> <?php echo $item['devise'] ?? 'USD'; ?>
                   </span>
@@ -106,7 +107,7 @@ if (basename($_SERVER['PHP_SELF']) == 'ArticleHomme.php') :
         </div>
 
         <?php if (empty($articles_hommes)): ?>
-          <p class="text-center text-stone-400 italic">Aucun article disponible pour le moment.</p>
+          <p class="text-center text-stone-400 italic py-20">Aucun article disponible pour le moment.</p>
         <?php endif; ?>
 
       </div>

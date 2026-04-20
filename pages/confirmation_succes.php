@@ -9,8 +9,7 @@ if (!$commande_id) {
   exit();
 }
 
-
-$stmt = $pdo->prepare("SELECT payment_method FROM commandes WHERE id = ?");
+$stmt = $pdo->prepare("SELECT methode_paiement FROM commandes WHERE id = ?");
 $stmt->execute([$commande_id]);
 $commande = $stmt->fetch();
 
@@ -46,14 +45,14 @@ $is_delivery = ($commande && $commande['methode_paiement'] === 'delivery');
 
     <?php if ($is_delivery): ?>
       <p class="text-gray-600 text-sm leading-relaxed mb-2">
-        Votre commande <span class="font-bold text-black">#<?php echo $commande_id; ?></span> est enregistrée.
+        Votre commande a été enregistrée avec succès.
       </p>
       <p class="text-orange-600 text-xs font-medium uppercase tracking-widest mb-10">
         Paiement à prévoir lors de la livraison
       </p>
     <?php else: ?>
       <p class="text-gray-600 text-sm leading-relaxed mb-10">
-        Votre paiement pour la commande <span class="font-bold text-black">#<?php echo $commande_id; ?></span> a été traité avec succès.
+        Votre paiement a été traité avec succès. Nous préparons votre colis.
       </p>
     <?php endif; ?>
 
@@ -78,6 +77,7 @@ $is_delivery = ($commande && $commande['methode_paiement'] === 'delivery');
 
   <script>
     lucide.createIcons();
+
     localStorage.removeItem('felikay_cart');
   </script>
 </body>

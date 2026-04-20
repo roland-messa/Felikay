@@ -14,8 +14,10 @@
           <option value="1">Homme</option>
           <option value="2">Femme</option>
           <option value="3">Enfants</option>
-          <option value="4">Accessoires</option>
-          <option value="5">Chaussures</option>
+          <option value="4">Chaussures Hommes</option>
+          <option value="5">Chaussures Femmes</option>
+          <option value="6">Chaussures Enfants</option>
+          <option value="7">Accessoires</option>
         </select>
       </div>
 
@@ -44,7 +46,7 @@
           <select name="genre" class="flex-1 p-2.5 bg-white rounded-lg border border-blue-300 text-xs outline-none">
             <option value="homme">Homme / Garçon</option>
             <option value="femme">Femme / Fille</option>
-            <option value="unisexe">Unisexe</option>
+            <option value="unisexe">Mixte</option>
           </select>
           <select name="tranche_age" id="select_age" class="flex-1 p-2.5 bg-white rounded-lg border border-blue-300 text-xs outline-none">
             <option value="adulte" selected>Adulte</option>
@@ -60,6 +62,7 @@
           <option value="electronique">Électronique</option>
           <option value="perruque">Perruque</option>
           <option value="parfum">Parfum</option>
+          <option value="autre">Autre (préciser dans la description)</option>
         </select>
       </div>
 
@@ -98,6 +101,7 @@
   </form>
 </div>
 
+
 <div class="bg-white rounded-3xl border border-slate-300 shadow-sm overflow-hidden">
   <table class="w-full text-left text-sm">
     <thead class="bg-slate-50/50 border-b border-slate-100">
@@ -123,19 +127,27 @@
 
                 <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">
                   <?php
+                  $cat_id  = (int)$p['categorie_id'];
                   $cat_nom = $p['cat_nom'] ?? 'Article';
                   $genre   = !empty($p['genre']) ? $p['genre'] : '';
                   $age     = !empty($p['tranche_age']) ? $p['tranche_age'] : '';
+                  $type_acc = !empty($p['type_accessoire']) ? $p['type_accessoire'] : '';
 
-                  $display_cat = str_ireplace([' Hommes', ' Femmes', ' Enfants'], '', $cat_nom);
+                  // Nettoyage du nom de la catégorie (ex: "Habits Hommes" devient "Habits")
+                  $display_cat = str_ireplace([' Hommes', ' Femmes', ' Enfants', ' Homme', ' Femme', ' Enfant'], '', $cat_nom);
                   echo htmlspecialchars($display_cat);
 
-                  if (!empty($age) && $age !== 'adulte') {
-                    echo " " . htmlspecialchars($age);
-                  }
-
-                  if (!empty($genre)) {
-                    echo " • " . htmlspecialchars($genre);
+                  // LOGIQUE ACCESSOIRES : ID 7 selon la DB
+                  if ($cat_id === 7 && !empty($type_acc)) {
+                    echo " • " . htmlspecialchars(str_replace('_', ' ', $type_acc));
+                  } else {
+                    // Sinon affichage classique Genre / Âge
+                    if (!empty($age) && strtolower($age) !== 'adulte') {
+                      echo " " . htmlspecialchars($age);
+                    }
+                    if (!empty($genre)) {
+                      echo " • " . htmlspecialchars($genre);
+                    }
                   }
                   ?>
                 </p>
@@ -143,8 +155,8 @@
                 <?php if (!empty($p['les_tailles'])): ?>
                   <span class="text-[9px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-bold uppercase">
                     <?php
-                    // On affiche PT pour pointure si c'est la catégorie Chaussures (ID 5)
-                    echo ($p['categorie_id'] == 5) ? 'PT: ' : 'T: ';
+                    // On affiche PT (Pointure) pour les Chaussures (IDs 4, 5, 6)
+                    echo (in_array($cat_id, [4, 5, 6])) ? 'PT: ' : 'T: ';
                     echo htmlspecialchars(str_replace(',', ' | ', $p['les_tailles']));
                     ?>
                   </span>

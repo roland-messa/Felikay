@@ -123,7 +123,7 @@ if ($maintenance === '1' && (!isset($_SESSION['role']) || $_SESSION['role'] !== 
                         <div class="max-w-md text-center md:text-left">
                             <span class="text-red-500 text-[10px] uppercase tracking-[0.4em] font-bold mb-6 block">Offre de la semaine</span>
                             <h2 class="font-serif text-4xl md:text-5xl mb-10 leading-tight">Sacoche de poitrine <br> Édition Limitée</h2>
-                            <button onclick="addToCart('Sacoche de poitrine Edition Limitée', 29.99, 'assets/img/sac2.jpg')"
+                            <button onclick="addToCart(999, 'Sacoche de poitrine Edition Limitée', 29.99, 'assets/img/sac2.jpg')"
                                 class="bg-black text-white px-12 py-5 text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-stone-800 transition-all shadow-lg">
                                 Ajouter au panier
                             </button>
@@ -143,7 +143,7 @@ if ($maintenance === '1' && (!isset($_SESSION['role']) || $_SESSION['role'] !== 
                         <div class="max-w-md text-center md:text-left">
                             <span class="text-red-500 text-[10px] uppercase tracking-[0.4em] font-bold mb-6 block">Incontournable</span>
                             <h2 class="font-serif text-4xl md:text-5xl mb-10 leading-tight">Mocassins Cuir <br> Glacé Noir</h2>
-                            <button onclick="addToCart('Mocassins Cuir Glacé', 85.00, 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=500')"
+                            <button onclick="addToCart(998, 'Mocassins Cuir Glacé', 85.00, 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=500')"
                                 class="bg-black text-white px-12 py-5 text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-stone-800 transition-all shadow-lg">
                                 Ajouter au panier
                             </button>
@@ -163,7 +163,7 @@ if ($maintenance === '1' && (!isset($_SESSION['role']) || $_SESSION['role'] !== 
                         <div class="max-w-md text-center md:text-left">
                             <span class="text-red-500 text-[10px] uppercase tracking-[0.4em] font-bold mb-6 block">Essence Pure</span>
                             <h2 class="font-serif text-4xl md:text-5xl mb-10 leading-tight">Signature d'Orient <br> Eau de Parfum</h2>
-                            <button onclick="addToCart('Parfum Signature Orient', 45.00, 'https://images.unsplash.com/photo-1544467328-345179a4b735?q=80&w=500')"
+                            <button onclick="addToCart(997, 'Parfum Signature Orient', 45.00, 'assets/img/parfum.jpg')"
                                 class="bg-black text-white px-12 py-5 text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-stone-800 transition-all shadow-lg">
                                 Ajouter au panier
                             </button>
@@ -183,7 +183,7 @@ if ($maintenance === '1' && (!isset($_SESSION['role']) || $_SESSION['role'] !== 
                         <div class="max-w-md text-center md:text-left">
                             <span class="text-red-500 text-[10px] uppercase tracking-[0.4em] font-bold mb-6 block">Accessoires</span>
                             <h2 class="font-serif text-4xl md:text-5xl mb-10 leading-tight">Ceinture Classique <br> Cuir de Toscane</h2>
-                            <button onclick="addToCart('Ceinture Cuir Toscane', 19.99, 'https://images.unsplash.com/photo-1624222247344-550fb8ec5522?q=80&w=500')"
+                            <button onclick="addToCart(996, 'Ceinture Cuir Toscane', 19.99, 'assets/img/ceinture.jpg')"
                                 class="bg-black text-white px-12 py-5 text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-stone-800 transition-all shadow-lg">
                                 Ajouter au panier
                             </button>
@@ -196,6 +196,8 @@ if ($maintenance === '1' && (!isset($_SESSION['role']) || $_SESSION['role'] !== 
         </div>
 
     </div>
+
+
 </section>
 
 <?php

@@ -9,8 +9,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $prix          = floatval($_POST['prix'] ?? 0);
   $devise        = $_POST['devise'] ?? 'USD';
   $categorie_id  = intval($_POST['categorie_id'] ?? 0);
-  $tranche_age   = $_POST['tranche_age'] ?? null;
-  $genre         = $_POST['genre'] ?? null;
+
+  // Valeurs par défaut pour éviter les colonnes vides
+  $tranche_age   = !empty($_POST['tranche_age']) ? $_POST['tranche_age'] : 'adulte';
+  $genre         = !empty($_POST['genre']) ? $_POST['genre'] : 'mixte';
+
+  // NOUVEAU : Récupération du type d'accessoire envoyé par le formulaire
+  $type_accessoire = $_POST['type_accessoire'] ?? null;
+
   $stock_total   = intval($_POST['stock_total'] ?? 0);
   $description   = htmlspecialchars($_POST['description'] ?? '');
   $colors_raw    = $_POST['colors'] ?? null;
@@ -28,26 +34,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pdo->beginTransaction();
 
     $sql = "INSERT INTO produits 
-        (nom, prix, devise, categorie_id, tranche_age, genre, stock_total, image_principale, description, created_at) 
-        VALUES (:nom, :prix, :devise, :cat, :age, :genre, :stock, :img, :descr, NOW())";
+        (nom, prix, devise, categorie_id, tranche_age, genre, type_accessoire, stock_total, image_principale, description, created_at) 
+        VALUES (:nom, :prix, :devise, :cat, :age, :genre, :type_acc, :stock, :img, :descr, NOW())";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
-      ':nom'    => $nom,
-      ':prix'   => $prix,
-      ':devise' => $devise,
-      ':cat'    => $categorie_id,
-      ':age'    => $tranche_age,
-      ':genre'  => $genre,
-      ':stock'  => $stock_total,
-      ':img'    => $image_final_path,
-      ':descr'  => $description
+      ':nom'      => $nom,
+      ':prix'     => $prix,
+      ':devise'   => $devise,
+      ':cat'      => $categorie_id,
+      ':age'      => $tranche_age,
+      ':genre'    => $genre,
+      ':type_acc' => $type_accessoire,
+      ':stock'    => $stock_total,
+      ':img'      => $image_final_path,
+      ':descr'    => $description
     ]);
 
     $last_id = $pdo->lastInsertId();
 
-    // 4. GESTION DE LA TAILLE (Inchangé)
-    if (!empty($_POST['taille_nom'])) {
+    // 4. GESTION DE LA TAILLE 
+    // On n'insère de taille que si le champ n'est pas vide (les accessoires n'en ont pas)
+    if (!empty($_POST['taille_nom']) && $categorie_id != 4) {
       $taille_input = strtoupper(trim($_POST['taille_nom']));
       $stmtCheckT = $pdo->prepare("SELECT id FROM tailles WHERE nom = ?");
       $stmtCheckT->execute([$taille_input]);
@@ -63,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $stmtLinkT->execute([$last_id, $taille_id, $stock_total]);
     }
 
-    // 5. GESTION DES COULEURS (Relationnelle + Nettoyage)
+    // 5. GESTION DES COULEURS
     if (!empty($colors_raw)) {
       $couleurs_json = json_decode($colors_raw, true);
       if (is_array($couleurs_json)) {

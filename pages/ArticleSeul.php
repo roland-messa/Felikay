@@ -84,7 +84,7 @@ try {
         </div>
 
         <div class="pt-6">
-          <button onclick="addToCart('<?php echo addslashes($produit['nom']); ?>', <?php echo $produit['prix']; ?>, '<?php echo $final_img; ?>')"
+          <button onclick="addToCart(<?php echo $produit['id']; ?>, '<?php echo addslashes($produit['nom']); ?>', <?php echo $produit['prix']; ?>, '<?php echo $final_img; ?>')"
             class="w-full bg-black text-white py-5 text-[11px] uppercase font-bold tracking-[0.3em] hover:bg-stone-800 transition-all flex items-center justify-center gap-4 shadow-2xl">
             <i data-lucide="shopping-bag" class="w-4 h-4"></i> Ajouter au panier
           </button>
@@ -92,6 +92,7 @@ try {
             Livraison offerte pour toute commande Maison Felikay
           </p>
         </div>
+
       </div>
     </div>
 

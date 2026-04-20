@@ -13,7 +13,7 @@
       Recevez nos offres exclusives directement sur votre téléphone
     </p>
 
-    <form action="#" method="POST" class="max-w-[500px] mx-auto">
+    <form action="../assets/actions/process-newsletter.php" method="POST" class="max-w-[500px] mx-auto">
       <div class="flex flex-col gap-4">
 
         <input
@@ -40,7 +40,7 @@
         <button
           type="submit"
           class="w-full bg-[#1A1A1A] text-white py-5 text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-black transition-all mt-2">
-          S'abonner via WhatsApp
+          S'abonner
         </button>
       </div>
 

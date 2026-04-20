@@ -7,3 +7,4 @@ Options -Indexes
 # 3. Redirection personnalisée si quelqu'un tente d'accéder à un log
 ErrorDocument 403 /ProjetFelykay/pages/404.php
 ErrorDocument 404 /ProjetFelykay/pages/404.php
+ErrorDocument 403 /ProjetFelykay/pages/403_blocked.php

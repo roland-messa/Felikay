@@ -19,10 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
   unset($_SESSION['csrf_token']);
 
-  // 3. Gestion des tentatives
+  // 3. Gestion des tentatives (Blocage à 5 tentatives)
   $attempts = $_SESSION['login_attempts'] ?? 0;
-  if ($attempts >= 5 && isset($_SESSION['blocked_until']) && $_SESSION['blocked_until'] > time()) {
-    header("Location: ../../pages/admin_login.php?msg=too_many_attempts");
+
+  if ($attempts >= 5) {
+    // Redirection vers la page personnalisée "Accès Restreint"
+    header("Location: ../../pages/403_blocked.php");
     exit();
   }
 
@@ -34,8 +36,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    // Vérification du mot de passe (comparaison directe selon votre code actuel)
     if ($user && $password === $user['password']) {
 
+      // Réinitialisation du compteur en cas de succès
       $_SESSION['login_attempts'] = 0;
       $_SESSION['last_activity'] = time();
       session_regenerate_id(true);
@@ -43,12 +47,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $_SESSION['user_id'] = $user['id'];
       $_SESSION['user_role'] = strtolower($user['role']);
 
-      // Redirection vers le dossier admin
       header("Location: ../../pages/admin/admin_dashboard.php");
       exit();
     } else {
-      $_SESSION['login_attempts'] = ($attempts + 1);
-      header("Location: ../../pages/admin_login.php?msg=error_login");
+
+      $new_attempts = $attempts + 1;
+      $_SESSION['login_attempts'] = $new_attempts;
+
+      if ($new_attempts >= 5) {
+
+        header("Location: ../../pages/403_blocked.php");
+      } else {
+
+        header("Location: ../../pages/admin_login.php?msg=error_login");
+      }
       exit();
     }
   } catch (PDOException $e) {

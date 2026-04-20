@@ -7,36 +7,49 @@ function toggleEnfantFields() {
   const labelTaille = document.getElementById('label_taille');
   const inputTaille = document.getElementById('input_taille');
   const labelDetail = document.getElementById('label_detail_dynamique');
+  const containerTaille = inputTaille ? inputTaille.parentElement : null;
 
   if (!enfantDiv || !accessoireDiv || !labelTaille || !inputTaille) return;
 
+  // --- RÉINITIALISATION PAR DÉFAUT (HABITS) ---
   enfantDiv.classList.remove('hidden');
   accessoireDiv.classList.add('hidden');
+  if (containerTaille) containerTaille.classList.remove('hidden');
 
-  if (mainCat == "3") {
+  inputTaille.required = true;
+  labelTaille.innerText = "Taille de l'article";
+  inputTaille.placeholder = "Ex: S, M, XL, L...";
+  if (labelDetail) labelDetail.innerText = "Détails de l'article";
 
-    if (labelDetail) labelDetail.innerText = "Détails Enfant (Genre & Âge)";
-    labelTaille.innerText = "Taille de l'habit";
-    inputTaille.placeholder = "Ex: 2-4 ans, M, 12m...";
-  }
-  else if (mainCat == "5") {
+  // --- LOGIQUE SPÉCIFIQUE SELON LA DB ---
 
+  // CHAUSSURES (IDs 4, 5, 6 selon votre table categories)
+  if (mainCat == "4" || mainCat == "5" || mainCat == "6") {
     if (labelDetail) labelDetail.innerText = "Genre pour la chaussure";
     labelTaille.innerText = "Pointure de la chaussure";
     inputTaille.placeholder = "Ex: 38, 42, 44...";
   }
-  else if (mainCat == "4") {
+
+  // ACCESSOIRES (ID 7 selon votre table categories)
+  else if (mainCat == "7") {
     enfantDiv.classList.add('hidden');
     accessoireDiv.classList.remove('hidden');
-    labelTaille.innerText = "Taille (optionnel)";
-  }
-  else {
 
-    if (labelDetail) labelDetail.innerText = "Détails de l'article";
-    labelTaille.innerText = "Taille de l'article";
-    inputTaille.placeholder = "Ex: S, M, XL, L...";
+    if (containerTaille) {
+      containerTaille.classList.add('hidden');
+      inputTaille.required = false;
+    }
+    if (labelDetail) labelDetail.innerText = "Type d'accessoire";
+  }
+
+  // ENFANTS (ID 3)
+  else if (mainCat == "3") {
+    if (labelDetail) labelDetail.innerText = "Détails Enfant (Genre & Âge)";
+    labelTaille.innerText = "Taille de l'habit";
+    inputTaille.placeholder = "Ex: 2-4 ans, 12m...";
   }
 }
+
 
 // --- 2. NAVIGATION & TABS ---
 
