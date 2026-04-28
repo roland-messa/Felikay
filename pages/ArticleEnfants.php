@@ -14,13 +14,12 @@ try {
     $sql .= " AND tranche_age = :age";
   }
 
-  // Filtre par genre (CORRIGÉ : inclut 'mixte' pour éviter les pages vides)
+  // Filtre par genre
   if ($genre_filter !== 'tous') {
     $sql .= " AND (genre = :genre OR genre = 'mixte' OR genre = 'unisexe' OR genre = 'tous')";
   }
 
   $sql .= " ORDER BY created_at DESC";
-
   $stmt = $pdo->prepare($sql);
 
   if ($age_filter !== 'tous') {
@@ -72,16 +71,10 @@ if (basename($_SERVER['PHP_SELF']) == 'ArticleEnfants.php') :
 
       <div class="flex flex-col items-center mb-16">
         <h2 class="font-serif text-4xl md:text-5xl mb-6 italic text-center"><?php echo $displayTitle; ?></h2>
-
         <div class="flex gap-8 text-[11px] uppercase tracking-[0.3em] text-stone-400">
-          <a href="?age=<?php echo urlencode($age_filter); ?>&genre=tous"
-            class="filter-link <?php echo ($genre_filter === 'tous') ? 'active' : ''; ?> pb-2 transition">Tous</a>
-
-          <a href="?age=<?php echo urlencode($age_filter); ?>&genre=homme"
-            class="filter-link <?php echo ($genre_filter === 'homme') ? 'active' : ''; ?> pb-2 transition">Garçons</a>
-
-          <a href="?age=<?php echo urlencode($age_filter); ?>&genre=femme"
-            class="filter-link <?php echo ($genre_filter === 'femme') ? 'active' : ''; ?> pb-2 transition">Filles</a>
+          <a href="?age=<?php echo urlencode($age_filter); ?>&genre=tous" class="filter-link <?php echo ($genre_filter === 'tous') ? 'active' : ''; ?> pb-2 transition">Tous</a>
+          <a href="?age=<?php echo urlencode($age_filter); ?>&genre=homme" class="filter-link <?php echo ($genre_filter === 'homme') ? 'active' : ''; ?> pb-2 transition">Garçons</a>
+          <a href="?age=<?php echo urlencode($age_filter); ?>&genre=femme" class="filter-link <?php echo ($genre_filter === 'femme') ? 'active' : ''; ?> pb-2 transition">Filles</a>
         </div>
       </div>
 
@@ -90,25 +83,27 @@ if (basename($_SERVER['PHP_SELF']) == 'ArticleEnfants.php') :
           <?php foreach ($articles_enfants as $item) :
             $img_path = str_replace('../', '', $item['image_principale']);
             $final_img = "../" . $img_path;
+            $detail_url = "ArticleSeul.php?id=" . $item['id'];
           ?>
             <div class="swiper-slide group">
-              <div class="relative aspect-[3/4] overflow-hidden bg-white border border-stone-100 mb-4">
+              <a href="<?php echo $detail_url; ?>" class="relative block aspect-[3/4] overflow-hidden bg-white border border-stone-100 mb-4">
                 <img src="<?php echo $final_img; ?>" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                 <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <button onclick="addToCart(<?php echo $item['id']; ?>, '<?php echo addslashes($item['nom']); ?>', <?php echo $item['prix']; ?>, '<?php echo $final_img; ?>')"
+                  <button onclick="event.preventDefault(); event.stopPropagation(); addToCart(<?php echo $item['id']; ?>, '<?php echo addslashes($item['nom']); ?>', <?php echo $item['prix']; ?>, '<?php echo $final_img; ?>')"
                     class="bg-white p-4 rounded-full shadow-xl translate-y-4 group-hover:translate-y-0 transition-all hover:bg-black hover:text-white">
                     <i data-lucide="shopping-cart" class="w-5 h-5"></i>
                   </button>
                 </div>
-              </div>
+              </a>
               <div class="text-left px-2">
-                <h3 class="text-[10px] uppercase tracking-widest font-bold text-gray-900 mb-1"><?php echo htmlspecialchars($item['nom']); ?></h3>
-                <p class="text-[13px] text-stone-500 italic font-semibold"><?php echo number_format($item['prix'], 2); ?> <?php echo $item['devise'] ?? 'USD'; ?></p>
+                <a href="<?php echo $detail_url; ?>" class="hover:text-stone-600">
+                  <h3 class="text-[10px] uppercase tracking-widest font-bold text-gray-900 mb-1"><?php echo htmlspecialchars($item['nom']); ?></h3>
+                </a>
+                <p class="text-[13px] text-stone-500 italic font-semibold"><?php echo number_format($item['prix'], 2); ?> <?php echo htmlspecialchars($item['devise'] ?? 'USD'); ?></p>
               </div>
             </div>
           <?php endforeach; ?>
         </div>
-
         <div class="swiper-pagination"></div>
         <div class="swiper-button-next !hidden md:!flex"></div>
         <div class="swiper-button-prev !hidden md:!flex"></div>

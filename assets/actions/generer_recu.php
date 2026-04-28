@@ -1,27 +1,40 @@
 <?php
-
+// C:\wamp64\www\ProjetFelykay\assets\actions\generer_recu.php
 require_once '../../vendor/autoload.php';
 require_once '../../config/db.php';
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
+// On accepte soit l'ID soit la REF
 $commande_id = $_GET['id'] ?? null;
-if (!$commande_id) die("ID de commande manquant.");
+$payment_ref = $_GET['ref'] ?? null;
 
-// 1. Récupération des données (Commande + User en direct via user_id)
-$stmt = $pdo->prepare("
-    SELECT c.*, u.nom, u.email, u.telephone as user_tel
+if (!$commande_id && !$payment_ref) die("Identifiant de commande manquant.");
+
+/**
+ * 1. RÉCUPÉRATION DES DONNÉES
+ */
+$query = "
+    SELECT c.*, 
+           u.nom as user_nom, 
+           u.email as user_email, 
+           u.telephone as user_tel
     FROM commandes c 
-    JOIN users u ON c.user_id = u.id
-    WHERE c.id = ?
-");
-$stmt->execute([$commande_id]);
+    LEFT JOIN users u ON c.user_id = u.id
+    WHERE " . ($payment_ref ? "c.payment_ref = ?" : "c.id = ?");
+
+$stmt = $pdo->prepare($query);
+$stmt->execute([$payment_ref ?? $commande_id]);
 $commande = $stmt->fetch();
 
 if (!$commande) die("Commande introuvable.");
 
-// 2. Récupération des articles avec jointures pour les noms de Taille et Couleur
+$real_id = $commande['id'];
+
+/**
+ * 2. RÉCUPÉRATION DES ARTICLES
+ */
 $stmtDetails = $pdo->prepare("
     SELECT cd.*, p.nom as produit_nom, t.nom as taille_nom, col.nom as couleur_nom 
     FROM commande_details cd
@@ -30,39 +43,44 @@ $stmtDetails = $pdo->prepare("
     LEFT JOIN couleurs col ON cd.couleur_id = col.id
     WHERE cd.commande_id = ?
 ");
-$stmtDetails->execute([$commande_id]);
+$stmtDetails->execute([$real_id]);
 $items = $stmtDetails->fetchAll();
 
-$is_paid = (($commande['statut_paiement'] ?? '') === 'paye' || ($commande['methode_paiement'] ?? '') === 'online');
-$type_document = $is_paid ? "FACTURE DE PAIEMENT" : "BON DE COMMANDE";
-$couleur_statut = $is_paid ? "#16a34a" : "#ea580c";
+// --- Logique d'affichage (Variables) ---
+$nom_client = !empty($commande['nom_complet']) ? $commande['nom_complet'] : ($commande['user_nom'] ?? 'Client');
+$telephone_client = !empty($commande['telephone']) ? $commande['telephone'] : ($commande['user_tel'] ?? 'N/A');
 
+// On vérifie si c'est payé
+$is_paid = ($commande['statut'] === 'paye' || $commande['statut'] === 'paid');
+$type_document = $is_paid ? "FACTURE DE PAIEMENT" : "BON DE COMMANDE";
+$couleur_statut = $is_paid ? "#000000" : "#ea580c";
+
+/**
+ * 4. CONFIGURATION DOMPDF ET HTML
+ */
 $options = new Options();
 $options->set('isRemoteEnabled', true);
 $dompdf = new Dompdf($options);
 
 $html = '
 <style>
-    body { font-family: "Helvetica", sans-serif; color: #333; font-size: 12px; line-height: 1.4; }
-    .header { text-align: center; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
-    .logo { width: 70px; height: 70px; margin-bottom: 10px; }
-    .brand { font-size: 24px; font-weight: bold; letter-spacing: 2px; }
-    .doc-type { font-size: 14px; color: ' . $couleur_statut . '; margin-top: 5px; font-weight: bold; }
+    body { font-family: "Helvetica", sans-serif; color: #333; font-size: 11px; line-height: 1.6; }
+    .header { text-align: center; margin-bottom: 40px; }
+    .brand { font-size: 24px; font-weight: bold; letter-spacing: 5px; margin-bottom: 5px; }
+    .doc-type { font-size: 10px; color: ' . $couleur_statut . '; letter-spacing: 2px; font-weight: bold; border-top: 1px solid #000; border-bottom: 1px solid #000; display: inline-block; padding: 5px 20px; }
     
-    .info-table { width: 100%; margin-bottom: 40px; }
+    .info-table { width: 100%; margin-bottom: 40px; margin-top: 30px; }
     .info-box { width: 50%; vertical-align: top; }
     
     table.items { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
-    table.items th { background: #f8f8f8; padding: 12px; text-align: left; text-transform: uppercase; font-size: 10px; border-bottom: 2px solid #000; }
-    table.items td { padding: 12px; border-bottom: 1px solid #eee; }
+    table.items th { background: #000; color: #fff; padding: 12px 10px; text-align: left; text-transform: uppercase; font-size: 8px; letter-spacing: 1px; }
+    table.items td { padding: 12px 10px; border-bottom: 1px solid #eee; }
     
-    .total-section { text-align: right; font-size: 16px; font-weight: bold; margin-top: 20px; border-top: 2px solid #eee; padding-top: 10px; }
-    .note-livraison { margin-top: 30px; padding: 15px; background: #fffcf0; border: 1px solid #f5e9b3; color: #856404; font-style: italic; }
-    .footer { position: fixed; bottom: 0; width: 100%; text-align: center; font-size: 9px; color: #999; padding-bottom: 20px; }
+    .total-section { text-align: right; font-size: 16px; font-weight: bold; margin-top: 20px; padding-top: 10px; }
+    .footer { position: fixed; bottom: 30px; width: 100%; text-align: center; font-size: 8px; color: #999; text-transform: uppercase; letter-spacing: 1px; }
 </style>
 
 <div class="header">
-    <img src="http://localhost/ProjetFelykay/assets/img/felikay.jpg" class="logo">
     <div class="brand">FELIKAY</div>
     <div class="doc-type">' . $type_document . '</div>
 </div>
@@ -70,16 +88,17 @@ $html = '
 <table class="info-table">
     <tr>
         <td class="info-box">
-            <strong>DESTINATAIRE</strong><br>
-            ' . htmlspecialchars($commande['nom']) . '<br>
+            <strong style="color:#999; font-size:8px; tracking:1px;">CLIENT</strong><br>
+            <span style="font-size:12px; font-weight:bold;">' . htmlspecialchars($nom_client) . '</span><br>
             ' . htmlspecialchars($commande['adresse_livraison']) . '<br>
-            Tél: ' . htmlspecialchars($commande['user_tel']) . '
+            ' . htmlspecialchars($commande['commune'] ?? 'Kinshasa') . ', RDC<br>
+            Tél: ' . htmlspecialchars($telephone_client) . '
         </td>
         <td class="info-box" style="text-align: right;">
-            <strong>DÉTAILS</strong><br>
-            N° : #' . $commande_id . '<br>
-            Date : ' . date("d/m/Y", strtotime($commande['created_at'])) . '<br>
-            Méthode : ' . strtoupper($commande['methode_paiement'] ?? 'LIVRAISON') . '
+            <strong style="color:#999; font-size:8px; tracking:1px;">REFERENCE</strong><br>
+            <strong>N° :</strong> #' . $real_id . '<br>
+            <strong>ID Paiement :</strong> ' . ($commande['payment_ref'] ?? 'N/A') . '<br>
+            <strong>Date :</strong> ' . date("d/m/Y", strtotime($commande['created_at'])) . '
         </td>
     </tr>
 </table>
@@ -87,27 +106,25 @@ $html = '
 <table class="items">
     <thead>
         <tr>
-            <th>Description</th>
+            <th width="50%">Désignation</th>
             <th>Taille</th>
             <th>Qté</th>
-            <th>Prix Unit.</th>
-            <th>Total</th>
+            <th style="text-align:right;">Total</th>
         </tr>
     </thead>
     <tbody>';
 
 foreach ($items as $item) {
     $sub = $item['prix_unitaire'] * $item['quantite'];
-    $nom_produit = $item['produit_nom'] ?? "Produit #" . $item['produit_id'];
-    $couleur = !empty($item['couleur_nom']) ? " (" . $item['couleur_nom'] . ")" : "";
-
     $html .= '
         <tr>
-            <td>' . htmlspecialchars($nom_produit) . $couleur . '</td>
+            <td>
+                <strong style="text-transform:uppercase;">' . htmlspecialchars($item['produit_nom'] ?? "Article") . '</strong>' .
+        (!empty($item['couleur_nom']) ? '<br><span style="color:#666;">Couleur: ' . htmlspecialchars($item['couleur_nom']) . '</span>' : '') . '
+            </td>
             <td>' . ($item['taille_nom'] ?? 'Standard') . '</td>
             <td>' . $item['quantite'] . '</td>
-            <td>' . number_format($item['prix_unitaire'], 2) . ' $</td>
-            <td>' . number_format($sub, 2) . ' $</td>
+            <td style="text-align:right;">' . number_format($sub, 2) . ' $</td>
         </tr>';
 }
 
@@ -116,29 +133,21 @@ $html .= '
 </table>
 
 <div class="total-section">
-    TOTAL : ' . number_format($commande['total_ttc'], 2) . ' $
+    MONTANT TOTAL : ' . number_format($commande['total_ttc'], 2) . ' $
 </div>';
 
-if (!$is_paid) {
-    $html .= '
-    <div class="note-livraison">
-        <strong>ATTENTION :</strong> Cette commande est à régler en espèces auprès du livreur. 
-        Veuillez prévoir le montant total ainsi que les frais de livraison applicables à Kinshasa.
-    </div>';
-} else {
-    $html .= '
-    <div style="margin-top: 30px; color: #16a34a; font-weight: bold; text-align: center;">
-        PAIEMENT CONFIRMÉ. Merci pour votre confiance.
-    </div>';
+if ($is_paid) {
+    $html .= '<div style="margin-top: 40px; background: #f0fdf4; border: 1px solid #16a34a; padding: 15px; color: #16a34a; text-align: center; font-weight: bold; text-transform: uppercase; font-size: 10px; letter-spacing: 2px;">
+                Paiement Confirmé via ' . strtoupper($commande['methode_paiement']) . '
+              </div>';
 }
 
 $html .= '
 <div class="footer">
-    Felikay Luxury Experience - Kinshasa, RDC - ' . date("Y") . '<br>
-    Document généré automatiquement par le système de gestion Felikay.
+    Maison Felikay Luxury - Kinshasa, RDC - www.felikay.com
 </div>';
 
 $dompdf->loadHtml($html);
 $dompdf->setPaper('A4', 'portrait');
 $dompdf->render();
-$dompdf->stream("Felikay_Recu_" . $commande_id . ".pdf", ["Attachment" => false]);
+$dompdf->stream("Felikay_Recu_" . $real_id . ".pdf", ["Attachment" => false]);

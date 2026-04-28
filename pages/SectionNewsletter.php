@@ -1,5 +1,16 @@
+<?php if (isset($_GET['status'])): ?>
+  <div id="notification-banner" class="max-w-[500px] mx-auto mb-6 p-4 text-[10px] uppercase tracking-widest text-center transition-opacity duration-500 <?php echo $_GET['status'] === 'success' ? 'bg-black text-white' : 'bg-red-600 text-white'; ?>">
+    <?php
+    if ($_GET['status'] === 'success') echo "MERCI ! VOTRE INSCRIPTION AU CLUB FELIKAY EST CONFIRMÉE.";
+    if ($_GET['status'] === 'invalid') echo "NUMÉRO INVALIDE (9 CHIFFRES REQUIS).";
+    if ($_GET['status'] === 'error') echo "UNE ERREUR EST SURVENUE OU VOUS ÊTES DÉJÀ INSCRIT.";
+    ?>
+  </div>
+<?php endif; ?>
+
 <section class="py-24 bg-[#F3F3F3] relative overflow-hidden">
   <div class="absolute inset-0 flex flex-col justify-center opacity-[0.03] select-none pointer-events-none">
+    <span class="font-serif text-[120px] leading-none whitespace-nowrap uppercase">Felikay Club Felikay Club Felikay Club</span>
     <span class="font-serif text-[120px] leading-none whitespace-nowrap uppercase">Felikay Club Felikay Club Felikay Club</span>
     <span class="font-serif text-[120px] leading-none whitespace-nowrap uppercase">Felikay Club Felikay Club Felikay Club</span>
     <span class="font-serif text-[120px] leading-none whitespace-nowrap uppercase">Felikay Club Felikay Club Felikay Club</span>
@@ -13,7 +24,7 @@
       Recevez nos offres exclusives directement sur votre téléphone
     </p>
 
-    <form action="../assets/actions/process-newsletter.php" method="POST" class="max-w-[500px] mx-auto">
+    <form action="/ProjetFelykay/assets/actions/process-newsletter.php" method="POST" class="max-w-[500px] mx-auto">
       <div class="flex flex-col gap-4">
 
         <input
@@ -21,6 +32,12 @@
           name="client_name"
           placeholder="Votre nom complet"
           required
+          class="w-full bg-white border border-gray-200 px-6 py-4 text-[11px] uppercase tracking-widest focus:outline-none focus:border-black transition-colors">
+
+        <input
+          type="email"
+          name="client_email"
+          placeholder="Votre Email (Optionnel)"
           class="w-full bg-white border border-gray-200 px-6 py-4 text-[11px] uppercase tracking-widest focus:outline-none focus:border-black transition-colors">
 
         <div class="flex gap-2">

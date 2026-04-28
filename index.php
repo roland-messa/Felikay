@@ -19,6 +19,12 @@ if ($maintenance === '1' && (!isset($_SESSION['role']) || $_SESSION['role'] !== 
     exit();
 }
 
+// RECUPERATION DES 4 PROMOS ACTIVES POUR L'ACCUEIL
+$promos_accueil = $pdo->query("SELECT * FROM produits WHERE is_promo = 1 AND actif_accueil = 1 ORDER BY created_at DESC LIMIT 4")->fetchAll();
+
+// RECUPERATION DES 4 DERNIÈRES NOUVEAUTÉS
+$nouveautes_accueil = $pdo->query("SELECT * FROM produits ORDER BY created_at DESC LIMIT 4")->fetchAll();
+
 
 ?>
 
@@ -49,7 +55,6 @@ if ($maintenance === '1' && (!isset($_SESSION['role']) || $_SESSION['role'] !== 
 
         <p class="max-w-lg mx-auto mb-12 text-[11px] uppercase tracking-[0.3em] opacity-80 leading-relaxed hidden md:block">
             Une maison dédiée à la création d'essentiels intemporels. <br>
-            Savoir-faire éthique et matières d'exception.
         </p>
 
         <a href="pages/collection.php"
@@ -105,100 +110,130 @@ if ($maintenance === '1' && (!isset($_SESSION['role']) || $_SESSION['role'] !== 
     </div>
 </section>
 
-<section class="py-24 bg-[#F6F5F2] overflow-hidden">
-    <div class="max-w-[1400px] mx-auto px-6">
 
-        <div class="swiper saleSwiper">
-            <div class="swiper-wrapper">
 
-                <div class="swiper-slide">
-                    <div class="flex flex-col md:flex-row items-center justify-between gap-16 py-10">
-                        <div class="relative group">
-                            <div class="absolute -top-4 -right-4 bg-black text-white w-24 h-24 rounded-full flex flex-col items-center justify-center z-10 text-center shadow-2xl">
-                                <span class="text-[8px] uppercase tracking-tighter opacity-70">Exclusif</span>
-                                <span class="text-lg font-bold">29,99 $</span>
-                            </div>
-                            <img src="assets/img/sac2.jpg" alt="Sacoche" class="w-full max-w-md mix-blend-multiply transition-transform duration-1000 group-hover:rotate-3 group-hover:scale-105">
-                        </div>
-                        <div class="max-w-md text-center md:text-left">
-                            <span class="text-red-500 text-[10px] uppercase tracking-[0.4em] font-bold mb-6 block">Offre de la semaine</span>
-                            <h2 class="font-serif text-4xl md:text-5xl mb-10 leading-tight">Sacoche de poitrine <br> Édition Limitée</h2>
-                            <button onclick="addToCart(999, 'Sacoche de poitrine Edition Limitée', 29.99, 'assets/img/sac2.jpg')"
-                                class="bg-black text-white px-12 py-5 text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-stone-800 transition-all shadow-lg">
-                                Ajouter au panier
-                            </button>
-                        </div>
-                    </div>
+
+
+<?php
+// On vérifie si le tableau des promos n'est pas vide avant d'afficher la section
+if (!empty($promos_accueil)):
+?>
+    <section class="py-24 bg-[#F6F5F2] overflow-hidden">
+        <div class="max-w-[1400px] mx-auto px-6">
+
+            <div class="flex justify-between items-end mb-12" data-aos="fade-up">
+                <div>
+                    <span class="text-[9px] uppercase tracking-[0.4em] text-stone-400 block mb-3 font-bold">Sélection Spéciale</span>
+                    <h2 class="font-serif text-4xl italic">Offres de la Maison</h2>
                 </div>
-
-                <div class="swiper-slide">
-                    <div class="flex flex-col md:flex-row items-center justify-between gap-16 py-10">
-                        <div class="relative group">
-                            <div class="absolute -top-4 -right-4 bg-black text-white w-24 h-24 rounded-full flex flex-col items-center justify-center z-10 text-center shadow-2xl">
-                                <span class="text-[8px] uppercase tracking-tighter opacity-70">Promotion</span>
-                                <span class="text-lg font-bold">85,00 $</span>
-                            </div>
-                            <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=500" alt="Souliers" class="w-full max-w-md mix-blend-multiply transition-transform duration-1000 group-hover:-rotate-3 group-hover:scale-105">
-                        </div>
-                        <div class="max-w-md text-center md:text-left">
-                            <span class="text-red-500 text-[10px] uppercase tracking-[0.4em] font-bold mb-6 block">Incontournable</span>
-                            <h2 class="font-serif text-4xl md:text-5xl mb-10 leading-tight">Mocassins Cuir <br> Glacé Noir</h2>
-                            <button onclick="addToCart(998, 'Mocassins Cuir Glacé', 85.00, 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=500')"
-                                class="bg-black text-white px-12 py-5 text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-stone-800 transition-all shadow-lg">
-                                Ajouter au panier
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="swiper-slide">
-                    <div class="flex flex-col md:flex-row items-center justify-between gap-16 py-10">
-                        <div class="relative group">
-                            <div class="absolute -top-4 -right-4 bg-black text-white w-24 h-24 rounded-full flex flex-col items-center justify-center z-10 text-center shadow-2xl">
-                                <span class="text-[8px] uppercase tracking-tighter opacity-70">Nouveau prix</span>
-                                <span class="text-lg font-bold">45,00 $</span>
-                            </div>
-                            <img src="assets/img/parfum.jpg" alt="Parfum" class="w-full max-w-md mix-blend-multiply transition-transform duration-1000 group-hover:scale-110">
-                        </div>
-                        <div class="max-w-md text-center md:text-left">
-                            <span class="text-red-500 text-[10px] uppercase tracking-[0.4em] font-bold mb-6 block">Essence Pure</span>
-                            <h2 class="font-serif text-4xl md:text-5xl mb-10 leading-tight">Signature d'Orient <br> Eau de Parfum</h2>
-                            <button onclick="addToCart(997, 'Parfum Signature Orient', 45.00, 'assets/img/parfum.jpg')"
-                                class="bg-black text-white px-12 py-5 text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-stone-800 transition-all shadow-lg">
-                                Ajouter au panier
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="swiper-slide">
-                    <div class="flex flex-col md:flex-row items-center justify-between gap-16 py-10">
-                        <div class="relative group">
-                            <div class="absolute -top-4 -right-4 bg-black text-white w-24 h-24 rounded-full flex flex-col items-center justify-center z-10 text-center shadow-2xl">
-                                <span class="text-[8px] uppercase tracking-tighter opacity-70">Offre</span>
-                                <span class="text-lg font-bold">19,99 $</span>
-                            </div>
-                            <img src="assets/img/ceinture.jpg" alt="Accessoire" class="w-full max-w-md mix-blend-multiply transition-transform duration-1000 group-hover:rotate-6">
-                        </div>
-                        <div class="max-w-md text-center md:text-left">
-                            <span class="text-red-500 text-[10px] uppercase tracking-[0.4em] font-bold mb-6 block">Accessoires</span>
-                            <h2 class="font-serif text-4xl md:text-5xl mb-10 leading-tight">Ceinture Classique <br> Cuir de Toscane</h2>
-                            <button onclick="addToCart(996, 'Ceinture Cuir Toscane', 19.99, 'assets/img/ceinture.jpg')"
-                                class="bg-black text-white px-12 py-5 text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-stone-800 transition-all shadow-lg">
-                                Ajouter au panier
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
+                <a href="pages/Toutes_Promotions.php" class="text-[10px] uppercase tracking-widest border-b border-black pb-1 hover:opacity-50 transition">
+                    Voir toutes les promotions
+                </a>
             </div>
-            <div class="swiper-pagination-sale mt-10 flex justify-center"></div>
+
+            <div class="swiper saleSwiper">
+                <div class="swiper-wrapper">
+                    <?php foreach ($promos_accueil as $item): ?>
+                        <div class="swiper-slide">
+                            <div class="flex flex-col md:flex-row items-center justify-between gap-16 py-10">
+                                <div class="relative group">
+                                    <div class="absolute -top-4 -right-4 bg-black text-white w-24 h-24 rounded-full flex flex-col items-center justify-center z-10 text-center shadow-2xl transition-transform duration-700 group-hover:scale-110">
+                                        <span class="text-[8px] uppercase tracking-tighter opacity-70 mb-1">
+                                            <?= htmlspecialchars($item['promo_tag']) ?>
+                                        </span>
+                                        <span class="text-lg font-bold leading-none">
+                                            <?= number_format($item['prix'], 2) ?> $
+                                        </span>
+                                    </div>
+                                    <img src="<?= htmlspecialchars($item['image_principale']) ?>"
+                                        alt="<?= htmlspecialchars($item['nom']) ?>"
+                                        class="w-full max-w-md mix-blend-multiply transition-all duration-1000 group-hover:scale-105">
+                                </div>
+
+                                <div class="max-w-md text-center md:text-left content-animate">
+                                    <span class="text-red-500 text-[10px] uppercase tracking-[0.4em] font-bold mb-6 block">
+                                        <?php
+                                        $display_subtitle = htmlspecialchars($item['subtitle']);
+                                        if (!empty($item['promo_duration'])) {
+                                            $display_subtitle .= " — " . htmlspecialchars($item['promo_duration']);
+                                        }
+                                        echo $display_subtitle;
+                                        ?>
+                                    </span>
+
+                                    <h2 class="font-serif text-4xl md:text-5xl mb-10 leading-tight italic">
+                                        <?= str_replace(',', '<br>', htmlspecialchars($item['nom'])); ?>
+                                    </h2>
+
+                                    <button onclick="addToCart(<?= $item['id'] ?>, '<?= addslashes($item['nom']) ?>', <?= $item['prix'] ?>, '<?= $item['image_principale'] ?>')"
+                                        class="bg-black text-white px-12 py-5 text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-stone-800 transition-all shadow-lg active:scale-95">
+                                        Ajouter au panier
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <div class="swiper-pagination-sale mt-10 flex justify-center"></div>
+            </div>
+        </div>
+    </section>
+<?php endif;
+?>
+
+
+
+
+
+
+
+
+
+
+
+<section class="py-24 bg-white border-t border-stone-100">
+    <div class="max-w-[1400px] mx-auto px-6">
+        <div class="flex justify-between items-end mb-16" data-aos="fade-up">
+            <h2 class="font-serif text-4xl italic">Dernières Arrivées</h2>
+            <a href="pages/Nouvelles_Collections.php" class="text-[10px] uppercase tracking-widest border-b border-black pb-1 hover:opacity-50 transition">
+                Voir toutes les nouveautés
+            </a>
         </div>
 
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <?php foreach ($nouveautes_accueil as $new): ?>
+                <div class="group" data-aos="fade-up">
+                    <div class="relative overflow-hidden aspect-[3/4] mb-4 bg-stone-50">
+                        <img src="<?= htmlspecialchars($new['image_principale']) ?>"
+                            alt="<?= htmlspecialchars($new['nom']) ?>"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
+
+                        <span class="absolute top-4 left-4 bg-black text-white text-[8px] px-3 py-1 uppercase tracking-widest font-bold">
+                            <?= !empty($new['promo_tag']) ? htmlspecialchars($new['promo_tag']) : 'New' ?>
+                        </span>
+                    </div>
+
+                    <?php if (!empty($new['subtitle'])): ?>
+                        <span class="text-[8px] text-red-500 uppercase tracking-widest font-bold block mb-1">
+                            <?= htmlspecialchars($new['subtitle']) ?>
+                        </span>
+                    <?php endif; ?>
+
+                    <h3 class="font-serif text-lg leading-tight mb-1"><?= htmlspecialchars($new['nom']) ?></h3>
+
+                    <div class="flex items-center gap-2">
+                        <p class="text-[10px] uppercase tracking-widest text-stone-400"><?= number_format($new['prix'], 2) ?> $</p>
+
+                        <?php if (!empty($new['is_promo']) && !empty($new['promo_duration'])): ?>
+                            <span class="text-[8px] text-stone-300 italic">(<?= htmlspecialchars($new['promo_duration']) ?>)</span>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
     </div>
-
-
 </section>
+
 
 <?php
 include 'pages/temoignage.php';

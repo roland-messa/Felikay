@@ -186,11 +186,21 @@ function confirmLogout() {
   }
 }
 
+
+
 window.addEventListener('load', () => {
 
+  // 1. Gestion du Loader
   const loader = document.getElementById('loader');
   if (loader) loader.style.display = 'none';
 
+  // 2. Initialisation des états dynamiques (Prix Promo)
+  // Masque l'input si la checkbox est décochée au chargement
+  if (typeof togglePromoPrice === "function") {
+    togglePromoPrice();
+  }
+
+  // 3. Gestion des Notifications (Toast)
   const urlParams = new URLSearchParams(window.location.search);
   const toast = document.getElementById('successToast');
   const status = urlParams.get('msg') || urlParams.get('status');
@@ -203,29 +213,19 @@ window.addEventListener('load', () => {
     if (status === 'success') {
       if (title) title.innerText = "Succès";
       if (message) message.innerText = "L'opération a été effectuée avec succès.";
-      if (iconContainer) {
-        iconContainer.classList.remove('bg-red-500');
-        iconContainer.classList.add('bg-green-500');
-      }
+      if (iconContainer) { iconContainer.className = "p-2 bg-green-500 rounded-lg"; }
     }
     else if (status === 'deleted') {
       if (title) title.innerText = "Supprimé";
       if (message) message.innerText = "L'article a été retiré avec succès.";
-      if (iconContainer) {
-        iconContainer.classList.remove('bg-red-500');
-        iconContainer.classList.add('bg-green-500');
-      }
+      if (iconContainer) { iconContainer.className = "p-2 bg-green-500 rounded-lg"; }
     }
     else if (status === 'error') {
       if (title) title.innerText = "Erreur";
       if (message) message.innerText = "L'opération a échoué. Veuillez réessayer.";
-      if (iconContainer) {
-        iconContainer.classList.remove('bg-green-500');
-        iconContainer.classList.add('bg-red-500');
-      }
+      if (iconContainer) { iconContainer.className = "p-2 bg-red-500 rounded-lg"; }
     }
 
-    // 1. Affichage du Toast
     toast.classList.remove('translate-y-[-150%]', 'opacity-0', 'invisible');
     toast.classList.add('translate-y-0', 'opacity-100');
 
@@ -233,13 +233,50 @@ window.addEventListener('load', () => {
     window.history.replaceState({}, document.title, newUrl);
 
     setTimeout(() => {
-
       toast.classList.replace('translate-y-0', 'translate-y-[-150%]');
       toast.classList.replace('opacity-100', 'opacity-0');
-
-      setTimeout(() => {
-        toast.classList.add('invisible');
-      }, 500);
+      setTimeout(() => { toast.classList.add('invisible'); }, 500);
     }, 3000);
   }
 });
+
+/**
+ * Gère l'affichage de l'input du prix promotionnel
+ */
+function togglePromoPrice() {
+  const checkbox = document.getElementById('promo_checkbox');
+  const container = document.getElementById('promo_price_container');
+
+  if (!checkbox || !container) return;
+
+  if (checkbox.checked) {
+    container.classList.remove('hidden');
+    const input = container.querySelector('input');
+    if (input) input.focus();
+  } else {
+    container.classList.add('hidden');
+    const input = container.querySelector('input');
+    if (input) input.value = '';
+  }
+}
+
+
+/**
+ * Gère l'affichage d'image dos, gauche, droite
+ */
+window.toggleExtraViews = function (event) {
+  const button = event.currentTarget || event.target;
+  const extraViews = document.getElementById('extra_views');
+
+  if (!extraViews) return;
+
+  if (extraViews.classList.contains('hidden')) {
+    extraViews.classList.remove('hidden');
+    extraViews.classList.add('grid');
+    button.innerText = "- Masquer les vues supplémentaires";
+  } else {
+    extraViews.classList.add('hidden');
+    extraViews.classList.remove('grid');
+    button.innerText = "+ Ajouter des vues (Dos, Côtés)";
+  }
+};

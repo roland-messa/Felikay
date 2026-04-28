@@ -6,7 +6,6 @@ $categorie_filter = $_GET['cat'] ?? 'tous';
 
 try {
   // CORRECTION : categorie_id 1 (Habits) et 4 (Chaussures Hommes)
-  // On utilise une requête préparée pour plus de sécurité
   $base_sql = "SELECT * FROM produits WHERE categorie_id IN (1, 4)";
 
   if ($categorie_filter === 'vetements') {
@@ -77,24 +76,27 @@ if (basename($_SERVER['PHP_SELF']) == 'ArticleHomme.php') :
             <?php foreach ($articles_hommes as $item) :
               $img_path = str_replace('../', '', $item['image_principale']);
               $final_img = "../" . $img_path;
+              $detail_url = "ArticleSeul.php?id=" . $item['id'];
             ?>
               <div class="swiper-slide product-item group">
-                <div class="relative overflow-hidden mb-6 aspect-[3/4] bg-white border border-gray-100 shadow-sm">
+                <a href="<?php echo $detail_url; ?>" class="relative block overflow-hidden mb-6 aspect-[3/4] bg-white border border-gray-100 shadow-sm">
                   <img src="<?php echo $final_img; ?>" class="product-img w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
                   <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
-                    <button onclick="addToCart(<?php echo $item['id']; ?>, '<?php echo addslashes($item['nom']); ?>', <?php echo $item['prix']; ?>, '<?php echo $final_img; ?>')"
+                    <button onclick="event.preventDefault(); event.stopPropagation(); addToCart(<?php echo $item['id']; ?>, '<?php echo addslashes($item['nom']); ?>', <?php echo $item['prix']; ?>, '<?php echo $final_img; ?>')"
                       class="bg-white p-4 rounded-full shadow-lg hover:bg-black hover:text-white transition transform translate-y-8 group-hover:translate-y-0">
                       <i data-lucide="shopping-bag" class="w-5 h-5"></i>
                     </button>
                   </div>
-                </div>
+                </a>
                 <div class="text-left px-2">
                   <span class="text-[9px] uppercase tracking-widest text-stone-400 block mb-1">
                     <?php echo ($item['categorie_id'] == 4) ? 'Souliers' : 'Prêt-à-porter'; ?>
                   </span>
-                  <h3 class="product-name text-[11px] uppercase tracking-[0.2em] font-medium mb-2"><?php echo htmlspecialchars($item['nom']); ?></h3>
+                  <a href="<?php echo $detail_url; ?>" class="hover:text-stone-600 transition-colors">
+                    <h3 class="product-name text-[11px] uppercase tracking-[0.2em] font-medium mb-2"><?php echo htmlspecialchars($item['nom']); ?></h3>
+                  </a>
                   <span class="product-price text-[14px] font-light italic text-stone-500">
-                    <?php echo number_format($item['prix'], 2); ?> <?php echo $item['devise'] ?? 'USD'; ?>
+                    <?php echo number_format($item['prix'], 2); ?> <?php echo htmlspecialchars($item['devise'] ?? 'USD'); ?>
                   </span>
                 </div>
               </div>

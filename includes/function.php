@@ -75,22 +75,30 @@ function getProductBadge($p)
 
 function uploadImage($file, $folder = '../../assets/img/produits/')
 {
-  if (!isset($file) || $file['error'] !== 0) return false;
+  if (!isset($file) || $file['error'] !== 0) {
+    return false;
+  }
 
+  // 2. Extensions autorisées
   $allowed_extensions = ['jpg', 'jpeg', 'png', 'webp', 'jfif'];
   $file_extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 
-  if (!in_array($file_extension, $allowed_extensions)) return false;
+  if (!in_array($file_extension, $allowed_extensions)) {
+    return false;
+  }
 
+  // 3. Création du dossier s'il n'existe pas
   if (!file_exists($folder)) {
     mkdir($folder, 0777, true);
   }
 
-  $new_name = 'produit_' . time() . '_' . uniqid() . '.' . $file_extension;
+  $new_name = 'produit_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $file_extension;
   $target_path = $folder . $new_name;
 
+  // 5. Déplacement du fichier temporaire vers le dossier final
   if (move_uploaded_file($file['tmp_name'], $target_path)) {
     return "assets/img/produits/" . $new_name;
   }
+
   return false;
 }

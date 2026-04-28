@@ -577,3 +577,118 @@ $allSizes = $pdo->query("SELECT * FROM tailles ORDER BY id ASC")->fetchAll(PDO::
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="py-24 bg-[#F6F5F2] overflow-hidden">
+    <div class="max-w-[1400px] mx-auto px-6">
+
+        <div class="swiper saleSwiper">
+            <div class="swiper-wrapper">
+
+                <div class="swiper-slide">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-16 py-10">
+                        <div class="relative group">
+                            <div class="absolute -top-4 -right-4 bg-black text-white w-24 h-24 rounded-full flex flex-col items-center justify-center z-10 text-center shadow-2xl">
+                                <span class="text-[8px] uppercase tracking-tighter opacity-70">Exclusif</span>
+                                <span class="text-lg font-bold">29,99 $</span>
+                            </div>
+                            <img src="assets/img/sac2.jpg" alt="Sacoche" class="w-full max-w-md mix-blend-multiply transition-transform duration-1000 group-hover:rotate-3 group-hover:scale-105">
+                        </div>
+                        <div class="max-w-md text-center md:text-left">
+                            <span class="text-red-500 text-[10px] uppercase tracking-[0.4em] font-bold mb-6 block">Offre de la semaine</span>
+                            <h2 class="font-serif text-4xl md:text-5xl mb-10 leading-tight">Sacoche de poitrine <br> Édition Limitée</h2>
+                            <button onclick="addToCart(999, 'Sacoche de poitrine Edition Limitée', 29.99, 'assets/img/sac2.jpg')"
+                                class="bg-black text-white px-12 py-5 text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-stone-800 transition-all shadow-lg">
+                                Ajouter au panier
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-16 py-10">
+                        <div class="relative group">
+                            <div class="absolute -top-4 -right-4 bg-black text-white w-24 h-24 rounded-full flex flex-col items-center justify-center z-10 text-center shadow-2xl">
+                                <span class="text-[8px] uppercase tracking-tighter opacity-70">Promotion</span>
+                                <span class="text-lg font-bold">85,00 $</span>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=500" alt="Souliers" class="w-full max-w-md mix-blend-multiply transition-transform duration-1000 group-hover:-rotate-3 group-hover:scale-105">
+                        </div>
+                        <div class="max-w-md text-center md:text-left">
+                            <span class="text-red-500 text-[10px] uppercase tracking-[0.4em] font-bold mb-6 block">Incontournable</span>
+                            <h2 class="font-serif text-4xl md:text-5xl mb-10 leading-tight">Mocassins Cuir <br> Glacé Noir</h2>
+                            <button onclick="addToCart(998, 'Mocassins Cuir Glacé', 85.00, 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=500')"
+                                class="bg-black text-white px-12 py-5 text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-stone-800 transition-all shadow-lg">
+                                Ajouter au panier
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-16 py-10">
+                        <div class="relative group">
+                            <div class="absolute -top-4 -right-4 bg-black text-white w-24 h-24 rounded-full flex flex-col items-center justify-center z-10 text-center shadow-2xl">
+                                <span class="text-[8px] uppercase tracking-tighter opacity-70">Nouveau prix</span>
+                                <span class="text-lg font-bold">45,00 $</span>
+                            </div>
+                            <img src="assets/img/parfum.jpg" alt="Parfum" class="w-full max-w-md mix-blend-multiply transition-transform duration-1000 group-hover:scale-110">
+                        </div>
+                        <div class="max-w-md text-center md:text-left">
+                            <span class="text-red-500 text-[10px] uppercase tracking-[0.4em] font-bold mb-6 block">Essence Pure</span>
+                            <h2 class="font-serif text-4xl md:text-5xl mb-10 leading-tight">Signature d'Orient <br> Eau de Parfum</h2>
+                            <button onclick="addToCart(997, 'Parfum Signature Orient', 45.00, 'assets/img/parfum.jpg')"
+                                class="bg-black text-white px-12 py-5 text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-stone-800 transition-all shadow-lg">
+                                Ajouter au panier
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-16 py-10">
+                        <div class="relative group">
+                            <div class="absolute -top-4 -right-4 bg-black text-white w-24 h-24 rounded-full flex flex-col items-center justify-center z-10 text-center shadow-2xl">
+                                <span class="text-[8px] uppercase tracking-tighter opacity-70">Offre</span>
+                                <span class="text-lg font-bold">19,99 $</span>
+                            </div>
+                            <img src="assets/img/ceinture.jpg" alt="Accessoire" class="w-full max-w-md mix-blend-multiply transition-transform duration-1000 group-hover:rotate-6">
+                        </div>
+                        <div class="max-w-md text-center md:text-left">
+                            <span class="text-red-500 text-[10px] uppercase tracking-[0.4em] font-bold mb-6 block">Accessoires</span>
+                            <h2 class="font-serif text-4xl md:text-5xl mb-10 leading-tight">Ceinture Classique <br> Cuir de Toscane</h2>
+                            <button onclick="addToCart(996, 'Ceinture Cuir Toscane', 19.99, 'assets/img/ceinture.jpg')"
+                                class="bg-black text-white px-12 py-5 text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-stone-800 transition-all shadow-lg">
+                                Ajouter au panier
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="swiper-pagination-sale mt-10 flex justify-center"></div>
+        </div>
+
+    </div>
+
+
+</section>

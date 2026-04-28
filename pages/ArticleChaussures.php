@@ -56,17 +56,18 @@ if (basename($_SERVER['PHP_SELF']) == 'ArticleChaussures.php') :
           <?php foreach ($articles_chaussures as $soulier) :
             $img_path = str_replace('../', '', $soulier['image_principale']);
             $final_img = "../" . $img_path;
+            $detail_url = "ArticleSeul.php?id=" . $soulier['id'];
           ?>
             <div class="product-card group">
-              <div class="relative aspect-square overflow-hidden bg-[#F3F3F3] mb-6 border border-stone-50 shadow-sm">
+              <a href="<?php echo $detail_url; ?>" class="relative block aspect-square overflow-hidden bg-[#F3F3F3] mb-6 border border-stone-50 shadow-sm">
                 <img src="<?php echo $final_img; ?>" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
                 <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-all flex items-end p-4">
-                  <button onclick="addToCart(<?php echo $soulier['id']; ?>, '<?php echo addslashes($soulier['nom']); ?>', <?php echo $soulier['prix']; ?>, '<?php echo $final_img; ?>')"
+                  <button onclick="event.preventDefault(); event.stopPropagation(); addToCart(<?php echo $soulier['id']; ?>, '<?php echo addslashes($soulier['nom']); ?>', <?php echo $soulier['prix']; ?>, '<?php echo $final_img; ?>')"
                     class="w-full bg-white py-3 text-[10px] uppercase font-bold tracking-widest shadow-xl hover:bg-black hover:text-white transition transform translate-y-4 group-hover:translate-y-0">
                     Ajouter au panier
                   </button>
                 </div>
-              </div>
+              </a>
               <div class="text-center">
                 <span class="text-[8px] uppercase tracking-widest text-stone-400 block mb-2">
                   <?php
@@ -75,8 +76,10 @@ if (basename($_SERVER['PHP_SELF']) == 'ArticleChaussures.php') :
                   else echo "Femme";
                   ?>
                 </span>
-                <h3 class="text-[11px] uppercase tracking-[0.2em] font-medium mb-1"><?php echo htmlspecialchars($soulier['nom']); ?></h3>
-                <p class="font-serif italic text-stone-500 text-[14px]"><?php echo number_format($soulier['prix'], 2); ?> <?php echo $soulier['devise'] ?? 'USD'; ?></p>
+                <a href="<?php echo $detail_url; ?>" class="hover:text-stone-600 transition-colors">
+                  <h3 class="text-[11px] uppercase tracking-[0.2em] font-medium mb-1"><?php echo htmlspecialchars($soulier['nom']); ?></h3>
+                </a>
+                <p class="font-serif italic text-stone-500 text-[14px]"><?php echo number_format($soulier['prix'], 2); ?> <?php echo htmlspecialchars($soulier['devise'] ?? 'USD'); ?></p>
               </div>
             </div>
           <?php endforeach; ?>

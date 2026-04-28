@@ -59,27 +59,29 @@ if (basename($_SERVER['PHP_SELF']) == 'Nouvelles_Collections.php') :
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-16">
 
         <?php foreach ($nouveautes as $produit) :
-          // Nettoyage et sécurisation du chemin d'image
           $img_path = str_replace('../', '', $produit['image_principale']);
           $final_img = "../" . $img_path;
+          $detail_url = "ArticleSeul.php?id=" . $produit['id'];
         ?>
-          <div class="product-item group cursor-pointer" data-aos="fade-up">
-            <div class="relative aspect-[3/4] overflow-hidden bg-white mb-6 border border-gray-100 shadow-sm">
+          <div class="product-item group" data-aos="fade-up">
+            <a href="<?php echo $detail_url; ?>" class="relative block aspect-[3/4] overflow-hidden bg-white mb-6 border border-gray-100 shadow-sm">
               <img src="<?php echo $final_img; ?>" class="product-img w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
               <span class="absolute top-4 left-4 bg-black text-white text-[9px] px-3 py-1 uppercase tracking-widest z-10 font-bold">Nouveau</span>
 
               <div class="absolute inset-x-4 bottom-6 space-y-2 opacity-0 transform translate-y-4 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 z-20">
-                <button onclick="addToCart(<?php echo $produit['id']; ?>, '<?php echo addslashes($produit['nom']); ?>', <?php echo $produit['prix']; ?>, '<?php echo $final_img; ?>')"
+                <button onclick="event.preventDefault(); event.stopPropagation(); addToCart(<?php echo $produit['id']; ?>, '<?php echo addslashes($produit['nom']); ?>', <?php echo $produit['prix']; ?>, '<?php echo $final_img; ?>')"
                   class="w-full bg-white text-black text-[10px] uppercase tracking-widest py-4 hover:bg-black hover:text-white transition-colors flex items-center justify-center gap-2 shadow-xl">
                   <i data-lucide="shopping-bag" class="w-4 h-4"></i> Ajouter au panier
                 </button>
               </div>
-            </div>
+            </a>
             <div class="text-center">
-              <p class="text-[9px] text-gray-400 uppercase tracking-widest mb-2">Collection <?php echo $produit['cat_name']; ?></p>
-              <h3 class="product-name text-[12px] uppercase tracking-wider font-medium"><?php echo $produit['nom']; ?></h3>
+              <p class="text-[9px] text-gray-400 uppercase tracking-widest mb-2">Collection <?php echo htmlspecialchars($produit['cat_name']); ?></p>
+              <a href="<?php echo $detail_url; ?>" class="hover:text-stone-600 transition-colors">
+                <h3 class="product-name text-[12px] uppercase tracking-wider font-medium"><?php echo htmlspecialchars($produit['nom']); ?></h3>
+              </a>
               <p class="product-price mt-2 font-serif text-[15px] italic text-stone-600">
-                <?php echo number_format($produit['prix'], 2); ?> <?php echo $produit['devise'] ?? '$'; ?>
+                <?php echo number_format($produit['prix'], 2); ?> <?php echo htmlspecialchars($produit['devise'] ?? 'USD'); ?>
               </p>
             </div>
           </div>
