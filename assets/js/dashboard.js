@@ -93,22 +93,35 @@ function switchTab(id) {
 function updateOrderStatus(orderId, newStatus) {
   if (!confirm(`Changer le statut de la commande #${orderId} ?`)) return;
 
-  fetch('../assets/actions/update_order_status.php', {
+  fetch('/ProjetFelykay/assets/actions/update_order_status.php', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    // Ajout des credentials pour être sûr que la session Admin est transmise
+    credentials: 'include',
     body: `id=${orderId}&statut=${newStatus}`
   })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        alert("Statut mis à jour !");
-        location.reload();
-      } else {
-        alert("Erreur : " + data.message);
+    .then(res => res.text()) // On récupère le texte brut d'abord
+    .then(text => {
+      try {
+        const data = JSON.parse(text);
+        if (data.success) {
+          location.reload();
+        } else {
+          alert("Erreur retournée par le serveur : " + data.message);
+        }
+      } catch (e) {
+        // C'est ici qu'on voit la vraie erreur PHP !
+        console.error("Réponse brute du serveur (JSON invalide) :", text);
+        alert("Erreur système. Regarde la console (F12) pour voir le message d'erreur PHP.");
       }
     })
-    .catch(err => console.error('Erreur:', err));
+    .catch(err => {
+      console.error('Erreur Fetch:', err);
+      alert("Impossible de joindre le serveur.");
+    });
 }
+
+
 
 function viewOrderDetails(order) {
   const modal = document.getElementById('orderModal');
@@ -280,3 +293,11 @@ window.toggleExtraViews = function (event) {
     button.innerText = "+ Ajouter des vues (Dos, Côtés)";
   }
 };
+
+
+// Fonction de déconnexion
+function confirmLogout() {
+  if (confirm("Voulez-vous vraiment vous déconnecter ?")) {
+    window.location.href = "/ProjetFelykay/assets/actions/logout.php";
+  }
+}

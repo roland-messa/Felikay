@@ -20,6 +20,11 @@
       <span>Commandes</span>
     </button>
 
+    <button onclick="switchTab('communes', 'Tarifs de Livraison', event)" class="nav-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition font-medium">
+      <i data-lucide="map-pin" class="w-4 h-4"></i>
+      <span>Livraisons</span>
+    </button>
+
     <button onclick="switchTab('messages', 'Messages & Newsletter', event)" class="nav-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition font-medium">
       <i data-lucide="mail" class="w-4 h-4"></i>
       <span>Messages</span>
@@ -43,7 +48,6 @@
       <div class="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center text-[10px] font-bold">
         <?php
         $name = $_SESSION['user_nom'] ?? 'Admin';
-        // Affiche les initiales dynamiquement (ex: Roland Messa -> RM)
         echo strtoupper(substr($name, 0, 1) . (strpos($name, ' ') ? substr($name, strpos($name, ' ') + 1, 1) : ''));
         ?>
       </div>

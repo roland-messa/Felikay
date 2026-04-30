@@ -1,54 +1,34 @@
 <?php
-// 1. Initialisation de la session avec sécurité renforcée
-if (session_status() === PHP_SESSION_NONE) {
-  ini_set('session.cookie_httponly', 1);
-  ini_set('session.use_only_cookies', 1);
-  ini_set('session.cookie_samesite', 'Strict');
-  session_start();
-}
+// C:\wamp64\www\ProjetFelykay\pages\admin_login.php
+require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/../includes/function.php';
 
-/**
- * 1. CRÉATION DE L'EMPREINTE (Porte de session)
- * On ne la génère que si elle n'existe pas pour stabiliser la session
- */
+// 1. Création de l'empreinte si inexistante
 if (!isset($_SESSION['admin_access_gate'])) {
   $_SESSION['admin_access_gate'] = true;
   $_SESSION['admin_access_ip'] = $_SERVER['REMOTE_ADDR'];
   $_SESSION['admin_user_agent'] = $_SERVER['HTTP_USER_AGENT'];
 }
 
-/**
- * 2. GÉNÉRATION DU TOKEN CSRF
- * IMPORTANT : On vérifie si un token existe déjà pour éviter de le remplacer
- * à chaque rafraîchissement, ce qui brise la validation du formulaire.
- */
+// 2. Génération du Token CSRF (une seule fois par session)
 if (empty($_SESSION['csrf_token'])) {
   $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
-/**
- * 3. VÉRIFICATION DU BLOCAGE
- */
+// 3. Vérification du blocage
 if (isset($_SESSION['blocked_until']) && $_SESSION['blocked_until'] > time()) {
-  $seconds_left = $_SESSION['blocked_until'] - time();
-  $minutes_left = ceil($seconds_left / 60);
-  die("Sécurité : Trop d'échecs. Accès bloqué pendant encore $minutes_left minute(s).");
+  $minutes = ceil(($_SESSION['blocked_until'] - time()) / 60);
+  die("Sécurité : Trop d'échecs. Réessayez dans $minutes minute(s).");
 }
 
-/**
- * 4. REDIRECTION SI DÉJÀ CONNECTÉ
- * Note : Assurez-vous que le chemin vers admin_dashboard.php est correct
- */
+// 4. Redirection si déjà connecté
 if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
   header("Location: admin/admin_dashboard.php");
   exit();
 }
 
 $pageTitle = "Felikay | Accès Administration";
-require_once '../includes/function.php';
-
-// Inclusion du header (attention aux session_start() en double à l'intérieur)
-include '../includes/header.php';
+include __DIR__ . '/../includes/header.php';
 ?>
 
 <style>

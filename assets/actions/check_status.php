@@ -1,15 +1,18 @@
 <?php
 require_once '../../config/db.php';
 
+header('Content-Type: application/json');
+
 $ref = $_GET['ref'] ?? '';
 
 if (!empty($ref)) {
-  $stmt = $pdo->prepare("SELECT status FROM orders WHERE payment_ref = ?");
+  // On cherche dans la table commandes de Felikay
+  $stmt = $pdo->prepare("SELECT statut FROM commandes WHERE payment_ref = ?");
   $stmt->execute([$ref]);
-  $order = $stmt->fetch();
+  $commande = $stmt->fetch();
 
-  if ($order) {
-    echo json_encode(['status' => $order['status']]);
+  if ($commande) {
+    echo json_encode(['status' => $commande['statut']]);
     exit;
   }
 }

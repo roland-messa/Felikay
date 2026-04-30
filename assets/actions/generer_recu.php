@@ -6,7 +6,6 @@ require_once '../../config/db.php';
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
-// On accepte soit l'ID soit la REF
 $commande_id = $_GET['id'] ?? null;
 $payment_ref = $_GET['ref'] ?? null;
 
@@ -46,11 +45,23 @@ $stmtDetails = $pdo->prepare("
 $stmtDetails->execute([$real_id]);
 $items = $stmtDetails->fetchAll();
 
-// --- Logique d'affichage (Variables) ---
+/**
+ * 3. PRÉPARATION DU LOGO
+ */
+$logoPath = '../../assets/img/felikay.jpg';
+$logoBase64 = '';
+if (file_exists($logoPath)) {
+    $type = pathinfo($logoPath, PATHINFO_EXTENSION);
+    $data = file_get_contents($logoPath);
+    $logoBase64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+}
+
+// Variables d'affichage
 $nom_client = !empty($commande['nom_complet']) ? $commande['nom_complet'] : ($commande['user_nom'] ?? 'Client');
 $telephone_client = !empty($commande['telephone']) ? $commande['telephone'] : ($commande['user_tel'] ?? 'N/A');
+$frais_livraison = floatval($commande['frais_livraison'] ?? 0);
+$sous_total = floatval($commande['total_ttc']) - $frais_livraison;
 
-// On vérifie si c'est payé
 $is_paid = ($commande['statut'] === 'paye' || $commande['statut'] === 'paid');
 $type_document = $is_paid ? "FACTURE DE PAIEMENT" : "BON DE COMMANDE";
 $couleur_statut = $is_paid ? "#000000" : "#ea580c";
@@ -60,27 +71,39 @@ $couleur_statut = $is_paid ? "#000000" : "#ea580c";
  */
 $options = new Options();
 $options->set('isRemoteEnabled', true);
+$options->set('defaultFont', 'Helvetica');
 $dompdf = new Dompdf($options);
 
+// Ajout du méta-charset UTF-8 pour les accents
 $html = '
-<style>
-    body { font-family: "Helvetica", sans-serif; color: #333; font-size: 11px; line-height: 1.6; }
-    .header { text-align: center; margin-bottom: 40px; }
-    .brand { font-size: 24px; font-weight: bold; letter-spacing: 5px; margin-bottom: 5px; }
-    .doc-type { font-size: 10px; color: ' . $couleur_statut . '; letter-spacing: 2px; font-weight: bold; border-top: 1px solid #000; border-bottom: 1px solid #000; display: inline-block; padding: 5px 20px; }
-    
-    .info-table { width: 100%; margin-bottom: 40px; margin-top: 30px; }
-    .info-box { width: 50%; vertical-align: top; }
-    
-    table.items { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
-    table.items th { background: #000; color: #fff; padding: 12px 10px; text-align: left; text-transform: uppercase; font-size: 8px; letter-spacing: 1px; }
-    table.items td { padding: 12px 10px; border-bottom: 1px solid #eee; }
-    
-    .total-section { text-align: right; font-size: 16px; font-weight: bold; margin-top: 20px; padding-top: 10px; }
-    .footer { position: fixed; bottom: 30px; width: 100%; text-align: center; font-size: 8px; color: #999; text-transform: uppercase; letter-spacing: 1px; }
-</style>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <style>
+        body { font-family: "Helvetica", sans-serif; color: #333; font-size: 11px; line-height: 1.4; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .logo { width: 80px; height: 80px; margin-bottom: 10px; }
+        .brand { font-size: 22px; font-weight: bold; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 5px; }
+        .doc-type { font-size: 10px; color: ' . $couleur_statut . '; letter-spacing: 2px; font-weight: bold; border-top: 1px solid #000; border-bottom: 1px solid #000; display: inline-block; padding: 5px 20px; margin-top:10px; }
+        .info-table { width: 100%; margin-bottom: 30px; margin-top: 20px; }
+        .info-box { width: 50%; vertical-align: top; }
+        table.items { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        table.items th { background: #000; color: #fff; padding: 10px; text-align: left; text-transform: uppercase; font-size: 8px; letter-spacing: 1px; }
+        table.items td { padding: 10px; border-bottom: 1px solid #eee; }
+        .summary-table { width: 100%; margin-top: 10px; }
+        .summary-td { text-align: right; padding: 5px 10px; }
+        .total-final { font-size: 16px; font-weight: bold; background: #f9f9f9; padding: 10px; border-top: 2px solid #000; }
+        .footer { position: fixed; bottom: 30px; width: 100%; text-align: center; font-size: 8px; color: #999; text-transform: uppercase; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
 
-<div class="header">
+<div class="header">';
+if ($logoBase64) {
+    $html .= '<img src="' . $logoBase64 . '" class="logo"><br>';
+}
+$html .= '
     <div class="brand">FELIKAY</div>
     <div class="doc-type">' . $type_document . '</div>
 </div>
@@ -88,17 +111,29 @@ $html = '
 <table class="info-table">
     <tr>
         <td class="info-box">
-            <strong style="color:#999; font-size:8px; tracking:1px;">CLIENT</strong><br>
-            <span style="font-size:12px; font-weight:bold;">' . htmlspecialchars($nom_client) . '</span><br>
-            ' . htmlspecialchars($commande['adresse_livraison']) . '<br>
-            ' . htmlspecialchars($commande['commune'] ?? 'Kinshasa') . ', RDC<br>
+            <strong style="color:#999; font-size:8px;">ADRESSE DE LIVRAISON</strong><br>
+            <span style="font-size:12px; font-weight:bold;">' . htmlspecialchars($nom_client) . '</span><br>';
+
+// Gestion propre de l'adresse
+if (empty($commande['avenue']) && empty($commande['quartier'])) {
+    $html .= '<span style="color:red;">Adresse non renseignée</span><br>';
+} else {
+    if (!empty($commande['avenue'])) $html .= 'Avenue ' . htmlspecialchars($commande['avenue']);
+    if (!empty($commande['numero'])) $html .= ', N° ' . htmlspecialchars($commande['numero']);
+    $html .= '<br>';
+    if (!empty($commande['quartier'])) $html .= 'Q/ ' . htmlspecialchars($commande['quartier']);
+    if (!empty($commande['reference'])) $html .= ' (Ref: ' . htmlspecialchars($commande['reference']) . ')';
+    $html .= '<br>';
+}
+
+$html .= '  <strong>' . htmlspecialchars($commande['commune'] ?? 'Kinshasa') . ', Kinshasa</strong><br>
             Tél: ' . htmlspecialchars($telephone_client) . '
         </td>
         <td class="info-box" style="text-align: right;">
-            <strong style="color:#999; font-size:8px; tracking:1px;">REFERENCE</strong><br>
-            <strong>N° :</strong> #' . $real_id . '<br>
-            <strong>ID Paiement :</strong> ' . ($commande['payment_ref'] ?? 'N/A') . '<br>
-            <strong>Date :</strong> ' . date("d/m/Y", strtotime($commande['created_at'])) . '
+            <strong style="color:#999; font-size:8px;">DETAILS COMMANDE</strong><br>
+            <strong>Référence :</strong> #' . $real_id . '<br>
+            <strong>Paiement :</strong> ' . strtoupper($commande['methode_paiement'] ?? 'N/A') . '<br>
+            <strong>Date :</strong> ' . date("d/m/Y H:i", strtotime($commande['created_at'])) . '
         </td>
     </tr>
 </table>
@@ -122,7 +157,7 @@ foreach ($items as $item) {
                 <strong style="text-transform:uppercase;">' . htmlspecialchars($item['produit_nom'] ?? "Article") . '</strong>' .
         (!empty($item['couleur_nom']) ? '<br><span style="color:#666;">Couleur: ' . htmlspecialchars($item['couleur_nom']) . '</span>' : '') . '
             </td>
-            <td>' . ($item['taille_nom'] ?? 'Standard') . '</td>
+            <td>' . htmlspecialchars($item['taille_nom'] ?? 'Standard') . '</td>
             <td>' . $item['quantite'] . '</td>
             <td style="text-align:right;">' . number_format($sub, 2) . ' $</td>
         </tr>';
@@ -132,22 +167,38 @@ $html .= '
     </tbody>
 </table>
 
-<div class="total-section">
-    MONTANT TOTAL : ' . number_format($commande['total_ttc'], 2) . ' $
-</div>';
+<table class="summary-table">
+    <tr>
+        <td width="70%"></td>
+        <td class="summary-td">Sous-total :</td>
+        <td class="summary-td" style="width:100px;">' . number_format($sous_total, 2) . ' $</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td class="summary-td">Frais de livraison :</td>
+        <td class="summary-td">' . number_format($frais_livraison, 2) . ' $</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td class="summary-td total-final">TOTAL TTC :</td>
+        <td class="summary-td total-final">' . number_format($commande['total_ttc'], 2) . ' $</td>
+    </tr>
+</table>';
 
 if ($is_paid) {
-    $html .= '<div style="margin-top: 40px; background: #f0fdf4; border: 1px solid #16a34a; padding: 15px; color: #16a34a; text-align: center; font-weight: bold; text-transform: uppercase; font-size: 10px; letter-spacing: 2px;">
-                Paiement Confirmé via ' . strtoupper($commande['methode_paiement']) . '
+    $html .= '<div style="margin-top: 30px; background: #f0fdf4; border: 1px solid #16a34a; padding: 10px; color: #16a34a; text-align: center; font-weight: bold; text-transform: uppercase; font-size: 9px;">
+                Transaction terminée - Merci pour votre confiance
               </div>';
 }
 
 $html .= '
 <div class="footer">
-    Maison Felikay Luxury - Kinshasa, RDC - www.felikay.com
-</div>';
+    Felikay Luxury - Mode & Élégance - Kinshasa, RDC
+</div>
+</body>
+</html>';
 
 $dompdf->loadHtml($html);
 $dompdf->setPaper('A4', 'portrait');
 $dompdf->render();
-$dompdf->stream("Felikay_Recu_" . $real_id . ".pdf", ["Attachment" => false]);
+$dompdf->stream("Felikay_Facture_" . $real_id . ".pdf", ["Attachment" => false]);

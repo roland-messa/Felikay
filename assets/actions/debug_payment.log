@@ -1,0 +1,5 @@
+2026-04-30 19:39:15 - {"success":false,"message":"Erreur CURL: SSL certificate problem: unable to get local issuer certificate"}
+2026-04-30 19:39:42 - {"success":false,"message":"Erreur CURL: SSL certificate problem: unable to get local issuer certificate"}
+2026-04-30 19:40:53 - {"success":false,"message":"Erreur CURL: SSL certificate problem: unable to get local issuer certificate"}
+2026-04-30 20:06:17 - {"success":false,"message":"Erreur CURL: SSL certificate problem: unable to get local issuer certificate"}
+2026-04-30 20:27:48 - {"success":true,"referenceNo":"FEL20260430202737473","message":"Transaction sent to Telecom - Insert PIN","sessionId":"17775808662617"}

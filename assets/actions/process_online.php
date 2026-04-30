@@ -1,61 +1,110 @@
 <?php
-// C:\wamp64\www\ProjetFelykay\assets\actions\process_online.php
 session_start();
 require_once '../../config/db.php';
 require_once '../functions/payment_helper.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  // 1. RÉCUPÉRATION DES DONNÉES
+
   $user_id = $_SESSION['user_id'] ?? null;
   $gateway = $_POST['gateway'] ?? '';
-  $total   = $_POST['total_ttc'] ?? 0;
-  $phone   = $_POST['payment_phone'] ?? '';
+  $nom_complet = $_POST['nom_complet'] ?? 'Client';
 
-  // Données de livraison
-  $commune   = $_POST['commune'] ?? '';
-  $avenue    = $_POST['avenue'] ?? '';
-  $numero    = $_POST['numero'] ?? '';
-  $reference = $_POST['reference'] ?? '';
-  $ville     = "Kinshasa";
+  if (!$user_id) {
+    header("Location: ../../pages/connexion.php?error=session_expired");
+    exit();
+  }
+
+  // ====== SÉCURITÉ GATEWAY ======
+  $allowed_gateways = ['AM', 'OM'];
+  if (!in_array($gateway, $allowed_gateways)) {
+    header("Location: ../../pages/paiement.php?error=payment_failed&msg=" . urlencode("Mode de paiement non supporté"));
+    exit();
+  }
+
+  // ====== TÉLÉPHONE ======
+  $raw_phone = $_POST['payment_phone'] ?? '';
+  $clean_phone = preg_replace('/[^0-9]/', '', $raw_phone);
+
+  if (substr($clean_phone, 0, 3) === '243') {
+    $clean_phone = substr($clean_phone, 3);
+  }
+  if (substr($clean_phone, 0, 1) === '0') {
+    $clean_phone = substr($clean_phone, 1);
+  }
+
+  $phone_to_pay = '243' . $clean_phone;
+
+  if (strlen($phone_to_pay) !== 12) {
+    header("Location: ../../pages/paiement.php?error=invalid_phone");
+    exit();
+  }
+
+  // ====== MONTANTS ======
+  $total_final = floatval($_POST['total_ttc'] ?? 0);
+  $frais_livraison = floatval($_POST['frais_livraison'] ?? 0);
+
+  if ($total_final <= 0) {
+    header("Location: ../../pages/paiement.php?error=payment_failed&msg=" . urlencode("Montant invalide"));
+    exit();
+  }
+
+  // ====== DEBUG LOG ======
+  error_log("PAYMENT INIT -> PHONE: $phone_to_pay | AMOUNT: $total_final | GATEWAY: $gateway");
 
   try {
-    // 2. INITIATION DU PAIEMENT SERDIPAY
+
+    // ====== APPEL API ======
     $paiement = initierPaiementMobile(
-      $phone,
-      $total,
+      $phone_to_pay,
+      $total_final,
       'USD',
       $gateway,
-      "Commande Felykay - " . ($_POST['nom_complet'] ?? 'Client')
+      "Commande Felykay - " . $nom_complet
     );
 
+    // LOG COMPLET
+    file_put_contents("debug_payment.log", date('Y-m-d H:i:s') . " - " . json_encode($paiement) . PHP_EOL, FILE_APPEND);
+
     if ($paiement['success']) {
+
       $ref_paiement = $paiement['referenceNo'];
 
-      // 3. ENREGISTREMENT DANS LA TABLE 'commandes'
-      // J'ai utilisé vos noms de colonnes : total_ttc, statut, adresse_livraison, etc.
-      $stmt = $pdo->prepare("INSERT INTO commandes (user_id, total_ttc, statut, payment_ref, methode_paiement, telephone, adresse_livraison, commune, ville, created_at) VALUES (?, ?, 'en_attente', ?, ?, ?, ?, ?, ?, NOW())");
-
-      $adresse_complete = "Ave: $avenue, No: $numero, Ref: $reference";
+      // ====== INSERT DB ======
+      $stmt = $pdo->prepare("
+        INSERT INTO commandes (
+          user_id, nom_complet, total_ttc, frais_livraison, statut,
+          payment_ref, methode_paiement, telephone, created_at
+        ) VALUES (?, ?, ?, ?, 'en_attente', ?, ?, ?, NOW())
+      ");
 
       $stmt->execute([
         $user_id,
-        $total,
+        $nom_complet,
+        $total_final,
+        $frais_livraison,
         $ref_paiement,
         $gateway,
-        $_POST['phone'] ?? $phone, // Téléphone de contact
-        $adresse_complete,
-        $commune,
-        $ville
+        $phone_to_pay
       ]);
 
-      // 4. REDIRECTION
-      header("Location: ../../pages/attente_paiement.php?ref=$ref_paiement&operator=$gateway&phone=$phone");
+      // ====== REDIRECTION ======
+      header("Location: ../../pages/attente_paiement.php?ref=" . urlencode($ref_paiement) . "&phone=" . urlencode($phone_to_pay));
       exit();
     } else {
-      header("Location: ../../pages/paiement.php?error=payment_failed&msg=" . urlencode($paiement['message']));
+
+      $message = $paiement['message'] ?? "Échec de l'initialisation";
+
+      header("Location: ../../pages/paiement.php?error=payment_failed&msg=" . urlencode($message));
       exit();
     }
   } catch (Exception $e) {
-    die("Erreur critique : " . $e->getMessage());
+
+    error_log("ERREUR SYSTEME PAIEMENT: " . $e->getMessage());
+
+    header("Location: ../../pages/paiement.php?error=system&msg=" . urlencode($e->getMessage()));
+    exit();
   }
+} else {
+  header("Location: ../../pages/paiement.php");
+  exit();
 }

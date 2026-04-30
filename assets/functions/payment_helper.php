@@ -1,66 +1,89 @@
 <?php
-// C:\wamp64\www\ProjetFelykay\assets\functions\payment_helper.php
 
 function initierPaiementMobile($phone, $amount, $currency, $telecom, $description)
 {
-  global $pdo;
-
-  $apiId = "VOTRE_API_ID";
-  $apiPassword = "VOTRE_API_PASSWORD";
-  $merchantCode = "VOTRE_MERCHANT_CODE";
-  $tokenUrl = "https://api.serdipay.com/v1/token";
-  $paymentUrl = "https://api.serdipay.com/v1/c2b";
+  $url = "https://afreemosi.com/api/payment/initiate/InitiateFelikayPayment.ashx";
 
   try {
-    // 1. OBTENIR LE TOKEN
-    $ch = curl_init($tokenUrl);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
-      "api_id" => $apiId,
-      "api_password" => $apiPassword
-    ]));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type: application/json"]);
 
-    $tokenRes = json_decode(curl_exec($ch), true);
-    $token = $tokenRes['access_token'] ?? null;
-    curl_close($ch);
+    // ====== NORMALISATION TELEPHONE ======
+    $phone = preg_replace('/[^0-9]/', '', $phone);
 
-    if (!$token) return ["success" => false, "message" => "Erreur d'authentification API"];
+    if (strpos($phone, '2430') === 0) {
+      $phone = '243' . substr($phone, 4);
+    } elseif (strpos($phone, '0') === 0) {
+      $phone = '243' . substr($phone, 1);
+    } elseif (strlen($phone) === 9) {
+      $phone = '243' . $phone;
+    }
 
-    // 2. GÉNÉRER LA RÉFÉRENCE
-    $ref = "FLK-" . date("Ymd") . "-" . strtoupper(substr(uniqid(), -5));
+    // ====== REFERENCE UNIQUE ======
+    $ref = "FEL" . date("YmdHis") . rand(100, 999);
 
-    // 3. ENVOI DE LA REQUÊTE
+    // ====== PAYLOAD ======
     $payload = json_encode([
-      "merchantCode" => $merchantCode,
-      "clientPhone"  => $phone,
-      "amount"       => $amount,
-      "currency"     => $currency,
-      "telecom"      => $telecom,
-      "referenceNo"  => $ref,
-      "description"  => $description
+      "phone"       => $phone,
+      "amount"      => (string)$amount,
+      "currency"    => $currency,
+      "telecom"     => $telecom,
+      "referenceNo" => $ref,
+      "description" => $description
     ]);
 
-    $ch = curl_init($paymentUrl);
+    // ====== CURL ======
+    $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true); // Ajouté pour être sûr
+    curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
       "Content-Type: application/json",
-      "Authorization: Bearer " . $token
+      "Accept: application/json"
     ]);
 
-    $response = json_decode(curl_exec($ch), true);
+    $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    if (curl_errno($ch)) {
+      throw new Exception("Erreur CURL: " . curl_error($ch));
+    }
+
     curl_close($ch);
 
+    // ====== LOG BRUT ======
+    file_put_contents("api_raw.log", date('Y-m-d H:i:s') . " - " . $response . PHP_EOL, FILE_APPEND);
+
+    $data = json_decode($response, true);
+
+    // ====== SUCCÈS ======
+    if ($httpCode == 200 && isset($data['success']) && $data['success'] === true) {
+
+      $inner = isset($data['response']) ? json_decode($data['response'], true) : [];
+
+      return [
+        "success"     => true,
+        "referenceNo" => $ref,
+        "message"     => $inner['message'] ?? "Veuillez valider sur votre téléphone",
+        "sessionId"   => $data['externalSessionId'] ?? null
+      ];
+    }
+
+    // ====== ERREUR ======
+    $error = "Échec de l'initialisation";
+
+    if (isset($data['response'])) {
+      $inner = json_decode($data['response'], true);
+      $error = $inner['message'] ?? $error;
+    }
+
     return [
-      "success" => ($httpCode < 400),
-      "referenceNo" => $ref,
-      "data" => $response
+      "success" => false,
+      "message" => $error,
+      "raw"     => $data
     ];
   } catch (Exception $e) {
-    return ["success" => false, "message" => $e->getMessage()];
+    return [
+      "success" => false,
+      "message" => $e->getMessage()
+    ];
   }
 }

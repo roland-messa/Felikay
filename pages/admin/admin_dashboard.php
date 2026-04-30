@@ -1,7 +1,5 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-  session_start();
-}
+
 require_once __DIR__ . '/../../config/db.php';
 require_once __DIR__ . '/../../includes/function.php';
 isAdmin();
@@ -94,13 +92,22 @@ $allSizes = $pdo->query("SELECT * FROM tailles ORDER BY id ASC")->fetchAll(PDO::
       <?php include 'tabs/orders.php'; ?>
     </div>
 
+    <div id="section-communes" class="tab-content hidden">
+      <?php include __DIR__ . '/tabs/communes.php'; ?>
+    </div>
+
     <div id="section-analytics" class="tab-content hidden">
       <?php include 'tabs/analytics.php'; ?>
+    </div>
+
+    <div id="section-archives" class="tab-content hidden">
+      <?php include 'tabs/archives.php'; ?>
     </div>
 
     <div id="section-settings" class="tab-content hidden">
       <?php include 'tabs/settings.php'; ?>
     </div>
+
   </main>
 </div>
 
