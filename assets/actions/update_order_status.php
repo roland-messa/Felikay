@@ -25,24 +25,23 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
   exit;
 }
 
-if (isset($_POST['id']) && isset($_POST['statut'])) {
-  $id = intval($_POST['id']);
-  $statut = $_POST['statut'];
+if (isset($_POST['order_id']) && isset($_POST['status'])) {
+  $id = intval($_POST['order_id']);
+  $statut = $_POST['status'];
 
   try {
     $query = $pdo->prepare("UPDATE commandes SET statut = ? WHERE id = ?");
     $success = $query->execute([$statut, $id]);
 
-    // Nettoyage final du tampon avant l'envoi du JSON
     ob_clean();
     echo json_encode(['success' => $success]);
   } catch (PDOException $e) {
     ob_clean();
-    echo json_encode(['success' => false, 'message' => 'Erreur SQL lors de la mise à jour']);
+    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
   }
 } else {
   ob_clean();
-  echo json_encode(['success' => false, 'message' => 'Données POST manquantes (id ou statut)']);
+  echo json_encode(['success' => false, 'message' => 'Parametres manquants']);
 }
 
 ob_end_flush();

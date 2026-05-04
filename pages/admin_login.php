@@ -21,13 +21,18 @@ if (isset($_SESSION['blocked_until']) && $_SESSION['blocked_until'] > time()) {
   die("Sécurité : Trop d'échecs. Réessayez dans $minutes minute(s).");
 }
 
-// 4. Redirection si déjà connecté
-if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
-  header("Location: admin/admin_dashboard.php");
-  exit();
+// 4. Redirection automatique si déjà connecté (Correction ici pour inclure le livreur)
+if (isset($_SESSION['user_role'])) {
+  if ($_SESSION['user_role'] === 'admin') {
+    header("Location: admin/admin_dashboard.php");
+    exit();
+  } elseif ($_SESSION['user_role'] === 'livreur') {
+    header("Location: livreur/dashboard.php");
+    exit();
+  }
 }
 
-$pageTitle = "Felikay | Accès Administration";
+$pageTitle = "Felikay | Connexion Staff";
 include __DIR__ . '/../includes/header.php';
 ?>
 
@@ -83,8 +88,8 @@ include __DIR__ . '/../includes/header.php';
         <div class="logo-container">
           <img src="/ProjetFelykay/assets/img/felikay.jpg" alt="Logo Felikay">
         </div>
-        <h1 class="font-serif text-2xl italic">Espace Admin</h1>
-        <p class="text-[9px] uppercase tracking-[0.3em] text-gray-400 mt-2">Authentification requise</p>
+        <h1 class="font-serif text-2xl italic">Espace Personnel</h1>
+        <p class="text-[9px] uppercase tracking-[0.3em] text-gray-400 mt-2">Administration & Logistique</p>
       </div>
 
       <form action="../assets/actions/login_process.php" method="POST" class="space-y-6">

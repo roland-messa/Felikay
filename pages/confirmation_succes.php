@@ -2,18 +2,25 @@
 session_start();
 require_once '../config/db.php';
 
-$commande_id = $_GET['id'] ?? null;
+$commande_id = $_GET['order'] ?? $_GET['id'] ?? null;
 
 if (!$commande_id) {
   header("Location: ../index.php");
   exit();
 }
 
-$stmt = $pdo->prepare("SELECT methode_paiement FROM commandes WHERE id = ?");
+// On vérifie le mode de paiement dans la table 'paiements'
+$stmt = $pdo->prepare("
+    SELECT mode_paiement 
+    FROM paiements 
+    WHERE commande_id = ? 
+    LIMIT 1
+");
 $stmt->execute([$commande_id]);
-$commande = $stmt->fetch();
+$mode = $stmt->fetchColumn();
 
-$is_delivery = ($commande && $commande['methode_paiement'] === 'delivery');
+// CASH est la valeur utilisée dans process_cash.php
+$is_delivery = (strtoupper($mode) === 'CASH');
 ?>
 
 <!DOCTYPE html>
@@ -21,63 +28,69 @@ $is_delivery = ($commande && $commande['methode_paiement'] === 'delivery');
 
 <head>
   <meta charset="UTF-8">
-  <title>Felikay | Confirmation</title>
+  <title>Felikay | Merci pour votre commande</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
   <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+    }
+
     .font-serif {
       font-family: 'Playfair Display', serif;
     }
   </style>
 </head>
 
-<body class="bg-[#FDFDFD] flex items-center justify-center min-h-screen">
+<body class="bg-[#FDFDFD] min-h-screen flex flex-col">
 
-  <div class="max-w-md w-full text-center px-6">
-    <div class="mb-8 flex justify-center">
-      <div class="w-20 h-20 bg-stone-50 rounded-full flex items-center justify-center border border-stone-100">
-        <i data-lucide="check" class="w-10 h-10 text-black"></i>
+  <!-- Header / Logo en haut -->
+  <header class="w-full py-8 flex flex-col items-center border-b border-stone-50 bg-white">
+    <div class="w-16 h-16 rounded-full overflow-hidden border border-stone-100 mb-2 shadow-sm">
+      <img src="/ProjetFelykay/assets/img/felikay.jpg" alt="Logo Felikay" class="w-full h-full object-cover">
+    </div>
+    <span class="font-serif text-xl font-bold uppercase tracking-[0.2em] italic">Felikay</span>
+    <p class="text-[9px] text-stone-400 uppercase tracking-widest mt-1">Kinshasa</p>
+  </header>
+
+  <!-- Contenu Central -->
+  <main class="flex-grow flex items-center justify-center px-6">
+    <div class="max-w-md w-full text-center">
+
+      <div class="mb-6 flex justify-center">
+        <div class="w-12 h-[1px] bg-stone-200"></div>
+      </div>
+
+      <h1 class="font-serif text-5xl italic mb-6 text-stone-800">Merci !</h1>
+
+      <p class="text-stone-500 text-sm mb-12 leading-relaxed">
+        <?php if ($is_delivery): ?>
+          Votre commande a bien été enregistrée.<br>Le paiement se fera directement à la livraison.
+        <?php else: ?>
+          Votre paiement a été confirmé avec succès.<br>Nous préparons désormais votre colis avec soin.
+        <?php endif; ?>
+      </p>
+
+      <div class="flex flex-col gap-4">
+        <a href="admin/generate_invoice.php?id=<?= htmlspecialchars($commande_id) ?>" target="_blank"
+          class="bg-black text-white px-8 py-5 uppercase text-[10px] font-bold tracking-widest hover:bg-stone-800 transition-all duration-300 shadow-lg shadow-black/5">
+          Télécharger la facture
+        </a>
+
+        <a href="../index.php" class="text-stone-400 text-[10px] uppercase font-bold tracking-widest hover:text-black transition-colors duration-300 py-2">
+          Continuer mes achats
+        </a>
       </div>
     </div>
+  </main>
 
-    <h1 class="font-serif text-4xl italic mb-4">Merci !</h1>
-
-    <?php if ($is_delivery): ?>
-      <p class="text-gray-600 text-sm leading-relaxed mb-2">
-        Votre commande a été enregistrée avec succès.
-      </p>
-      <p class="text-orange-600 text-xs font-medium uppercase tracking-widest mb-10">
-        Paiement à prévoir lors de la livraison
-      </p>
-    <?php else: ?>
-      <p class="text-gray-600 text-sm leading-relaxed mb-10">
-        Votre paiement a été traité avec succès. Nous préparons votre colis.
-      </p>
-    <?php endif; ?>
-
-    <div class="flex flex-col gap-4">
-      <a href="../assets/actions/generer_recu.php?id=<?php echo $commande_id; ?>" target="_blank"
-        class="bg-black text-white px-8 py-4 uppercase text-[10px] font-bold tracking-[0.2em] flex items-center justify-center gap-3 hover:bg-stone-800 transition shadow-xl">
-        <i data-lucide="file-text" class="w-4 h-4"></i>
-        <?php echo $is_delivery ? 'Télécharger mon bon de commande' : 'Télécharger mon reçu de paiement'; ?>
-      </a>
-
-      <a href="../index.php" class="border border-stone-200 text-stone-400 px-8 py-4 uppercase text-[10px] font-bold tracking-[0.2em] hover:text-black hover:border-black transition">
-        Continuer mes achats
-      </a>
-    </div>
-
-    <?php if ($is_delivery): ?>
-      <p class="mt-8 text-[10px] text-gray-400 italic">
-        * N'oubliez pas de prévoir les frais de livraison pour le coursier.
-      </p>
-    <?php endif; ?>
-  </div>
+  <!-- Petit footer discret -->
+  <footer class="py-8 text-center">
+    <p class="text-[10px] text-stone-300 uppercase tracking-widest">&copy; <?= date('Y') ?> Felikay Maison de Mode</p>
+  </footer>
 
   <script>
-    lucide.createIcons();
-
+    // Nettoyage du panier après succès
     localStorage.removeItem('felikay_cart');
   </script>
 </body>

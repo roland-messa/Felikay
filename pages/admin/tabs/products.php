@@ -292,6 +292,15 @@
               </a>
             </div>
           </td>
+
+          <td class="p-6 text-center">
+            <?php $stock = (int)($p['stock_total'] ?? 0); ?>
+            <!-- Le badge devient rouge et gras si le stock tombe en dessous de 5 -->
+            <span class="px-3 py-1 rounded-lg <?php echo ($stock < 5) ? 'text-red-600 font-bold bg-red-50' : 'text-slate-600 bg-slate-100'; ?>">
+              <?php echo ($stock > 0) ? $stock : "ÉPUISÉ"; ?>
+            </span>
+          </td>
+
         </tr>
       <?php endforeach; ?>
     </tbody>

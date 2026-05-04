@@ -47,9 +47,12 @@
 
         $statusColor = match ($c['statut']) {
           'paye', 'livre' => 'text-green-600 bg-green-50 border-green-200',
-          'annule' => 'text-red-600 bg-red-50 border-red-200',
-          default => 'text-orange-600 bg-orange-50 border-orange-200',
+          'expedie'       => 'text-blue-600 bg-blue-50 border-blue-200', // Nouvelle couleur bleue pour l'expédition
+          'annule'        => 'text-red-600 bg-red-50 border-red-200',
+          default         => 'text-orange-600 bg-orange-50 border-orange-200',
         };
+
+
       ?>
         <tr class="order-row border-b border-slate-50 hover:bg-slate-50/50 transition-colors" data-client-name="<?= $clientNom ?>">
           <td class="p-6">
@@ -86,10 +89,10 @@
           </td>
 
           <td class="p-6 text-right">
-            <select onchange="updateOrderStatus(<?= $c['id'] ?>, this.value)"
-              class="p-1.5 text-[10px] font-bold border border-slate-200 rounded-xl bg-white outline-none cursor-pointer">
+            <select onchange="updateOrderStatus(<?= $c['id'] ?>, this.value)" ...>
               <option value="en_attente" <?= ($c['statut'] == 'en_attente') ? 'selected' : '' ?>>🕒 Attente</option>
               <option value="paye" <?= ($c['statut'] == 'paye') ? 'selected' : '' ?>>✅ Payé</option>
+              <option value="expedie" <?= ($c['statut'] == 'expedie') ? 'selected' : '' ?>>🚚 Expédié</option>
               <option value="livre" <?= ($c['statut'] == 'livre') ? 'selected' : '' ?>>📦 Livré</option>
               <option value="annule" <?= ($c['statut'] == 'annule') ? 'selected' : '' ?>>❌ Annulé</option>
               <?php if ($isArchivable): ?>

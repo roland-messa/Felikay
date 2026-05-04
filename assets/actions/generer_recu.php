@@ -12,16 +12,20 @@ $payment_ref = $_GET['ref'] ?? null;
 if (!$commande_id && !$payment_ref) die("Identifiant de commande manquant.");
 
 /**
- * 1. RÉCUPÉRATION DES DONNÉES
+ * 1. RÉCUPÉRATION DES DONNÉES (Version avec JOINTURE table paiements)
  */
 $query = "
     SELECT c.*, 
            u.nom as user_nom, 
            u.email as user_email, 
-           u.telephone as user_tel
+           u.telephone as user_tel,
+           p.mode_paiement,
+           p.statut_paiement,
+           p.reference_interne
     FROM commandes c 
     LEFT JOIN users u ON c.user_id = u.id
-    WHERE " . ($payment_ref ? "c.payment_ref = ?" : "c.id = ?");
+    LEFT JOIN paiements p ON c.id = p.commande_id
+    WHERE " . ($payment_ref ? "p.reference_interne = ?" : "c.id = ?");
 
 $stmt = $pdo->prepare($query);
 $stmt->execute([$payment_ref ?? $commande_id]);
@@ -46,7 +50,7 @@ $stmtDetails->execute([$real_id]);
 $items = $stmtDetails->fetchAll();
 
 /**
- * 3. PRÉPARATION DU LOGO
+ * 3. PRÉPARATION DU LOGO ET VARIABLES
  */
 $logoPath = '../../assets/img/felikay.jpg';
 $logoBase64 = '';
@@ -60,9 +64,11 @@ if (file_exists($logoPath)) {
 $nom_client = !empty($commande['nom_complet']) ? $commande['nom_complet'] : ($commande['user_nom'] ?? 'Client');
 $telephone_client = !empty($commande['telephone']) ? $commande['telephone'] : ($commande['user_tel'] ?? 'N/A');
 $frais_livraison = floatval($commande['frais_livraison'] ?? 0);
-$sous_total = floatval($commande['total_ttc']) - $frais_livraison;
+$total_ttc = floatval($commande['total_ttc']);
+$sous_total = $total_ttc - $frais_livraison;
 
-$is_paid = ($commande['statut'] === 'paye' || $commande['statut'] === 'paid');
+// Détermination du statut (Paiement réussi ou Commande payée)
+$is_paid = ($commande['statut_paiement'] === 'reussi' || $commande['statut'] === 'paye');
 $type_document = $is_paid ? "FACTURE DE PAIEMENT" : "BON DE COMMANDE";
 $couleur_statut = $is_paid ? "#000000" : "#ea580c";
 
@@ -74,7 +80,6 @@ $options->set('isRemoteEnabled', true);
 $options->set('defaultFont', 'Helvetica');
 $dompdf = new Dompdf($options);
 
-// Ajout du méta-charset UTF-8 pour les accents
 $html = '
 <!DOCTYPE html>
 <html>
@@ -114,25 +119,22 @@ $html .= '
             <strong style="color:#999; font-size:8px;">ADRESSE DE LIVRAISON</strong><br>
             <span style="font-size:12px; font-weight:bold;">' . htmlspecialchars($nom_client) . '</span><br>';
 
-// Gestion propre de l'adresse
-if (empty($commande['avenue']) && empty($commande['quartier'])) {
+// Gestion de l'adresse (Utilise les nouveaux champs commune/quartier)
+if (empty($commande['adresse_livraison']) && empty($commande['commune'])) {
     $html .= '<span style="color:red;">Adresse non renseignée</span><br>';
 } else {
-    if (!empty($commande['avenue'])) $html .= 'Avenue ' . htmlspecialchars($commande['avenue']);
-    if (!empty($commande['numero'])) $html .= ', N° ' . htmlspecialchars($commande['numero']);
-    $html .= '<br>';
-    if (!empty($commande['quartier'])) $html .= 'Q/ ' . htmlspecialchars($commande['quartier']);
-    if (!empty($commande['reference'])) $html .= ' (Ref: ' . htmlspecialchars($commande['reference']) . ')';
-    $html .= '<br>';
+    $html .= htmlspecialchars($commande['adresse_livraison']) . '<br>';
+    $html .= 'Q/ ' . htmlspecialchars($commande['quartier'] ?? 'N/A') . '<br>';
+    $html .= '<strong>' . htmlspecialchars($commande['commune'] ?? 'Kinshasa') . ', Kinshasa</strong><br>';
 }
 
-$html .= '  <strong>' . htmlspecialchars($commande['commune'] ?? 'Kinshasa') . ', Kinshasa</strong><br>
+$html .= '
             Tél: ' . htmlspecialchars($telephone_client) . '
         </td>
         <td class="info-box" style="text-align: right;">
             <strong style="color:#999; font-size:8px;">DETAILS COMMANDE</strong><br>
             <strong>Référence :</strong> #' . $real_id . '<br>
-            <strong>Paiement :</strong> ' . strtoupper($commande['methode_paiement'] ?? 'N/A') . '<br>
+            <strong>Paiement :</strong> ' . strtoupper($commande['mode_paiement'] ?? 'CASH') . '<br>
             <strong>Date :</strong> ' . date("d/m/Y H:i", strtotime($commande['created_at'])) . '
         </td>
     </tr>
@@ -181,12 +183,26 @@ $html .= '
     <tr>
         <td></td>
         <td class="summary-td total-final">TOTAL TTC :</td>
-        <td class="summary-td total-final">' . number_format($commande['total_ttc'], 2) . ' $</td>
+        <td class="summary-td total-final">' . number_format($total_ttc, 2) . ' $</td>
     </tr>
 </table>';
 
+// Ajout du bloc du code de confirmation pour le livreur
+$html .= '
+<div style="margin-top: 25px; border: 2px dashed #000; padding: 12px; text-align: center; background-color: #fafafa;">
+    <div style="font-size: 8px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">
+        Code de confirmation livraison
+    </div>
+    <div style="font-size: 20px; font-weight: bold; letter-spacing: 6px; color: #000;">
+        ' . ($commande['code_confirmation'] ?? '----') . '
+    </div>
+    <div style="font-size: 7px; color: #888; margin-top: 4px; text-transform: uppercase;">
+        Veuillez présenter ce code au livreur uniquement après réception de votre colis.
+    </div>
+</div>';
+
 if ($is_paid) {
-    $html .= '<div style="margin-top: 30px; background: #f0fdf4; border: 1px solid #16a34a; padding: 10px; color: #16a34a; text-align: center; font-weight: bold; text-transform: uppercase; font-size: 9px;">
+    $html .= '<div style="margin-top: 25px; background: #f0fdf4; border: 1px solid #16a34a; padding: 10px; color: #16a34a; text-align: center; font-weight: bold; text-transform: uppercase; font-size: 9px;">
                 Transaction terminée - Merci pour votre confiance
               </div>';
 }

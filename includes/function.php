@@ -102,3 +102,14 @@ function uploadImage($file, $folder = '../../assets/img/produits/')
 
   return false;
 }
+
+
+
+//  Compte les produits dont le stock est épuisé ou critique
+
+function get_low_stock_count($pdo, $threshold = 0)
+{
+  $stmt = $pdo->prepare("SELECT COUNT(*) FROM produits WHERE stock_total <= ?");
+  $stmt->execute([$threshold]);
+  return $stmt->fetchColumn();
+}

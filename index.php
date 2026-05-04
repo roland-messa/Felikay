@@ -165,10 +165,17 @@ if (!empty($promos_accueil)):
                                         <?= str_replace(',', '<br>', htmlspecialchars($item['nom'])); ?>
                                     </h2>
 
-                                    <button onclick="addToCart(<?= $item['id'] ?>, '<?= addslashes($item['nom']) ?>', <?= $item['prix'] ?>, '<?= $item['image_principale'] ?>')"
-                                        class="bg-black text-white px-12 py-5 text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-stone-800 transition-all shadow-lg active:scale-95">
-                                        Ajouter au panier
-                                    </button>
+                                    <!-- GESTION DU STOCK DYNAMIQUE -->
+                                    <?php if ($item['stock_total'] > 0): ?>
+                                        <button onclick="addToCart(<?= $item['id'] ?>, '<?= addslashes($item['nom']) ?>', <?= $item['prix'] ?>, '<?= $item['image_principale'] ?>')"
+                                            class="bg-black text-white px-12 py-5 text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-stone-800 transition-all shadow-lg active:scale-95">
+                                            Ajouter au panier
+                                        </button>
+                                    <?php else: ?>
+                                        <button class="bg-gray-400 text-white px-12 py-5 text-[10px] uppercase tracking-[0.4em] font-bold cursor-not-allowed shadow-inner" disabled>
+                                            Rupture de stock
+                                        </button>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -176,6 +183,7 @@ if (!empty($promos_accueil)):
                 </div>
                 <div class="swiper-pagination-sale mt-10 flex justify-center"></div>
             </div>
+
         </div>
     </section>
 <?php endif;

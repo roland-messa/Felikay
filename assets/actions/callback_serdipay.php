@@ -1,30 +1,48 @@
 <?php
 require_once '../../config/db.php';
 
-// 1. Récupération des données envoyées par la passerelle
 $input = file_get_contents("php://input");
 $data = json_decode($input, true);
 
-// 2. Journalisation pour le débogage (indispensable en production)
+// Log pour débogage
 file_put_contents('callback_debug.log', date('Y-m-d H:i:s') . " - Data: " . $input . PHP_EOL, FILE_APPEND);
 
 if (isset($data['referenceNo']) && isset($data['status'])) {
   $ref = $data['referenceNo'];
-  $status = strtoupper($data['status']); // Normalisation en majuscules
+  $status = strtoupper($data['status']);
+  $transId = $data['transactionId'] ?? null; // ID transaction opérateur si dispo
 
-  if ($status === 'SUCCESS' || $status === 'COMPLETED') {
-    // Mise à jour de la table 'commandes'
-    $stmt = $pdo->prepare("UPDATE commandes SET statut = 'paye' WHERE payment_ref = ?");
-    $stmt->execute([$ref]);
+  try {
+    $pdo->beginTransaction();
 
-    echo json_encode(["status" => "success", "message" => "Commande mise à jour"]);
-  } else {
-    // Si le statut est ECHEC ou autre
-    $stmt = $pdo->prepare("UPDATE commandes SET statut = 'echoue' WHERE payment_ref = ? AND statut = 'en_attente'");
-    $stmt->execute([$ref]);
+    if ($status === 'SUCCESS' || $status === 'COMPLETED') {
+      // 1. Mise à jour du paiement
+      $stmtPay = $pdo->prepare("UPDATE paiements SET statut_paiement = 'reussi', reference_operateur = ? WHERE reference_interne = ?");
+      $stmtPay->execute([$transId, $ref]);
 
-    echo json_encode(["status" => "error", "message" => "Statut de paiement non valide : " . $status]);
+      // 2. Mise à jour de la commande associée
+      $stmtCmd = $pdo->prepare("
+                UPDATE commandes 
+                SET statut = 'paye' 
+                WHERE id = (SELECT commande_id FROM paiements WHERE reference_interne = ?)
+            ");
+      $stmtCmd->execute([$ref]);
+
+      $pdo->commit();
+      echo json_encode(["status" => "success", "message" => "Paiement et commande validés"]);
+    } else {
+      // Échec du paiement
+      $stmtPay = $pdo->prepare("UPDATE paiements SET statut_paiement = 'echoue' WHERE reference_interne = ?");
+      $stmtPay->execute([$ref]);
+
+      $pdo->commit();
+      echo json_encode(["status" => "error", "message" => "Paiement échoué"]);
+    }
+  } catch (Exception $e) {
+    if ($pdo->inTransaction()) $pdo->rollBack();
+    error_log("CALLBACK ERROR: " . $e->getMessage());
+    echo json_encode(["status" => "error", "message" => "Erreur interne"]);
   }
 } else {
-  echo json_encode(["status" => "error", "message" => "Données reçues incomplètes"]);
+  echo json_encode(["status" => "error", "message" => "Données incomplètes"]);
 }

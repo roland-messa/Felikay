@@ -1,23 +1,37 @@
 <?php
 require_once '../../config/db.php';
 
-session_start();
+// Correction de l'erreur : On ne lance la session que si elle n'est pas déjà active
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
 
-// Vérification de sécurité
+// 1. Récupération et validation de l'ID
+$id = $_GET['id'] ?? $_GET['order'] ?? null;
+
+if (!$id || !is_numeric($id)) {
+  die("ID de commande invalide.");
+}
+
+// 2. Vérification du propriétaire de la commande
+$check = $pdo->prepare("SELECT user_id FROM commandes WHERE id = ?");
+$check->execute([$id]);
+$order_owner = $check->fetchColumn();
+
+if (!$order_owner) {
+  die("Commande introuvable.");
+}
+
+// Sécurité : admin ou propriétaire uniquement
 if (!isset($_SESSION['admin_id'])) {
-  $check = $pdo->prepare("SELECT user_id FROM commandes WHERE id = ?");
-  $check->execute([$_GET['id']]);
-  $order_owner = $check->fetchColumn();
+  $current_user_id = $_SESSION['user_id'] ?? null;
 
-  if ($order_owner != ($_SESSION['user_id'] ?? null)) {
-    die("Accès refusé.");
+  if (!$current_user_id || $order_owner != $current_user_id) {
+    die("Accès refusé. Vous n'êtes pas autorisé à voir cette facture.");
   }
 }
 
-$id = $_GET['id'] ?? null;
-if (!$id) die("ID de commande manquant.");
-
-// 1. Récupérer la commande avec LEFT JOIN pour inclure les infos de secours du profil user
+// 3. Récupération de la commande
 $cmd = $pdo->prepare("
     SELECT c.*, u.nom as user_nom, u.email as user_email, u.telephone as user_tel 
     FROM commandes c 
@@ -25,18 +39,28 @@ $cmd = $pdo->prepare("
     WHERE c.id = ?
 ");
 $cmd->execute([$id]);
-$order = $cmd->fetch();
+$order = $cmd->fetch(PDO::FETCH_ASSOC);
 
-if (!$order) die("Commande introuvable.");
+if (!$order) {
+  die("Erreur chargement commande.");
+}
 
-// Déterminer les informations à afficher (Priorité aux données saisies lors de l'achat)
+// 4. Récupération des produits
+$details = $pdo->prepare("
+    SELECT cd.*, p.nom 
+    FROM commande_details cd 
+    JOIN produits p ON cd.produit_id = p.id 
+    WHERE cd.commande_id = ?
+");
+$details->execute([$id]);
+$items = $details->fetchAll(PDO::FETCH_ASSOC);
+
+// Préparation affichage
 $nom_affichage = !empty($order['nom_complet']) ? $order['nom_complet'] : ($order['user_nom'] ?? 'Client');
 $tel_affichage = !empty($order['telephone']) ? $order['telephone'] : ($order['user_tel'] ?? 'N/A');
 
-// 2. Récupérer les produits de la commande
-$details = $pdo->prepare("SELECT cd.*, p.nom FROM commande_details cd JOIN produits p ON cd.produit_id = p.id WHERE cd.commande_id = ?");
-$details->execute([$id]);
-$items = $details->fetchAll();
+$frais_livraison = (float)($order['frais_livraison'] ?? 0);
+$sous_total = 0;
 ?>
 
 <!DOCTYPE html>
@@ -44,6 +68,7 @@ $items = $details->fetchAll();
 
 <head>
   <meta charset="UTF-8">
+  <title>Facture #ORD-<?= htmlspecialchars($order['id']) ?> | Felikay</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
   <style>
@@ -59,93 +84,115 @@ $items = $details->fetchAll();
       .no-print {
         display: none;
       }
+
+      body {
+        background: white;
+        padding: 0;
+      }
+
+      .shadow-lg {
+        border: none;
+        box-shadow: none;
+      }
     }
   </style>
 </head>
 
-<body class="bg-gray-50 py-10">
+<body class="bg-gray-100 py-10">
 
-  <div class="max-w-3xl mx-auto p-10 bg-white border border-slate-200 shadow-lg font-sans">
-    <div class="flex justify-between items-start border-b pb-8">
-      <div>
-        <h1 class="text-3xl font-serif italic text-slate-900">FELIKAY</h1>
-        <p class="text-xs text-slate-500 uppercase tracking-widest mt-1">Facture d'achat</p>
-      </div>
-      <div class="text-right text-xs text-slate-500">
-        <p class="font-bold text-slate-900">Facture #ORD-<?= $order['id'] ?></p>
-        <p>Date: <?= date('d/m/Y', strtotime($order['created_at'])) ?></p>
-        <p>Paiement: <?= strtoupper($order['methode_paiement'] ?? 'Livraison') ?></p>
-      </div>
+  <div class="max-w-4xl mx-auto p-12 bg-white border border-slate-200 shadow-lg relative">
+
+    <!-- Filigrane -->
+    <div class="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
+      <h1 class="text-9xl font-serif italic -rotate-12">Felikay</h1>
     </div>
 
-    <div class="grid grid-cols-2 gap-10 py-10">
-      <div>
-        <p class="text-[10px] uppercase font-bold text-slate-400 mb-2">Destinataire</p>
-        <p class="font-bold text-lg"><?= htmlspecialchars($nom_affichage) ?></p>
-        <p class="text-sm text-slate-600"><?= htmlspecialchars($order['adresse_livraison']) ?></p>
-        <p class="text-sm text-slate-600">
-          Q/ <?= htmlspecialchars($order['quartier'] ?? 'N/A') ?>,
-          C/ <?= htmlspecialchars($order['commune'] ?? 'N/A') ?>
-        </p>
-        <p class="text-sm text-slate-600"><?= htmlspecialchars($order['ville'] ?? 'Kinshasa') ?>, RDC</p>
-        <p class="text-sm font-semibold mt-2">Tél: <?= htmlspecialchars($tel_affichage) ?></p>
-      </div>
-      <div class="text-right">
-        <p class="text-[10px] uppercase font-bold text-slate-400 mb-2">Expéditeur</p>
-        <p class="font-bold">FELIKAY LUXURY</p>
-        <p class="text-sm text-slate-600">Gombe, Kinshasa</p>
-        <p class="text-sm text-slate-600">contact@felikay.com</p>
-      </div>
-    </div>
+    <div class="relative z-10">
 
-    <table class="w-full text-left text-sm mb-10">
-      <thead class="border-b-2 border-slate-900">
-        <tr>
-          <th class="py-3">Article</th>
-          <th class="py-3">Prix Unitaire</th>
-          <th class="py-3">Qté</th>
-          <th class="py-3 text-right">Total</th>
-        </tr>
-      </thead>
-      <tbody class="divide-y">
-        <?php foreach ($items as $item): ?>
-          <tr>
-            <td class="py-4">
-              <p class="font-bold"><?= htmlspecialchars($item['nom']) ?></p>
-              <p class="text-[10px] text-slate-400 uppercase">
-                <?= htmlspecialchars($item['taille_choisie'] ?? 'Standard') ?> /
-                <?= htmlspecialchars($item['couleur_choisie'] ?? 'Unique') ?>
-              </p>
-            </td>
-            <td class="py-4"><?= number_format($item['prix_unitaire'], 2) ?> $</td>
-            <td class="py-4"><?= $item['quantite'] ?></td>
-            <td class="py-4 text-right font-bold"><?= number_format($item['prix_unitaire'] * $item['quantite'], 2) ?> $</td>
+      <!-- Header avec Logo ajouté à côté du nom -->
+      <div class="flex justify-between items-start border-b border-black pb-8">
+        <div class="flex items-center gap-4">
+          <img src="/ProjetFelykay/assets/img/felikay.jpg" alt="Logo" class="w-16 h-16 object-cover rounded-full border border-gray-100 shadow-sm">
+          <div>
+            <h1 class="text-4xl font-serif italic font-bold">FELIKAY</h1>
+            <p class="text-[10px] text-slate-500 uppercase tracking-widest mt-1">
+              Maison de Mode • Kinshasa
+            </p>
+          </div>
+        </div>
+
+        <div class="text-right text-xs">
+          <p class="font-bold text-lg">Facture #ORD-<?= htmlspecialchars($order['id']) ?></p>
+          <p>Date: <?= date('d/m/Y H:i', strtotime($order['created_at'])) ?></p>
+          <p class="bg-slate-100 px-2 py-1 text-[9px] uppercase mt-1">
+            Statut: <?= htmlspecialchars($order['statut']) ?>
+          </p>
+        </div>
+      </div>
+
+      <!-- Client -->
+      <div class="grid grid-cols-2 gap-16 py-10">
+        <div>
+          <p class="text-[10px] uppercase font-bold text-gray-400 mb-2">Client</p>
+          <p class="font-bold text-lg"><?= htmlspecialchars($nom_affichage) ?></p>
+          <p><?= htmlspecialchars($order['adresse_livraison']) ?></p>
+          <p>Q/ <?= htmlspecialchars($order['quartier']) ?> - <?= htmlspecialchars($order['commune']) ?></p>
+          <p>Tél: <?= htmlspecialchars($tel_affichage) ?></p>
+        </div>
+
+        <div class="text-right">
+          <p class="text-[10px] uppercase font-bold text-gray-400 mb-2">Boutique</p>
+          <p class="font-bold">FELIKAY</p>
+          <p>Kinshasa, RDC</p>
+        </div>
+      </div>
+
+      <!-- Produits -->
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b font-bold text-[10px] uppercase">
+            <th class="text-left py-2">Produit</th>
+            <th class="text-center py-2">Prix</th>
+            <th class="text-center py-2">Qté</th>
+            <th class="text-right py-2">Total</th>
           </tr>
-        <?php endforeach; ?>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <?php foreach ($items as $item):
+            $total_ligne = $item['prix_unitaire'] * $item['quantite'];
+            $sous_total += $total_ligne;
+          ?>
+            <tr class="border-b">
+              <td class="py-3"><?= htmlspecialchars($item['nom']) ?></td>
+              <td class="text-center py-3"><?= number_format($item['prix_unitaire'], 2) ?> $</td>
+              <td class="text-center py-3"><?= $item['quantite'] ?></td>
+              <td class="text-right py-3"><?= number_format($total_ligne, 2) ?> $</td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
 
-    <div class="border-t-2 border-slate-900 pt-4 flex justify-between items-start">
-      <div class="text-xs text-slate-400 italic">
-        <?php if (($order['methode_paiement'] ?? '') !== 'online'): ?>
-          * À régler en espèces lors de la livraison.
-        <?php else: ?>
-          * Paiement effectué en ligne.
-        <?php endif; ?>
+      <!-- Total -->
+      <div class="mt-8 text-right">
+        <p class="text-sm text-gray-600">Sous-total : <?= number_format($sous_total, 2) ?> $</p>
+        <p class="text-sm text-gray-600">Livraison : <?= number_format($frais_livraison, 2) ?> $</p>
+        <div class="mt-2 border-t border-black pt-2 inline-block min-w-[200px]">
+          <p class="font-bold text-xl">
+            Total : <?= number_format($order['total_ttc'], 2) ?> USD
+          </p>
+        </div>
       </div>
-      <div class="text-right">
-        <p class="text-slate-500 text-xs">Total TTC</p>
-        <p class="text-3xl font-serif italic"><?= number_format($order['total_ttc'], 2) ?> USD</p>
-      </div>
-    </div>
 
-    <div class="mt-12 flex gap-4 no-print">
-      <button onclick="window.print()" class="px-8 py-3 bg-black text-white text-[10px] uppercase tracking-widest font-bold hover:bg-slate-800 transition-colors">
-        Imprimer la facture
-      </button>
-      <a href="javascript:history.back()" class="px-8 py-3 border border-slate-200 text-[10px] uppercase tracking-widest font-bold hover:bg-gray-50 transition-colors">
-        Retour
-      </a>
+      <!-- Actions -->
+      <div class="mt-10 no-print flex gap-4">
+        <button onclick="window.print()" class="bg-black text-white px-8 py-3 text-[10px] font-bold uppercase tracking-widest hover:bg-stone-800 transition">
+          Imprimer la facture
+        </button>
+        <a href="http://localhost/ProjetFelykay/index.php" class="border border-black px-8 py-3 text-[10px] font-bold uppercase tracking-widest hover:bg-black hover:text-white transition">
+          Retour boutique
+        </a>
+      </div>
+
     </div>
   </div>
 

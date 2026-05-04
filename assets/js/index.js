@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   renderCart();
+  updateCartCount(); // Mise à jour du badge au chargement
 
   const checkoutBtn = document.getElementById('checkout-button');
   if (checkoutBtn) {
@@ -92,9 +93,30 @@ function openPaymentSelection() {
   if (window.lucide) lucide.createIcons();
 }
 
+
+
 function confirmMethod(method) {
-  window.location.href = `/ProjetFelykay/pages/paiement.php?select=${method}`;
+  const cartData = localStorage.getItem('felikay_cart');
+
+  // On envoie les données au serveur pour les mettre en SESSION PHP
+  fetch('/ProjetFelykay/includes/sync_cart.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ cart: JSON.parse(cartData) })
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+
+        window.location.href = `/ProjetFelykay/pages/paiement.php?select=${method}`;
+      } else {
+        alert("Erreur lors de la préparation de la commande.");
+      }
+    })
+    .catch(error => console.error('Error:', error));
 }
+
+
 
 // --- 3. FONCTIONS GLOBALES DU PANIER ---
 
@@ -109,6 +131,7 @@ function toggleCart() {
 function saveAndRender() {
   localStorage.setItem('felikay_cart', JSON.stringify(cart));
   renderCart();
+  updateCartCount(); // Mise à jour instantanée du compteur dans la navbar
 }
 
 function addToCart(id, name, price, img, size = 'Unique', color = 'Standard') {
@@ -260,3 +283,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 5000);
   }
 });
+
+// --- 6. GESTION DU COMPTEUR NAVBAR ---
+
+function updateCartCount() {
+  const items = JSON.parse(localStorage.getItem('felikay_cart')) || [];
+  const totalCount = items.reduce((sum, item) => sum + item.quantity, 0);
+
+  document.querySelectorAll('.js-cart-count').forEach(el => {
+    el.innerText = totalCount;
+  });
+}

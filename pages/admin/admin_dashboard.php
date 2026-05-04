@@ -1,4 +1,5 @@
 <?php
+// C:\wamp64\www\ProjetFelykay\pages\admin\admin_dashboard.php
 
 require_once __DIR__ . '/../../config/db.php';
 require_once __DIR__ . '/../../includes/function.php';
@@ -7,9 +8,13 @@ isAdmin();
 $pageTitle = "Felikay Admin | Dashboard";
 include __DIR__ . '/../../includes/header.php';
 
+// --- INITIALISATION DES COMPTEURS ---
 $countArticles = $pdo->query("SELECT COUNT(*) FROM produits")->fetchColumn();
 $totalVentes = $pdo->query("SELECT SUM(total_ttc) FROM commandes WHERE statut = 'paye'")->fetchColumn() ?? 0;
 $countCommandes = $pdo->query("SELECT COUNT(*) FROM commandes")->fetchColumn();
+
+// AJOUT ICI : Définition de la variable pour éviter l'erreur "Undefined variable"
+$ruptures = get_low_stock_count($pdo, 0);
 
 try {
   // 1. Nombre total de vues aujourd'hui
@@ -26,6 +31,11 @@ try {
   $topPages = [];
 }
 
+// --- REQUÊTES POUR LES LIVRAISONS (Nécessaires pour l'onglet Delivery) ---
+$performances = $pdo->query("SELECT u.nom, COUNT(c.id) as total FROM users u INNER JOIN commandes c ON u.id = c.livreur_id WHERE c.statut = 'livre' GROUP BY u.nom")->fetchAll(PDO::FETCH_ASSOC);
+$historiqueLivraisons = $pdo->query("SELECT c.*, u.nom as nom_livreur FROM commandes c JOIN users u ON c.livreur_id = u.id WHERE c.statut = 'livre' ORDER BY c.updated_at DESC LIMIT 15")->fetchAll(PDO::FETCH_ASSOC);
+
+// --- REQUÊTE PRODUITS ---
 $sql_produits = "SELECT p.*, c.nom as cat_nom, 
                 GROUP_CONCAT(DISTINCT cl.code_hex) as les_couleurs,
                 GROUP_CONCAT(DISTINCT t.nom) as les_tailles
@@ -44,27 +54,28 @@ $allColors = $pdo->query("SELECT * FROM couleurs ORDER BY nom ASC")->fetchAll(PD
 $allSizes = $pdo->query("SELECT * FROM tailles ORDER BY id ASC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-
+<!-- Le reste de ton code HTML reste identique -->
 <div id="successToast" class="fixed top-10 left-1/2 -translate-x-1/2 z-[100] transform transition-all duration-500 translate-y-[-150%] opacity-0">
-  <div class="bg-black text-white px-8 py-4 rounded-2xl shadow-2xl flex items-center gap-4 border border-white/20">
-    <div id="toastIcon" class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-      <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-      </svg>
-    </div>
-    <div class="flex flex-col">
-      <span id="toastTitle" class="text-[11px] uppercase tracking-[0.2em] font-bold">Succès</span>
-      <span id="toastMessage" class="text-[10px] text-slate-300">Opération effectuée.</span>
-    </div>
-  </div>
+  <!-- ... contenu du toast ... -->
 </div>
 
-
-
-
+<!-- Ligne 66 : Maintenant $ruptures existe bien ! -->
+<?php if ($ruptures > 0): ?>
+  <div class="mb-8 p-4 bg-red-50 border-l-4 border-red-500 rounded-r-xl flex justify-between items-center mx-8 mt-4">
+    <div class="flex items-center gap-3">
+      <span class="text-2xl">⚠️</span>
+      <div>
+        <h4 class="text-sm font-bold text-red-800 uppercase tracking-tight">Alerte de Stock</h4>
+        <p class="text-xs text-red-600">Il y a <strong><?= $ruptures ?></strong> produit(s) en rupture de stock.</p>
+      </div>
+    </div>
+    <a href="#section-products" onclick="switchTab('products', 'Catalogue', event)" class="bg-red-600 text-white px-4 py-2 rounded-lg text-[10px] font-bold uppercase hover:bg-red-700 transition">
+      Voir les articles
+    </a>
+  </div>
+<?php endif; ?>
 
 <div class="flex min-h-screen bg-gray-100 font-sans text-slate-700">
-
   <?php include __DIR__ . '/includes/sidebar.php'; ?>
 
   <main class="flex-1 ml-64 p-8">
@@ -94,6 +105,10 @@ $allSizes = $pdo->query("SELECT * FROM tailles ORDER BY id ASC")->fetchAll(PDO::
 
     <div id="section-communes" class="tab-content hidden">
       <?php include __DIR__ . '/tabs/communes.php'; ?>
+    </div>
+
+    <div id="section-delivery" class="tab-content hidden">
+      <?php include 'tabs/delivery.php'; ?>
     </div>
 
     <div id="section-analytics" class="tab-content hidden">

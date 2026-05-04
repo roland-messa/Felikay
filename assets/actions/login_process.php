@@ -1,6 +1,6 @@
 <?php
 // C:\wamp64\www\ProjetFelykay\assets\actions\login_process.php
-require_once '../../config/db.php'; // session_start() est géré ici
+require_once '../../config/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     die("Session invalide ou expirée. Veuillez recharger la page de connexion.");
   }
 
-  // 2. Vérification CSRF (Anti-piratage de formulaire)
+  // 2. Vérification CSRF
   if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
     die("Erreur de sécurité (CSRF). Veuillez rafraîchir la page.");
   }
@@ -33,10 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // 4. VÉRIFICATION SIMPLIFIÉE (Texte brut autorisé)
     $isValid = false;
     if ($user) {
-      // On vérifie d'abord le hachage (pour jaden) OU le texte brut (pour Roland)
       if (password_verify($password, $user['password'])) {
         $isValid = true;
       } elseif ($password === $user['password']) {
@@ -45,19 +43,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($isValid) {
-      // SUCCÈS : Connexion établie
       session_regenerate_id(true);
 
       $_SESSION['login_attempts'] = 0;
       $_SESSION['last_activity'] = time();
       $_SESSION['user_id'] = $user['id'];
-      $_SESSION['user_nom'] = $user['nom'] ?? 'Admin';
-      $_SESSION['user_role'] = strtolower($user['role']);
+      $_SESSION['user_nom'] = $user['nom'] ?? 'Utilisateur';
+      $role = strtolower($user['role']);
+      $_SESSION['user_role'] = $role;
 
-      header("Location: ../../pages/admin/admin_dashboard.php");
+      // --- LOGIQUE DE REDIRECTION PAR RÔLE ---
+      if ($role === 'admin') {
+        header("Location: ../../pages/admin/admin_dashboard.php");
+      } elseif ($role === 'livreur') {
+        header("Location: ../../pages/livreur/dashboard.php");
+      } else {
+        // Si c'est un client qui tente de se connecter ici
+        header("Location: ../../index.php");
+      }
       exit();
     } else {
-      // ÉCHEC : Identifiants incorrects
       $_SESSION['login_attempts'] = $attempts + 1;
       header("Location: ../../pages/admin_login.php?msg=error_login");
       exit();
