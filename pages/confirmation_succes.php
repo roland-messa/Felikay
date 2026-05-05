@@ -2,25 +2,33 @@
 session_start();
 require_once '../config/db.php';
 
+// 1. Récupération de l'ID de la commande
 $commande_id = $_GET['order'] ?? $_GET['id'] ?? null;
 
-if (!$commande_id) {
+// Sécurité : Si pas d'ID ou si l'utilisateur n'est pas connecté, retour à l'accueil
+if (!$commande_id || !isset($_SESSION['user_id'])) {
   header("Location: ../index.php");
   exit();
 }
 
-// On vérifie le mode de paiement dans la table 'paiements'
+// 2. On vérifie les détails de la commande et du paiement
 $stmt = $pdo->prepare("
-    SELECT mode_paiement 
-    FROM paiements 
-    WHERE commande_id = ? 
+    SELECT c.id, p.mode_paiement 
+    FROM commandes c
+    LEFT JOIN paiements p ON c.id = p.commande_id
+    WHERE c.id = ? AND c.user_id = ?
     LIMIT 1
 ");
-$stmt->execute([$commande_id]);
-$mode = $stmt->fetchColumn();
+$stmt->execute([$commande_id, $_SESSION['user_id']]);
+$commande = $stmt->fetch();
 
-// CASH est la valeur utilisée dans process_cash.php
-$is_delivery = (strtoupper($mode) === 'CASH');
+if (!$commande) {
+  header("Location: ../index.php");
+  exit();
+}
+
+// CASH est la valeur utilisée pour le paiement à la livraison
+$is_delivery = (isset($commande['mode_paiement']) && strtoupper($commande['mode_paiement']) === 'CASH');
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +36,8 @@ $is_delivery = (strtoupper($mode) === 'CASH');
 
 <head>
   <meta charset="UTF-8">
-  <title>Felikay | Merci pour votre commande</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Felykay | Merci pour votre commande</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
   <style>
@@ -44,12 +53,12 @@ $is_delivery = (strtoupper($mode) === 'CASH');
 
 <body class="bg-[#FDFDFD] min-h-screen flex flex-col">
 
-  <!-- Header / Logo en haut -->
+  <!-- Header / Logo -->
   <header class="w-full py-8 flex flex-col items-center border-b border-stone-50 bg-white">
     <div class="w-16 h-16 rounded-full overflow-hidden border border-stone-100 mb-2 shadow-sm">
-      <img src="/ProjetFelykay/assets/img/felikay.jpg" alt="Logo Felikay" class="w-full h-full object-cover">
+      <img src="/ProjetFelykay/assets/img/felikay.jpg" alt="Logo Felykay" class="w-full h-full object-cover">
     </div>
-    <span class="font-serif text-xl font-bold uppercase tracking-[0.2em] italic">Felikay</span>
+    <span class="font-serif text-xl font-bold uppercase tracking-[0.2em] italic">Felykay</span>
     <p class="text-[9px] text-stone-400 uppercase tracking-widest mt-1">Kinshasa</p>
   </header>
 
@@ -72,9 +81,11 @@ $is_delivery = (strtoupper($mode) === 'CASH');
       </p>
 
       <div class="flex flex-col gap-4">
-        <a href="admin/generate_invoice.php?id=<?= htmlspecialchars($commande_id) ?>" target="_blank"
+        <!-- Lien vers le générateur de PDF (generer_recu.php) -->
+        <a href="../assets/actions/generer_recu.php?id=<?= htmlspecialchars($commande_id) ?>"
+          target="_blank"
           class="bg-black text-white px-8 py-5 uppercase text-[10px] font-bold tracking-widest hover:bg-stone-800 transition-all duration-300 shadow-lg shadow-black/5">
-          Télécharger la facture
+          Télécharger la facture (PDF)
         </a>
 
         <a href="../index.php" class="text-stone-400 text-[10px] uppercase font-bold tracking-widest hover:text-black transition-colors duration-300 py-2">
@@ -84,13 +95,13 @@ $is_delivery = (strtoupper($mode) === 'CASH');
     </div>
   </main>
 
-  <!-- Petit footer discret -->
+  <!-- Footer -->
   <footer class="py-8 text-center">
-    <p class="text-[10px] text-stone-300 uppercase tracking-widest">&copy; <?= date('Y') ?> Felikay Maison de Mode</p>
+    <p class="text-[10px] text-stone-300 uppercase tracking-widest">&copy; <?= date('Y') ?> Felykay Maison de Mode</p>
   </footer>
 
   <script>
-    // Nettoyage du panier après succès
+    // Nettoyage définitif du panier après la réussite du paiement
     localStorage.removeItem('felikay_cart');
   </script>
 </body>

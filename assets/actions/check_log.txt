@@ -1,0 +1,753 @@
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=FEL20260504192835268&phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?phone=243813189282&amount=1.00 => {"status":"error","message":"missing_parameters"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"already_processed","phone":"243813189282","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"already_processed","phone":"243813189282","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"already_processed","phone":"243813189282","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"already_processed","phone":"243813189282","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"already_processed","phone":"243813189282","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"already_processed","phone":"243813189282","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"already_processed","phone":"243813189282","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"already_processed","phone":"243813189282","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"already_processed","phone":"243813189282","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"already_processed","phone":"243813189282","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"already_processed","phone":"243813189282","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"already_processed","phone":"243813189282","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"already_processed","phone":"243813189282","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"already_processed","phone":"243813189282","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"already_processed","phone":"243813189282","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"already_processed","phone":"243813189282","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"already_processed","phone":"243813189282","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"already_processed","phone":"243813189282","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"already_processed","phone":"243813189282","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"already_processed","phone":"243813189282","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"already_processed","phone":"243813189282","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"pending","phone":"243811669604","amount":1.00,"created":"\/Date(1777923784007)\/"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"pending","phone":"243811669604","amount":1.00,"created":"\/Date(1777923784007)\/"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"pending","phone":"243811669604","amount":1.00,"created":"\/Date(1777923784007)\/"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"pending","phone":"243811669604","amount":1.00,"created":"\/Date(1777923784007)\/"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"success","phone":"243811669604","amount":1.00,"date":"\/Date(1777916608737)\/"}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:13:42 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:13:46 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:13:50 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:13:54 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:13:58 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:14:02 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:14:06 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:14:10 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:14:14 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:14:18 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:14:22 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:14:26 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:14:30 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:14:34 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:14:38 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:14:42 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:14:46 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:14:50 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:14:54 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:14:58 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:15:02 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:15:06 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:15:10 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:15:14 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:15:18 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:15:22 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:15:26 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:15:30 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:15:34 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:15:38 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:16:20 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:16:22 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:17:30 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:17:34 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:17:38 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:17:42 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:17:46 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:17:50 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:17:54 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:17:58 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:18:02 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:18:06 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:18:10 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:18:14 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:18:18 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:18:22 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:18:26 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:18:30 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:18:34 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:18:38 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:18:42 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:18:46 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:18:50 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:18:54 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:18:58 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:19:02 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:19:06 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:19:10 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:19:14 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:19:18 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:19:22 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:19:26 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:19:30 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:19:34 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:19:38 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:19:42 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:19:46 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:19:50 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:19:54 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:19:58 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:20:02 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:20:06 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:20:10 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:20:14 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:20:18 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:20:22 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:20:26 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:20:30 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:20:34 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:20:38 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:20:42 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:20:46 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:20:50 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:20:54 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:20:58 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:21:02 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:21:06 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:21:10 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:21:14 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:21:18 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:21:22 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:21:26 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:21:30 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:21:34 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:21:38 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:21:42 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:21:46 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:21:50 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:21:54 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:21:58 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:22:02 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:22:06 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:22:10 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:22:14 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:22:18 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:22:22 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:22:26 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:22:30 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:22:34 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:22:38 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:22:42 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:22:46 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:22:50 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:22:54 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:22:58 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:23:02 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:23:06 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:23:10 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:23:14 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:23:19 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:23:22 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:23:26 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:23:30 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:23:34 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:23:38 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:23:42 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:23:46 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:23:50 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:23:54 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:23:58 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:24:02 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:24:06 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:24:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:25:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:26:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:27:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:28:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:29:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:30:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:31:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:32:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:33:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:34:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:35:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:36:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:37:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:38:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:39:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:40:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:41:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:42:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:43:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:44:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:45:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:46:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:47:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:48:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:49:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:50:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:51:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 20:52:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:14:10 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:14:14 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:14:18 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:14:22 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:14:26 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:14:30 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:14:34 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:14:38 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:14:42 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:14:46 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:14:50 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:14:54 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:14:58 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:15:02 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:15:06 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:15:10 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:15:14 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:15:18 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:15:22 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:15:26 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:15:30 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:15:34 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:15:38 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:15:42 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:15:46 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:15:50 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:15:54 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:15:58 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:16:02 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:16:09 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:16:10 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:16:14 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:16:18 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:16:22 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:16:26 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:16:34 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:16:35 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:16:38 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:16:42 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:16:46 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:16:50 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:16:54 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:16:58 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:17:02 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:17:06 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:17:10 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:17:14 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:17:18 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:17:22 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:17:26 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:17:30 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:17:34 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:17:38 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:17:42 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:17:46 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:17:50 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:17:54 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:17:58 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:18:02 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:18:06 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:18:10 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:18:14 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:18:18 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:18:22 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:18:26 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:18:30 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:18:34 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:18:38 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:18:42 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:18:46 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:18:50 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:18:54 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:18:58 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:19:02 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:19:06 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:19:10 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:19:14 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:19:18 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:19:22 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:19:26 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:19:30 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:19:34 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:19:38 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:19:42 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:19:46 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:19:50 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:20:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:21:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:22:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"already_processed","phone":"243811669604","amount":1.00}
+2026-05-04 21:23:37 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"success","phone":"243811669604","amount":1.00,"date":"\/Date(1777922062447)\/"}
+2026-05-04 21:24:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"success","phone":"243811669604","amount":1.00,"date":"\/Date(1777918666137)\/"}
+2026-05-04 21:24:36 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:24:38 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:24:42 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:24:46 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:24:50 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:24:54 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:24:58 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:25:02 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:25:06 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:25:10 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:25:14 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:25:18 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:25:22 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:25:26 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:25:30 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:25:34 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:25:38 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:25:42 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:25:46 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:25:50 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:25:54 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:25:58 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:26:02 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:26:06 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:26:10 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:26:14 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:26:18 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:26:22 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:26:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:27:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:28:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:29:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:30:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:31:07 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:31:10 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:31:14 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:31:18 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:31:22 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:31:26 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:31:30 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:31:34 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:31:38 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:32:28 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"pending","phone":"243811669604","amount":1.00,"created":"\/Date(1777930341850)\/"}
+2026-05-04 21:32:32 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"pending","phone":"243811669604","amount":1.00,"created":"\/Date(1777930341850)\/"}
+2026-05-04 21:32:36 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"pending","phone":"243811669604","amount":1.00,"created":"\/Date(1777930341850)\/"}
+2026-05-04 21:32:40 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"pending","phone":"243811669604","amount":1.00,"created":"\/Date(1777930341850)\/"}
+2026-05-04 21:32:44 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"pending","phone":"243811669604","amount":1.00,"created":"\/Date(1777930341850)\/"}
+2026-05-04 21:32:48 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"success","phone":"243811669604","amount":1.00,"date":"\/Date(1777923167150)\/"}
+2026-05-04 21:32:52 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:32:56 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:33:00 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:33:04 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:33:08 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:33:12 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:33:16 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:33:20 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:33:24 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:33:28 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:33:32 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:33:36 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:33:40 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:33:44 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:33:48 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:33:52 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:33:56 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:34:00 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:34:04 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:34:08 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:34:12 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:34:16 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:34:20 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:34:24 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:34:28 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:34:32 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:34:36 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:34:40 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:34:44 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:34:50 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:34:52 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:34:56 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:35:00 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:35:04 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:35:08 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:35:12 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:35:16 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:35:21 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:35:24 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:35:28 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:35:32 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:35:36 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:35:40 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:35:44 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:35:48 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:35:52 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:35:56 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:36:00 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:36:04 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:36:08 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:36:12 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:36:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:37:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:38:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:39:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:40:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:41:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:41:38 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:41:40 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:41:44 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:41:48 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:41:52 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:41:56 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:42:00 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:42:04 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:42:08 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:42:12 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:42:16 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:42:20 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:42:24 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:42:28 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:42:32 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:42:36 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:42:40 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:42:44 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:42:48 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:42:52 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:42:56 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:43:00 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:43:04 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:43:08 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:43:12 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:43:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:44:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:45:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:46:21 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:46:24 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:46:28 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:46:32 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:46:36 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:46:40 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:46:44 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:46:48 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:46:52 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:46:56 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:47:00 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:47:04 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:47:08 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:47:12 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:47:16 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:47:20 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:47:24 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:47:28 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:47:32 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:47:36 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:47:40 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:48:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:49:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:50:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:51:34 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-04 21:52:33 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 07:09:16 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => 
+2026-05-05 07:09:17 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => 
+2026-05-05 07:09:28 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => 
+2026-05-05 07:10:28 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => 
+2026-05-05 07:11:28 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => 
+2026-05-05 07:12:28 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => 
+2026-05-05 07:13:28 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => 
+2026-05-05 07:14:28 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => 
+2026-05-05 07:15:28 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => 
+2026-05-05 07:16:28 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => 
+2026-05-05 07:17:28 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => 
+2026-05-05 07:18:28 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => 
+2026-05-05 07:19:28 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => 
+2026-05-05 07:36:25 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => 
+2026-05-05 07:36:28 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => 
+2026-05-05 11:10:09 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => 
+2026-05-05 11:10:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => 
+2026-05-05 11:11:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => 
+2026-05-05 11:12:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => 
+2026-05-05 11:13:26 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:14:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:15:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:16:24 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:17:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:18:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:19:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:20:24 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:21:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:22:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:23:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:24:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:25:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:26:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:27:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:28:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:29:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:30:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:31:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:32:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:33:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:34:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:35:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:36:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:37:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:38:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:39:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:40:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:41:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:42:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:43:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:44:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:45:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:46:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:47:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:48:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:49:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:50:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:51:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:52:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:53:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:54:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:55:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:56:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:57:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:58:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 11:59:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 12:00:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 12:01:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 12:02:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 12:03:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 12:04:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 12:05:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 12:06:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 12:07:24 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 12:08:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 12:09:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 12:47:06 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 12:47:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 12:48:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 12:49:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 12:50:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 12:51:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 12:52:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 12:53:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 12:54:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 12:55:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 12:56:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 12:57:24 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 12:58:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 12:59:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:00:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:01:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:02:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:03:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:04:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:05:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:06:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:07:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:08:24 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:09:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:10:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:11:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:12:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:13:24 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:14:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:15:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:16:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:17:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:18:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:19:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:20:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:21:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:22:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:23:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:24:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:25:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:26:24 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:27:24 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:28:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:29:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:30:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:31:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:32:24 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:33:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:34:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:35:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:36:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:36:57 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 13:36:59 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811669604&amount=1.00 => {"status":"failed","phone":"243811669604","amount":1.00}
+2026-05-05 14:39:43 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777991978393)\/"}
+2026-05-05 14:39:46 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777991978393)\/"}
+2026-05-05 14:39:51 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777991978393)\/"}
+2026-05-05 14:39:56 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777991978393)\/"}
+2026-05-05 14:40:01 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777991978393)\/"}
+2026-05-05 14:40:06 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777991978393)\/"}
+2026-05-05 14:40:11 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777991978393)\/"}
+2026-05-05 14:40:16 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777991978393)\/"}
+2026-05-05 14:40:22 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777991978393)\/"}
+2026-05-05 14:40:27 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777991978393)\/"}
+2026-05-05 14:40:31 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777991978393)\/"}
+2026-05-05 14:40:36 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777991978393)\/"}
+2026-05-05 14:40:41 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777991978393)\/"}
+2026-05-05 14:40:46 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777991978393)\/"}
+2026-05-05 14:40:51 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777991978393)\/"}
+2026-05-05 14:40:56 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777991978393)\/"}
+2026-05-05 14:41:01 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777991978393)\/"}
+2026-05-05 14:41:06 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777991978393)\/"}
+2026-05-05 14:41:14 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777991978393)\/"}
+2026-05-05 14:41:19 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777991978393)\/"}
+2026-05-05 14:41:24 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777991978393)\/"}
+2026-05-05 14:41:29 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777991978393)\/"}
+2026-05-05 14:41:34 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777991978393)\/"}
+2026-05-05 14:41:39 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777991978393)\/"}
+2026-05-05 14:41:44 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777991978393)\/"}
+2026-05-05 14:42:32 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777992149527)\/"}
+2026-05-05 14:42:37 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777992149527)\/"}
+2026-05-05 14:42:42 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777992149527)\/"}
+2026-05-05 14:42:47 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777992149527)\/"}
+2026-05-05 14:42:52 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777992149527)\/"}
+2026-05-05 14:42:57 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777992149527)\/"}
+2026-05-05 14:43:01 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243811422948&amount=1.00 => {"status":"pending","phone":"243811422948","amount":1.00,"created":"\/Date(1777992149527)\/"}
+2026-05-05 14:57:47 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777993063147)\/"}
+2026-05-05 14:57:51 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777993063147)\/"}
+2026-05-05 14:57:56 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777993063147)\/"}
+2026-05-05 14:58:01 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777993063147)\/"}
+2026-05-05 14:58:06 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777993063147)\/"}
+2026-05-05 14:58:11 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"success","phone":"243813189282","amount":1.00,"date":"\/Date(1777985890490)\/"}
+2026-05-05 14:58:16 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 14:58:21 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 14:58:26 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 14:58:32 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 14:58:36 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 14:58:41 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 14:58:46 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 14:58:51 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 14:58:56 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 14:59:02 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 14:59:06 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 14:59:11 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:35:26 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:35:31 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:35:36 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:35:41 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:35:46 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:35:51 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:35:56 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:36:01 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:36:06 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:36:11 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:36:16 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:36:21 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:36:26 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:36:31 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:36:36 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:47:46 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:47:50 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:47:56 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:48:00 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:48:05 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:48:10 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:48:15 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:48:20 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:48:25 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:48:30 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:48:47 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777996126403)\/"}
+2026-05-05 15:48:48 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777996126403)\/"}
+2026-05-05 15:48:49 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777996126403)\/"}
+2026-05-05 15:48:53 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777996126403)\/"}
+2026-05-05 15:48:57 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777996126403)\/"}
+2026-05-05 15:49:03 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777996126403)\/"}
+2026-05-05 15:49:07 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"success","phone":"243813189282","amount":1.00,"date":"\/Date(1777988946477)\/"}
+2026-05-05 15:49:12 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:49:17 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:49:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:49:24 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:49:27 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:49:32 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:49:37 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:49:42 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:49:47 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:49:52 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:49:57 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:50:02 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:50:07 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:50:12 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:50:17 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:50:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:51:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:52:23 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 15:53:24 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777923517267)\/"}
+2026-05-05 16:29:55 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777998592283)\/"}
+2026-05-05 16:30:00 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777998592283)\/"}
+2026-05-05 16:30:05 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777998592283)\/"}
+2026-05-05 16:30:09 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"pending","phone":"243813189282","amount":1.00,"created":"\/Date(1777998592283)\/"}
+2026-05-05 16:30:14 | https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?clientphone=243813189282&amount=1.00 => {"status":"success","phone":"243813189282","amount":1.00,"date":"\/Date(1777991413200)\/"}

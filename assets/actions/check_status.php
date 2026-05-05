@@ -1,18 +1,17 @@
 <?php
 require_once '../../config/db.php';
-
 header('Content-Type: application/json');
 
 $ref = $_GET['ref'] ?? '';
 
 if (empty($ref)) {
-  echo json_encode(['status' => 'error', 'message' => 'Référence manquante']);
+  echo json_encode(['status' => 'error', 'message' => 'Paramètres manquants']);
   exit;
 }
 
 try {
-  // 1. On vérifie d'abord en base de données locale
-  $stmt = $pdo->prepare("SELECT statut_paiement, commande_id FROM paiements WHERE reference_interne = ?");
+  // 🔍 1. Récupération paiement
+  $stmt = $pdo->prepare("SELECT * FROM paiements WHERE reference_interne = ?");
   $stmt->execute([$ref]);
   $paiement = $stmt->fetch();
 
@@ -21,50 +20,87 @@ try {
     exit;
   }
 
-  // 2. Si c'est déjà payé ou échoué en local, on répond tout de suite
-  if ($paiement['statut_paiement'] !== 'en_attente') {
+  // 🔒 2. VERROU GLOBAL (Source de vérité BDD)
+  // On utilise 'reussi' pour correspondre à ton ENUM BDD
+  if ($paiement['statut_paiement'] === 'reussi' || $paiement['statut_paiement'] === 'paye') {
     echo json_encode([
-      'status' => $paiement['statut_paiement'],
+      'status' => 'reussi',
       'commande_id' => $paiement['commande_id']
     ]);
     exit;
   }
 
-  // 3. Sinon, on interroge l'API AfreeMosi pour vérifier s'il y a du nouveau
-  $apiUrl = "https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?ref=" . urlencode($ref);
+  if ($paiement['statut_paiement'] === 'echoue') {
+    echo json_encode([
+      'status' => 'echoue',
+      'commande_id' => $paiement['commande_id']
+    ]);
+    exit;
+  }
+
+  // 📡 3. Préparation API
+  $phone = preg_replace('/[^0-9]/', '', $paiement['telephone_paiement']);
+  $amount = number_format(floatval($paiement['montant']), 2, '.', '');
+
+  $apiUrl = "https://www.afreemosi.com/api/payment/CheckFelikayPaymentStatus.ashx?"
+    . http_build_query([
+      "clientphone" => $phone,
+      "amount" => $amount
+    ]);
+
   $ch = curl_init($apiUrl);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   curl_setopt($ch, CURLOPT_TIMEOUT, 10);
   $response = curl_exec($ch);
   curl_close($ch);
 
+  file_put_contents("check_log.txt", date('Y-m-d H:i:s') . " | $apiUrl => $response\n", FILE_APPEND);
+
   $data = json_decode($response, true);
 
+  // 🧠 4. Analyse réponse API
+  $newStatus = 'en_attente';
   if ($data && isset($data['status'])) {
     $apiStatus = strtolower($data['status']);
-    $newStatus = 'en_attente';
 
-    if (in_array($apiStatus, ['success', 'reussi', 'paye'])) $newStatus = 'paye';
-    if (in_array($apiStatus, ['failed', 'echoue', 'error'])) $newStatus = 'echoue';
-
-    // Mises à jour si le statut a changé
-    if ($newStatus !== 'en_attente') {
-      $pdo->prepare("UPDATE paiements SET statut_paiement = ?, updated_at = NOW() WHERE reference_interne = ?")
-        ->execute([$newStatus, $ref]);
-
-      if ($newStatus === 'paye') {
-        $pdo->prepare("UPDATE commandes SET statut = 'paye' WHERE id = ?")
-          ->execute([$paiement['commande_id']]);
-      }
+    if (in_array($apiStatus, ['success', 'reussi', 'paye', 'already_processed'])) {
+      $newStatus = 'reussi';
+    } elseif (in_array($apiStatus, ['failed', 'echoue', 'error'])) {
+      $newStatus = 'echoue';
     }
 
-    echo json_encode([
-      'status' => $newStatus,
-      'commande_id' => $paiement['commande_id']
-    ]);
-  } else {
-    echo json_encode(['status' => 'en_attente']);
+    // ⚠️ 5. UPDATE SÉCURISÉ (Correction updated_at)
+    if ($newStatus !== 'en_attente') {
+
+      $update = $pdo->prepare("
+                UPDATE paiements 
+                SET statut_paiement = ?, updated_at = NOW() 
+                WHERE reference_interne = ? AND statut_paiement = 'en_attente'
+            ");
+      $update->execute([$newStatus, $ref]);
+
+      if ($update->rowCount() > 0) {
+        if ($newStatus === 'reussi') {
+          $pdo->prepare("UPDATE commandes SET statut = 'paye' WHERE id = ?")
+            ->execute([$paiement['commande_id']]);
+        }
+      } else {
+        // Quelqu’un a déjà modifié -> on récupère l'état actuel
+        $stmt = $pdo->prepare("SELECT statut_paiement FROM paiements WHERE reference_interne = ?");
+        $stmt->execute([$ref]);
+        $current = $stmt->fetchColumn();
+        $newStatus = $current ?: 'en_attente';
+      }
+    }
   }
+
+  echo json_encode([
+    'status' => $newStatus,
+    'commande_id' => $paiement['commande_id']
+  ]);
 } catch (Exception $e) {
-  echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+  echo json_encode([
+    'status' => 'error',
+    'message' => $e->getMessage()
+  ]);
 }

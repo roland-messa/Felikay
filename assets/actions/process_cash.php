@@ -25,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $phone = '243' . substr($clean_phone, -9);
 
   // ====== MONTANT ======
-  // Utilisation de floatval pour la précision multi-devise
   $total = floatval($_POST['total_ttc'] ?? 0);
   $frais_livraison = floatval($_POST['frais_livraison'] ?? 0);
 
@@ -34,8 +33,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit();
   }
 
-  // Génération d'un code de confirmation pour le suivi
+  // Génération d'un code de confirmation pour le suivi client
   $code_confirmation = rand(1000, 9999);
+
+  // Génération de la référence interne pour la table paiements
+  $ref_interne = "CASH" . date('YmdHis') . rand(100, 999);
 
   try {
     $pdo->beginTransaction();
@@ -103,15 +105,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       throw new Exception("Le panier est vide.");
     }
 
-    // ====== 3. INSERT PAIEMENT ======
+    // ====== 3. INSERT PAIEMENT (Version Corrigée avec Référence) ======
     $stmtPay = $pdo->prepare("
             INSERT INTO paiements (
                 commande_id, mode_paiement, telephone_paiement, montant,
-                statut_paiement, created_at
-            ) VALUES (?, 'CASH', ?, ?, 'en_attente', NOW())
+                reference_interne, statut_paiement, created_at
+            ) VALUES (?, 'CASH', ?, ?, ?, 'en_attente', NOW())
         ");
 
-    $stmtPay->execute([$commande_id, $phone, $total]);
+    $stmtPay->execute([
+      $commande_id,
+      $phone,
+      $total,
+      $ref_interne
+    ]);
 
     $pdo->commit();
 

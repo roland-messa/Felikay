@@ -48,8 +48,50 @@ $selected_method = $_GET['select'] ?? 'online';
       box-shadow: 0 0 0 1px #000;
     }
 
-    .modal-active {
-      overflow: hidden;
+    /* Toggle Switch Style */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 20px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 20px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 14px;
+      width: 14px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked+.slider {
+      background-color: #000;
+    }
+
+    input:checked+.slider:before {
+      transform: translateX(20px);
     }
   </style>
 </head>
@@ -65,28 +107,10 @@ $selected_method = $_GET['select'] ?? 'online';
 
   <main class="max-w-[1200px] mx-auto px-6 py-12">
 
-    <!-- Affichage des alertes d'erreurs -->
-    <?php if (isset($_GET['error']) || isset($_GET['msg'])): ?>
-      <div class="mb-8 p-4 bg-red-50 border-l-4 border-red-600 text-red-800 shadow-sm animate-pulse">
-        <div class="flex items-center mb-1">
-          <i data-lucide="alert-circle" class="w-5 h-5 mr-2"></i>
-          <span class="font-bold uppercase text-[10px] tracking-widest">Échec de la transaction</span>
-        </div>
-        <p class="text-sm">
-          <?php
-          $error_type = $_GET['error'] ?? '';
-          echo ($error_type === 'invalid_phone') ? "Le numéro de téléphone est incorrect (9 chiffres attendus)." : htmlspecialchars($_GET['msg'] ?? 'Une erreur est survenue.');
-          ?>
-        </p>
-      </div>
-    <?php endif; ?>
-
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
-
       <section>
-        <form id="checkout-form" action="../assets/actions/process_order.php" method="POST" class="space-y-6">
+        <form id="checkout-form" action="" method="POST" class="space-y-6">
           <input type="hidden" name="payment_method" value="<?= $selected_method ?>">
-          <input type="hidden" name="include_delivery" value="on">
 
           <h2 class="font-serif text-2xl italic mb-6">Vos informations</h2>
           <div class="space-y-4">
@@ -94,13 +118,37 @@ $selected_method = $_GET['select'] ?? 'online';
             <input type="email" name="email" placeholder="Email" value="<?= htmlspecialchars($email) ?>" <?= $user_id ? 'readonly' : 'required' ?> class="w-full border border-gray-200 p-3 text-sm outline-none <?= $user_id ? 'bg-gray-50' : '' ?>">
           </div>
 
-          <!-- Détails de livraison obligatoires -->
-          <div id="address-section" class="space-y-4 pt-6 border-t border-gray-100">
+          <!-- OPTION DE LIVRAISON -->
+          <div class="pt-6 border-t border-gray-100">
+            <div class="flex items-center justify-between bg-gray-50 p-4 rounded border border-gray-100">
+              <div>
+                <h3 class="text-sm font-bold uppercase tracking-widest">Se faire livrer ?</h3>
+                <p class="text-[10px] text-gray-500">Cochez pour une livraison à domicile</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="delivery_toggle" name="include_delivery" onchange="toggleDelivery()">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- BLOC ADRESSE BOUTIQUE (Affiché par défaut) -->
+          <div id="shop-address" class="p-4 border border-dashed border-gray-300 bg-white space-y-2">
+            <div class="flex items-center gap-2 text-black">
+              <i data-lucide="store" class="w-4 h-4"></i>
+              <span class="text-[10px] font-bold uppercase tracking-widest">Retrait en boutique (Gratuit)</span>
+            </div>
+            <p class="text-sm text-gray-600">28 cadeco ; Commune de la gombe</p>
+            <p class="text-[11px] text-stone-400 italic">Réf : Place des Évolués / Cuisine Parfaite</p>
+          </div>
+
+          <!-- FORMULAIRE LIVRAISON (Masqué par défaut) -->
+          <div id="address-section" class="hidden space-y-4 animate-fadeIn">
             <h2 class="font-serif text-xl italic">Détails de livraison</h2>
             <div class="grid grid-cols-2 gap-4">
               <div class="space-y-1">
                 <label class="text-[9px] uppercase font-bold tracking-widest text-stone-400">Commune</label>
-                <select name="commune" id="commune_select" required class="w-full border border-gray-200 p-3 text-sm bg-white outline-none focus:border-black">
+                <select name="commune" id="commune_select" class="w-full border border-gray-200 p-3 text-sm bg-white outline-none focus:border-black">
                   <option value="" disabled selected>Choisir...</option>
                   <option value="Gombe">Gombe</option>
                   <option value="Ngaliema">Ngaliema</option>
@@ -129,65 +177,52 @@ $selected_method = $_GET['select'] ?? 'online';
                 </select>
               </div>
               <div class="space-y-1">
-                <label class="text-[9px] uppercase font-bold tracking-widest text-stone-400">Téléphone de contact</label>
-                <input type="tel" name="phone" placeholder="082..." value="<?= htmlspecialchars($telephone) ?>" required class="w-full border border-gray-200 p-3 text-sm outline-none focus:border-black">
+                <label class="text-[9px] uppercase font-bold tracking-widest text-stone-400">Téléphone contact</label>
+                <input type="tel" name="phone" placeholder="082..." value="<?= htmlspecialchars($telephone) ?>" class="w-full border border-gray-200 p-3 text-sm outline-none focus:border-black">
               </div>
             </div>
 
             <div class="grid grid-cols-3 gap-4">
               <div class="col-span-2 space-y-1">
                 <label class="text-[9px] uppercase font-bold tracking-widest text-stone-400">Avenue</label>
-                <input type="text" name="avenue" placeholder="Ex: Avenue de l'Équateur" required class="w-full border border-gray-200 p-3 text-sm outline-none focus:border-black">
+                <input type="text" name="avenue" placeholder="Ex: Avenue de l'Équateur" class="w-full border border-gray-200 p-3 text-sm outline-none focus:border-black">
               </div>
               <div class="space-y-1">
                 <label class="text-[9px] uppercase font-bold tracking-widest text-stone-400">Numéro</label>
-                <input type="text" name="numero" placeholder="Ex: 12 bis" required class="w-full border border-gray-200 p-3 text-sm outline-none focus:border-black">
+                <input type="text" name="numero" placeholder="Ex: 12" class="w-full border border-gray-200 p-3 text-sm outline-none focus:border-black">
               </div>
             </div>
 
             <div class="grid grid-cols-2 gap-4">
               <div class="space-y-1">
                 <label class="text-[9px] uppercase font-bold tracking-widest text-stone-400">Quartier</label>
-                <input type="text" name="quartier" id="quartier_input" placeholder="Nom du quartier" required class="w-full border border-gray-200 p-3 text-sm outline-none focus:border-black">
+                <input type="text" name="quartier" id="quartier_input" placeholder="Quartier" class="w-full border border-gray-200 p-3 text-sm outline-none focus:border-black">
               </div>
               <div class="space-y-1">
-                <label class="text-[9px] uppercase font-bold tracking-widest text-stone-400">Référence précise</label>
-                <input type="text" name="reference" placeholder="Ex: Près de l'arrêt bus" required class="w-full border border-gray-200 p-3 text-sm outline-none focus:border-black">
+                <label class="text-[9px] uppercase font-bold tracking-widest text-stone-400">Référence</label>
+                <input type="text" name="reference" placeholder="Ex: Près de..." class="w-full border border-gray-200 p-3 text-sm outline-none focus:border-black">
               </div>
             </div>
-            <input type="hidden" name="frais_livraison" id="frais_livraison_input" value="0">
           </div>
+
+          <input type="hidden" name="frais_livraison" id="frais_livraison_input" value="0">
 
           <?php if ($selected_method === 'online'): ?>
             <div id="gateways-container" class="space-y-4 pt-6 border-t border-gray-100">
               <h2 class="font-serif text-xl italic">Mode de paiement</h2>
-
               <div class="grid grid-cols-3 gap-3">
-
-                <!-- M-PESA -->
                 <div>
                   <input type="radio" name="gateway" id="mpesa" value="MP" class="payment-radio hidden" checked>
-                  <label for="mpesa" class="flex items-center justify-center border border-gray-200 p-2 cursor-pointer rounded h-14 bg-white">
-                    <img src="/ProjetFelykay/assets/img/Mpesa.jpg" class="h-6 object-contain">
-                  </label>
+                  <label for="mpesa" class="flex items-center justify-center border border-gray-200 p-2 cursor-pointer rounded h-14 bg-white"><img src="/ProjetFelykay/assets/img/Mpesa.jpg" class="h-6 object-contain"></label>
                 </div>
-
-                <!-- AIRTEL MONEY -->
                 <div>
                   <input type="radio" name="gateway" id="airtel" value="AM" class="payment-radio hidden">
-                  <label for="airtel" class="flex items-center justify-center border border-gray-200 p-2 cursor-pointer rounded h-14 bg-white">
-                    <img src="/ProjetFelykay/assets/img/airtel.jpg" class="h-6 object-contain">
-                  </label>
+                  <label for="airtel" class="flex items-center justify-center border border-gray-200 p-2 cursor-pointer rounded h-14 bg-white"><img src="/ProjetFelykay/assets/img/airtel.jpg" class="h-6 object-contain"></label>
                 </div>
-
-                <!-- ORANGE MONEY -->
                 <div>
                   <input type="radio" name="gateway" id="orange" value="OM" class="payment-radio hidden">
-                  <label for="orange" class="flex items-center justify-center border border-gray-200 p-2 cursor-pointer rounded h-14 bg-white">
-                    <img src="/ProjetFelykay/assets/img/orangeMoney.jpg" class="h-6 object-contain">
-                  </label>
+                  <label for="orange" class="flex items-center justify-center border border-gray-200 p-2 cursor-pointer rounded h-14 bg-white"><img src="/ProjetFelykay/assets/img/orangeMoney.jpg" class="h-6 object-contain"></label>
                 </div>
-
               </div>
 
               <div class="pt-3">
@@ -231,6 +266,40 @@ $selected_method = $_GET['select'] ?? 'online';
     let deliveryFee = 0;
     let typingTimer;
 
+    function toggleDelivery() {
+      const isDelivery = document.getElementById('delivery_toggle').checked;
+      const addressSection = document.getElementById('address-section');
+      const shopAddress = document.getElementById('shop-address');
+
+      // On cible tous les champs de saisie dans la section adresse
+      const inputs = addressSection.querySelectorAll('input, select');
+
+      if (isDelivery) {
+        addressSection.classList.remove('hidden');
+        shopAddress.classList.add('hidden');
+
+        // On rend les champs obligatoires seulement s'ils sont visibles
+        inputs.forEach(input => {
+          input.setAttribute('required', '');
+        });
+
+        fetchDeliveryPrice();
+      } else {
+        addressSection.classList.add('hidden');
+        shopAddress.classList.remove('hidden');
+
+        // IMPORTANT : On retire l'obligation pour ne pas bloquer le formulaire
+        inputs.forEach(input => {
+          input.removeAttribute('required');
+          input.value = ""; // Optionnel : vide le champ
+        });
+
+        deliveryFee = 0;
+        document.getElementById('frais_livraison_input').value = 0;
+        updateFinalDisplay();
+      }
+    }
+
     function updateFinalDisplay() {
       const subtotal = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
       const finalTotal = subtotal + deliveryFee;
@@ -242,6 +311,9 @@ $selected_method = $_GET['select'] ?? 'online';
     }
 
     async function fetchDeliveryPrice() {
+      const isDelivery = document.getElementById('delivery_toggle').checked;
+      if (!isDelivery) return;
+
       const commune = document.getElementById('commune_select').value;
       const quartier = document.getElementById('quartier_input').value;
 
@@ -258,8 +330,6 @@ $selected_method = $_GET['select'] ?? 'online';
       }
     }
 
-
-
     function submitFinalForm() {
       const form = document.getElementById('checkout-form');
       if (!form.checkValidity()) {
@@ -268,27 +338,13 @@ $selected_method = $_GET['select'] ?? 'online';
       }
 
       const btn = document.getElementById('final-submit-btn');
-      const btnText = document.getElementById('btn-text');
-      const btnSpinner = document.getElementById('btn-spinner');
-
+      document.getElementById('btn-text').innerText = "Traitement...";
+      document.getElementById('btn-spinner').classList.remove('hidden');
       btn.disabled = true;
-      btn.classList.add('opacity-70', 'cursor-not-allowed');
-      btnText.innerText = "Traitement en cours...";
-      btnSpinner.classList.remove('hidden');
 
-      // REDIRECTION DYNAMIQUE :
-      if (isOnline) {
-        // Si paiement Mobile Money
-        form.action = "../assets/actions/process_online.php";
-      } else {
-        // Si paiement Cash (à la livraison)
-        form.action = "../assets/actions/process_cash.php";
-      }
-
+      form.action = isOnline ? "../assets/actions/process_online.php" : "../assets/actions/process_cash.php";
       form.submit();
     }
-
-
 
     function displayOrder() {
       const container = document.getElementById('order-items');
@@ -298,17 +354,17 @@ $selected_method = $_GET['select'] ?? 'online';
       }
 
       container.innerHTML = cart.map(item => `
-                <div class="flex items-center space-x-4">
-                    <div class="w-16 h-20 bg-white border border-gray-100 overflow-hidden">
-                        <img src="${item.img}" class="w-full h-full object-cover" onerror="this.src='/ProjetFelykay/assets/img/felikay.jpg'">
-                    </div>
-                    <div class="flex-1">
-                        <h4 class="text-[10px] uppercase font-bold">${item.name}</h4>
-                        <p class="text-[9px] text-gray-400">Qté: ${item.quantity || 1}</p>
-                    </div>
-                    <span class="text-xs font-semibold">${(item.price * (item.quantity || 1)).toFixed(2)} $</span>
-                </div>
-            `).join('');
+        <div class="flex items-center space-x-4">
+            <div class="w-16 h-20 bg-white border border-gray-100 overflow-hidden">
+                <img src="${item.img}" class="w-full h-full object-cover">
+            </div>
+            <div class="flex-1">
+                <h4 class="text-[10px] uppercase font-bold">${item.name}</h4>
+                <p class="text-[9px] text-gray-400">Qté: ${item.quantity || 1}</p>
+            </div>
+            <span class="text-xs font-semibold">${(item.price * (item.quantity || 1)).toFixed(2)} $</span>
+        </div>
+      `).join('');
 
       document.getElementById('cart_data_input').value = JSON.stringify(cart);
       updateFinalDisplay();
@@ -323,18 +379,6 @@ $selected_method = $_GET['select'] ?? 'online';
       });
     });
   </script>
-
-  <style>
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .animate-spin {
-      animation: spin 1s linear infinite;
-    }
-  </style>
 </body>
 
 </html>
