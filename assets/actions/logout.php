@@ -1,7 +1,7 @@
 <?php
 // C:\wamp64\www\ProjetFelykay\assets\actions\logout.php
 require_once __DIR__ . '/../../config/db.php';
-
+session_start();
 $_SESSION = array();
 
 if (ini_get("session.use_cookies")) {

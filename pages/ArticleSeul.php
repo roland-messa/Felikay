@@ -1,150 +1,213 @@
 <?php
-$pageTitle = "Felikay | Détail Produit";
-include '../includes/header.php';
-include '../includes/navbar.php';
+// C:\wamp64\www\ProjetFelykay\pages\ArticleSeul.php
 include '../config/db.php';
 
 $product_id = $_GET['id'] ?? null;
 if (!$product_id) {
-  header('Location: collection.php');
+  echo "<script>window.location.href='collection.php';</script>";
   exit;
 }
 
 try {
-  // 1. RÉCUPÉRATION DES INFOS DU PRODUIT (On inclut les colonnes d'images)
-  $stmt = $pdo->prepare("SELECT p.*, c.nom as cat_name FROM produits p 
+  // 1. RÉCUPÉRATION DU PRODUIT AVEC SA CATÉGORIE
+  $stmt = $pdo->prepare("SELECT p.*, c.nom as cat_name, c.id as cat_id FROM produits p 
                            LEFT JOIN categories c ON p.categorie_id = c.id 
                            WHERE p.id = :id");
   $stmt->execute(['id' => $product_id]);
   $produit = $stmt->fetch(PDO::FETCH_ASSOC);
 
   if (!$produit) {
-    echo "Produit introuvable.";
+    include '../includes/header.php';
+    include '../includes/navbar.php';
+    echo "<div class='pt-40 text-center font-serif italic'>Cette pièce est actuellement indisponible.</div>";
+    include '../includes/footer.php';
     exit;
   }
 
-  // 2. RÉCUPÉRATION DYNAMIQUE DES TAILLES
-  $stmt_sizes = $pdo->prepare("SELECT t.nom FROM tailles t 
-                                 INNER JOIN produit_tailles pt ON t.id = pt.taille_id 
-                                 WHERE pt.produit_id = :id");
+  // 2. DÉTERMINER LE LIEN DE RETOUR DYNAMIQUE
+  $back_link = "collection.php";
+  if (in_array($produit['cat_id'], [3, 6])) {
+    $back_link = "ArticleEnfants.php?age=" . urlencode($produit['tranche_age']);
+  } elseif (in_array($produit['cat_id'], [1, 2, 4, 5])) {
+    $back_link = "ArticleHomme.php?genre=" . urlencode($produit['genre']);
+  } elseif ($produit['cat_id'] == 8) {
+    $back_link = "ArticleGadgets.php";
+  }
+
+  // 3. RÉCUPÉRATION DES TAILLES & COULEURS
+  $stmt_sizes = $pdo->prepare("SELECT t.nom FROM tailles t INNER JOIN produit_tailles pt ON t.id = pt.taille_id WHERE pt.produit_id = :id");
   $stmt_sizes->execute(['id' => $product_id]);
   $tailles = $stmt_sizes->fetchAll(PDO::FETCH_COLUMN);
 
-  // 3. RÉCUPÉRATION DYNAMIQUE DES COULEURS
-  $stmt_colors = $pdo->prepare("SELECT c.code_hex, c.nom FROM couleurs c 
-                                  INNER JOIN produit_couleurs pc ON c.id = pc.couleur_id 
-                                  WHERE pc.produit_id = :id");
+  $stmt_colors = $pdo->prepare("SELECT c.code_hex, c.nom FROM couleurs c INNER JOIN produit_couleurs pc ON c.id = pc.couleur_id WHERE pc.produit_id = :id");
   $stmt_colors->execute(['id' => $product_id]);
   $couleurs = $stmt_colors->fetchAll(PDO::FETCH_ASSOC);
 
-  // 4. GESTION DES IMAGES (CORRECTION ICI)
-  // On crée un tableau avec l'image principale
-  $toutes_les_vues = [$produit['image_principale']];
+  // 4. PRÉPARATION DE LA GALERIE D'IMAGES (LOGIQUE INTELLIGENTE)
+  $galerie = [];
+  $images_colonnes = ['image_principale', 'image_dos', 'image_gauche', 'image_droite'];
 
-  // On ajoute les autres vues seulement si elles ne sont pas vides
-  if (!empty($produit['image_dos'])) $toutes_les_vues[] = $produit['image_dos'];
-  if (!empty($produit['image_gauche'])) $toutes_les_vues[] = $produit['image_gauche'];
-  if (!empty($produit['image_droite'])) $toutes_les_vues[] = $produit['image_droite'];
+  foreach ($images_colonnes as $col) {
+    if (!empty($produit[$col])) {
+      $path = trim($produit[$col]);
 
-  $final_img = "../" . str_replace('../', '', $produit['image_principale']);
+      // Nettoyage des préfixes
+      $path = str_replace('../', '', $path);
+      $path = ltrim($path, '/');
+
+      // Vérification du dossier assets/img
+      if (strpos($path, 'assets/img/') === false) {
+        $path = 'assets/img/produits/' . $path;
+      }
+
+      // Construction de l'URL finale pour l'affichage
+      $galerie[] = "/ProjetFelykay/" . $path;
+    }
+  }
 } catch (PDOException $e) {
-  die("Erreur : " . $e->getMessage());
+  die("Erreur base de données : " . $e->getMessage());
 }
+
+$pageTitle = "Felikay | " . $produit['nom'];
+include '../includes/header.php';
+include '../includes/navbar.php';
 ?>
 
 <style>
   .size-btn.active {
     border-color: black;
-    background-color: black;
+    background: black;
     color: white;
   }
 
   .color-ring.active {
     outline: 2px solid black;
-    outline-offset: 2px;
-    transform: scale(1.1);
+    outline-offset: 3px;
   }
 
-  .thumb-card.active {
-    border-color: black;
+  .thumb-active {
+    border-color: black !important;
     opacity: 1 !important;
+  }
+
+  #mainView {
+    transition: opacity 0.3s ease-in-out;
   }
 
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+
+  #toast-container {
+    position: fixed;
+    top: 100px;
+    right: 24px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    pointer-events: none;
+  }
+
+  .toast {
+    pointer-events: auto;
+    background: black;
+    color: white;
+    padding: 16px 24px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 280px;
+    transform: translateX(120%);
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .toast.show {
+    transform: translateX(0);
+  }
+
+  .toast-error {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fee2e2;
+  }
 </style>
+
+<div id="toast-container"></div>
 
 <main class="pt-32 pb-24 bg-white">
   <div class="max-w-[1400px] mx-auto px-6">
-    <nav class="text-[10px] uppercase tracking-widest text-stone-400 mb-12">
-      <a href="/ProjetFelykay/index.php" class="hover:text-black">Accueil</a> /
-      <a href="collection.php" class="hover:text-black">Collections</a> /
+    <nav class="text-[10px] uppercase tracking-[0.2em] text-stone-400 mb-12 flex gap-2">
+      <a href="../index.php" class="hover:text-black">Accueil</a> <span>/</span>
+      <a href="<?php echo $back_link; ?>" class="hover:text-black"><?php echo htmlspecialchars($produit['cat_name'] ?? 'Collection'); ?></a> <span>/</span>
       <span class="text-black font-bold"><?php echo htmlspecialchars($produit['nom']); ?></span>
     </nav>
 
     <div class="flex flex-col lg:flex-row gap-16">
       <div class="w-full lg:w-3/5 flex flex-col-reverse md:flex-row gap-4">
-        <div class="flex md:flex-col gap-3 overflow-x-auto md:overflow-y-auto max-h-[600px] scrollbar-hide">
-          <?php foreach ($toutes_les_vues as $index => $vue):
-            $path = "../" . str_replace('../', '', $vue); ?>
-            <div onclick="changeView('<?php echo $path; ?>', this)"
-              class="thumb-card cursor-pointer w-20 h-24 md:w-24 md:h-32 flex-shrink-0 border-2 <?php echo $index === 0 ? 'active border-black' : 'border-transparent opacity-60'; ?> transition-all overflow-hidden bg-gray-50">
-              <img src="<?php echo $path; ?>" class="w-full h-full object-cover">
+        <div class="flex md:flex-col gap-3 overflow-x-auto md:max-h-[600px] scrollbar-hide">
+          <?php foreach ($galerie as $i => $img_url): ?>
+            <div onclick="updateGallery('<?php echo $img_url; ?>', this)"
+              class="thumb-img cursor-pointer w-20 h-24 md:w-24 md:h-32 flex-shrink-0 border <?php echo $i == 0 ? 'thumb-active' : 'opacity-50'; ?> transition-all">
+              <img src="<?php echo $img_url; ?>" class="w-full h-full object-cover" onerror="this.src='/ProjetFelykay/assets/img/felikay.jpg'">
             </div>
           <?php endforeach; ?>
         </div>
-        <div class="flex-1 bg-[#F5F5F5] aspect-[4/5] overflow-hidden border border-stone-100 shadow-sm">
-          <img id="mainView" src="<?php echo $final_img; ?>" class="w-full h-full object-cover transition-opacity duration-300">
+        <div class="flex-1 bg-stone-50 aspect-[4/5] overflow-hidden border border-stone-100">
+          <img id="mainView" src="<?php echo $galerie[0]; ?>" class="w-full h-full object-cover" onerror="this.src='/ProjetFelykay/assets/img/felikay.jpg'">
         </div>
       </div>
 
-      <div class="w-full lg:w-2/5 space-y-8">
-        <div>
-          <span class="text-[10px] uppercase tracking-[0.4em] text-stone-400 block mb-2"><?php echo htmlspecialchars($produit['cat_name']); ?></span>
-          <h1 class="font-serif text-4xl italic mb-4"><?php echo htmlspecialchars($produit['nom']); ?></h1>
-          <p class="text-2xl font-light tracking-widest"><?php echo number_format($produit['prix'], 2); ?> $</p>
-        </div>
+      <div class="w-full lg:w-2/5 space-y-10">
+        <header>
+          <h1 class="font-serif text-5xl italic mb-4 leading-tight"><?php echo htmlspecialchars($produit['nom']); ?></h1>
+          <p class="text-2xl font-light tracking-widest text-stone-900"><?php echo number_format($produit['prix'], 2); ?> $</p>
+        </header>
 
-        <div class="border-t border-stone-100 pt-8">
-          <h4 class="text-[11px] uppercase font-bold tracking-widest mb-4">Description</h4>
-          <p class="text-stone-500 text-sm leading-relaxed"><?php echo nl2br(htmlspecialchars($produit['description'])); ?></p>
+        <div class="text-stone-500 text-sm leading-relaxed font-light">
+          <h4 class="text-[11px] uppercase font-bold text-black tracking-widest mb-3">L'histoire de la pièce</h4>
+          <p><?php echo nl2br(htmlspecialchars($produit['description'])); ?></p>
         </div>
 
         <?php if (!empty($couleurs)): ?>
           <div>
-            <h4 class="text-[11px] uppercase font-bold tracking-widest mb-4">Couleurs</h4>
-            <div class="flex gap-3">
+            <h4 class="text-[11px] uppercase font-bold tracking-widest mb-4 text-black">Palette disponible</h4>
+            <div class="flex gap-4">
               <?php foreach ($couleurs as $c): ?>
-                <button onclick="selectColor(this, '<?php echo htmlspecialchars($c['nom']); ?>')"
+                <button onclick="selectVariant(this, 'color')" data-val="<?php echo $c['nom']; ?>"
                   class="color-ring w-8 h-8 rounded-full border border-stone-200 transition-all"
-                  style="background-color: <?php echo $c['code_hex']; ?>;"
-                  title="<?php echo htmlspecialchars($c['nom']); ?>">
+                  style="background-color: <?php echo $c['code_hex']; ?>;" title="<?php echo $c['nom']; ?>">
                 </button>
               <?php endforeach; ?>
             </div>
           </div>
         <?php endif; ?>
 
-        <div>
-          <h4 class="text-[11px] uppercase font-bold tracking-widest mb-4">Tailles</h4>
-          <div class="flex flex-wrap gap-3">
-            <?php if (!empty($tailles)): ?>
+        <?php if (!empty($tailles)): ?>
+          <div>
+            <div class="flex justify-between mb-4">
+              <h4 class="text-[11px] uppercase font-bold tracking-widest text-black">Taille</h4>
+              <button class="text-[10px] underline text-stone-400 uppercase tracking-tighter">Guide des tailles</button>
+            </div>
+            <div class="flex flex-wrap gap-2">
               <?php foreach ($tailles as $t): ?>
-                <button onclick="selectSize(this)" class="size-btn min-w-[3rem] h-12 border border-stone-200 text-[10px] flex items-center justify-center px-4 hover:border-black transition-all">
-                  <?php echo htmlspecialchars($t); ?>
+                <button onclick="selectVariant(this, 'size')" data-val="<?php echo $t; ?>"
+                  class="size-btn min-w-[3.5rem] h-12 border border-stone-200 text-[10px] tracking-widest uppercase transition-all">
+                  <?php echo $t; ?>
                 </button>
               <?php endforeach; ?>
-            <?php else: ?>
-              <p class="text-[10px] text-stone-400 italic">Taille unique</p>
-            <?php endif; ?>
+            </div>
           </div>
-        </div>
+        <?php endif; ?>
 
         <div class="pt-6">
-          <button onclick="handleProductAddToCart()"
-            class="w-full bg-black text-white py-5 text-[11px] uppercase font-bold tracking-[0.3em] hover:bg-stone-800 transition-all flex items-center justify-center gap-4">
-            <i data-lucide="shopping-bag" class="w-4 h-4"></i> Ajouter au panier
+          <button onclick="addToCartComplete()" class="w-full bg-black text-white py-6 text-[11px] uppercase font-bold tracking-[0.4em] hover:bg-stone-800 transition-all">
+            Ajouter à la sélection
           </button>
         </div>
       </div>
@@ -153,46 +216,64 @@ try {
 </main>
 
 <script>
-  function changeView(src, thumb) {
+  function updateGallery(src, el) {
     const main = document.getElementById('mainView');
     main.style.opacity = '0';
     setTimeout(() => {
       main.src = src;
       main.style.opacity = '1';
-    }, 200);
-    document.querySelectorAll('.thumb-card').forEach(t => t.classList.remove('active', 'border-black'));
-    thumb.classList.add('active', 'border-black');
+    }, 250);
+    document.querySelectorAll('.thumb-img').forEach(t => t.classList.remove('thumb-active'));
+    el.classList.add('thumb-active');
   }
 
-  function selectSize(btn) {
-    btn.classList.toggle('active');
+  function showNotification(message, type = 'success') {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    const icon = type === 'success' ? '✓' : '✕';
+    const errorClass = type === 'error' ? 'toast-error' : '';
+    toast.className = `toast ${errorClass}`;
+    toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+    container.appendChild(toast);
+    setTimeout(() => toast.classList.add('show'), 10);
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 500);
+    }, 3000);
   }
 
-  function selectColor(btn, name) {
-    btn.classList.toggle('active');
-    btn.dataset.name = name;
+  function selectVariant(el, type) {
+    const selector = type === 'size' ? '.size-btn' : '.color-ring';
+    document.querySelectorAll(selector).forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
   }
 
-  function handleProductAddToCart() {
-    const selectedSizes = document.querySelectorAll('.size-btn.active');
-    const selectedColors = document.querySelectorAll('.color-ring.active');
+  function addToCartComplete() {
+    const sizesAvailable = document.querySelectorAll('.size-btn').length > 0;
+    const selectedSize = document.querySelector('.size-btn.active')?.dataset.val;
 
-    let sizes = selectedSizes.length > 0 ? Array.from(selectedSizes).map(b => b.innerText.trim()) : ['Unique'];
-    let colors = selectedColors.length > 0 ? Array.from(selectedColors).map(b => b.dataset.name) : ['Standard'];
+    if (sizesAvailable && !selectedSize) {
+      showNotification('Veuillez sélectionner une taille', 'error');
+      return;
+    }
 
-    sizes.forEach(s => {
-      colors.forEach(c => {
-        addToCart(
-          <?php echo $produit['id']; ?>,
-          '<?php echo addslashes($produit['nom']); ?>',
-          <?php echo $produit['prix']; ?>,
-          '<?php echo $final_img; ?>',
-          s,
-          c
-        );
-      });
-    });
-    showToast("Ajouté au panier !");
+    const size = selectedSize || 'Unique';
+    const color = document.querySelector('.color-ring.active')?.dataset.val || 'Standard';
+
+    if (typeof addToCart === "function") {
+      addToCart(
+        <?php echo $produit['id']; ?>,
+        '<?php echo addslashes($produit['nom']); ?>',
+        <?php echo $produit['prix']; ?>,
+        '<?php echo $galerie[0]; ?>',
+        size,
+        color
+      );
+      showNotification('Article ajouté à votre sélection');
+    } else {
+      showNotification('Erreur : Panier non chargé', 'error');
+    }
   }
 </script>
+
 <?php include '../includes/footer.php'; ?>

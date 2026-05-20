@@ -1,149 +1,116 @@
 <?php
-include '../config/db.php';
+// C:\wamp64\www\ProjetFelykay\pages\ArticleEnfants.php
+require_once '../config/db.php';
 
-// 1. RÉCUPÉRATION DES FILTRES
-$age_filter = $_GET['age'] ?? 'tous';
+$age_filter   = $_GET['age'] ?? 'tous';
 $genre_filter = $_GET['genre'] ?? 'tous';
+$type_filter  = $_GET['type'] ?? 'tous';
 
 try {
-  // On cible uniquement la catégorie 3 (Habits Enfants)
-  $sql = "SELECT * FROM produits WHERE categorie_id = 3";
+  $sql = "SELECT * FROM produits WHERE (categorie_id = 3 OR categorie_id = 6)";
+  $params = [];
 
-  // Filtre par tranche d'âge
   if ($age_filter !== 'tous') {
-    $sql .= " AND tranche_age = :age";
+    $sql .= " AND tranche_age LIKE :age";
+    $params[':age'] = '%' . $age_filter . '%';
   }
 
-  // Filtre par genre
   if ($genre_filter !== 'tous') {
-    $sql .= " AND (genre = :genre OR genre = 'mixte' OR genre = 'unisexe' OR genre = 'tous')";
+    $sql .= " AND (genre = :genre OR genre = 'mixte' OR genre = 'unisexe')";
+    $params[':genre'] = $genre_filter;
+  }
+
+  if ($type_filter !== 'tous') {
+    $sql .= " AND (type_accessoire = :type OR description LIKE :type_like OR nom LIKE :type_like)";
+    $params[':type'] = $type_filter;
+    $params[':type_like'] = '%' . $type_filter . '%';
   }
 
   $sql .= " ORDER BY created_at DESC";
   $stmt = $pdo->prepare($sql);
-
-  if ($age_filter !== 'tous') {
-    $stmt->bindValue(':age', $age_filter);
-  }
-  if ($genre_filter !== 'tous') {
-    $stmt->bindValue(':genre', $genre_filter);
-  }
-
-  $stmt->execute();
+  $stmt->execute($params);
   $articles_enfants = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-  $articles_enfants = [];
-  error_log($e->getMessage());
+  die("Erreur : " . $e->getMessage());
 }
 
-// 2. AFFICHAGE DE LA PAGE
-if (basename($_SERVER['PHP_SELF']) == 'ArticleEnfants.php') :
-  $pageTitle = "Felikay | Collection Enfants";
-  include '../includes/header.php';
-  include '../includes/navbar.php';
+$pageTitle = "Felikay | Univers Enfants";
+include '../includes/header.php';
+include '../includes/navbar.php';
 
-  $displayTitle = "Collection Enfant";
-  if ($age_filter === 'Bébé (0-12 mois)') $displayTitle = "Univers Nouveau-né";
-  if ($age_filter === 'Enfant (1-18 ans)') $displayTitle = "Collection Junior";
+$labelAge = "Univers Enfants";
+if (strpos($age_filter, "0-5") !== false) $labelAge = "Nourrissons (0-5 ans)";
+if (strpos($age_filter, "6-14") !== false) $labelAge = "Enfants (6-14 ans)";
+if (strpos($age_filter, "14-18") !== false) $labelAge = "Ados (14-18 ans)";
 ?>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-  <style>
-    .swiper-button-next,
-    .swiper-button-prev {
-      color: #000;
-      background: white;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
+<main class="bg-[#FDFDFD] pt-32 min-h-screen">
+  <div class="max-w-[1400px] mx-auto px-6">
 
-    .filter-link.active {
-      color: black;
-      font-weight: 700;
-      border-bottom: 2px solid black;
-    }
-  </style>
+    <div class="text-center mb-16">
+      <h1 class="font-serif text-5xl italic mb-4"><?php echo $labelAge; ?></h1>
+      <p class="text-[10px] uppercase tracking-[0.4em] text-stone-400">
+        Filtre actuel : <?php echo ($genre_filter == 'femme' ? 'Fille' : ($genre_filter == 'homme' ? 'Garçon' : 'Tous')); ?>
+        | <?php echo ucfirst($type_filter); ?>
+      </p>
+    </div>
 
-  <main class="bg-[#F9F9F9] min-h-screen pt-28">
-    <section class="max-w-[1400px] mx-auto px-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <?php if (!empty($articles_enfants)): ?>
+        <?php foreach ($articles_enfants as $item):
 
-      <div class="flex flex-col items-center mb-16">
-        <h2 class="font-serif text-4xl md:text-5xl mb-6 italic text-center"><?php echo $displayTitle; ?></h2>
-        <div class="flex gap-8 text-[11px] uppercase tracking-[0.3em] text-stone-400">
-          <a href="?age=<?php echo urlencode($age_filter); ?>&genre=tous" class="filter-link <?php echo ($genre_filter === 'tous') ? 'active' : ''; ?> pb-2 transition">Tous</a>
-          <a href="?age=<?php echo urlencode($age_filter); ?>&genre=homme" class="filter-link <?php echo ($genre_filter === 'homme') ? 'active' : ''; ?> pb-2 transition">Garçons</a>
-          <a href="?age=<?php echo urlencode($age_filter); ?>&genre=femme" class="filter-link <?php echo ($genre_filter === 'femme') ? 'active' : ''; ?> pb-2 transition">Filles</a>
-        </div>
-      </div>
+          // --- LOGIQUE INTELLIGENTE DES IMAGES ---
+          $image_path = trim($item['image_principale']);
 
-      <div class="swiper childCarousel pb-20">
-        <div class="swiper-wrapper">
-          <?php foreach ($articles_enfants as $item) :
-            $img_path = str_replace('../', '', $item['image_principale']);
-            $final_img = "../" . $img_path;
-            $detail_url = "ArticleSeul.php?id=" . $item['id'];
-          ?>
-            <div class="swiper-slide group">
-              <a href="<?php echo $detail_url; ?>" class="relative block aspect-[3/4] overflow-hidden bg-white border border-stone-100 mb-4">
-                <img src="<?php echo $final_img; ?>" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <button onclick="event.preventDefault(); event.stopPropagation(); addToCart(<?php echo $item['id']; ?>, '<?php echo addslashes($item['nom']); ?>', <?php echo $item['prix']; ?>, '<?php echo $final_img; ?>')"
-                    class="bg-white p-4 rounded-full shadow-xl translate-y-4 group-hover:translate-y-0 transition-all hover:bg-black hover:text-white">
-                    <i data-lucide="shopping-cart" class="w-5 h-5"></i>
-                  </button>
+          // Nettoyage (enlève ../ et / au début)
+          $image_path = str_replace('../', '', $image_path);
+          $image_path = ltrim($image_path, '/');
+
+          // Vérifie si le chemin contient déjà le dossier assets
+          if (strpos($image_path, 'assets/img/') === false) {
+            $image_path = 'assets/img/produits/' . $image_path;
+          }
+
+          // URL finale absolue pour WAMP
+          $final_img = '/ProjetFelykay/' . $image_path;
+        ?>
+          <div class="group">
+            <!-- Conteneur Image avec Icône au survol -->
+            <div class="relative aspect-[3/4] overflow-hidden bg-stone-100 mb-4 border border-stone-50">
+              <a href="ArticleSeul.php?id=<?php echo $item['id']; ?>">
+                <img src="<?php echo htmlspecialchars($final_img); ?>"
+                  class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                  onerror="this.src='/ProjetFelykay/assets/img/felikay.jpg';">
+
+                <!-- Overlay avec Icône -->
+                <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                    <i class="fa-solid fa-magnifying-glass text-black text-sm"></i>
+                  </div>
                 </div>
               </a>
-              <div class="text-left px-2">
-                <a href="<?php echo $detail_url; ?>" class="hover:text-stone-600">
-                  <h3 class="text-[10px] uppercase tracking-widest font-bold text-gray-900 mb-1"><?php echo htmlspecialchars($item['nom']); ?></h3>
-                </a>
-                <p class="text-[13px] text-stone-500 italic font-semibold"><?php echo number_format($item['prix'], 2); ?> <?php echo htmlspecialchars($item['devise'] ?? 'USD'); ?></p>
-              </div>
             </div>
-          <?php endforeach; ?>
-        </div>
-        <div class="swiper-pagination"></div>
-        <div class="swiper-button-next !hidden md:!flex"></div>
-        <div class="swiper-button-prev !hidden md:!flex"></div>
-      </div>
 
-      <?php if (empty($articles_enfants)): ?>
-        <div class="text-center py-20">
-          <p class="text-stone-400 italic">Désolé, aucun vêtement ne correspond à cette sélection pour le moment.</p>
-          <a href="?age=tous&genre=tous" class="text-[10px] uppercase underline tracking-widest mt-4 inline-block text-black">Voir toute la collection</a>
+            <!-- Infos Produit -->
+            <div class="text-center">
+              <h3 class="text-[11px] uppercase tracking-widest font-bold mb-1"><?php echo htmlspecialchars($item['nom']); ?></h3>
+
+              <!-- Affichage de la description -->
+              <p class="text-[10px] text-stone-400 mb-2 italic px-4 line-clamp-2">
+                <?php echo !empty($item['description']) ? htmlspecialchars($item['description']) : "Aucune description disponible"; ?>
+              </p>
+
+              <p class="text-sm font-serif italic text-stone-600"><?php echo number_format($item['prix'], 2); ?> $</p>
+            </div>
+          </div>
+        <?php endforeach; ?>
+      <?php else: ?>
+        <div class="col-span-full py-20 text-center">
+          <p class="font-serif italic text-stone-400 text-xl">Désolé, aucune pièce ne correspond.</p>
         </div>
       <?php endif; ?>
+    </div>
+  </div>
+</main>
 
-    </section>
-  </main>
-
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script>
-    new Swiper('.childCarousel', {
-      slidesPerView: 1,
-      spaceBetween: 25,
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true
-      },
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev"
-      },
-      breakpoints: {
-        640: {
-          slidesPerView: 2
-        },
-        1024: {
-          slidesPerView: 4
-        }
-      }
-    });
-  </script>
-
-<?php
-  include '../includes/footer.php';
-endif;
-?>
+<?php include '../includes/footer.php'; ?>

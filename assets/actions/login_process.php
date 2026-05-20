@@ -1,5 +1,6 @@
 <?php
 // C:\wamp64\www\ProjetFelykay\assets\actions\login_process.php
+session_start();
 require_once '../../config/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -49,17 +50,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $_SESSION['last_activity'] = time();
       $_SESSION['user_id'] = $user['id'];
       $_SESSION['user_nom'] = $user['nom'] ?? 'Utilisateur';
+
       $role = strtolower($user['role']);
       $_SESSION['user_role'] = $role;
 
-      // --- LOGIQUE DE REDIRECTION PAR RÔLE ---
-      if ($role === 'admin') {
-        header("Location: ../../pages/admin/admin_dashboard.php");
-      } elseif ($role === 'livreur') {
-        header("Location: ../../pages/livreur/dashboard.php");
-      } else {
-        // Si c'est un client qui tente de se connecter ici
-        header("Location: ../../index.php");
+      if (isset($_SESSION['redirect_after_login'])) {
+        $destination = $_SESSION['redirect_after_login'];
+        unset($_SESSION['redirect_after_login']); // On nettoie la session
+        header("Location: " . $destination);
+      }
+      // Sinon, redirection classique par rôle
+      else {
+        if ($role === 'admin') {
+          header("Location: ../../pages/admin/admin_dashboard.php");
+        } elseif ($role === 'livreur') {
+          header("Location: ../../pages/admin/livreur_dashboard.php");
+        } else {
+          header("Location: ../../index.php");
+        }
       }
       exit();
     } else {
@@ -68,7 +76,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       exit();
     }
   } catch (PDOException $e) {
-    die("Erreur technique de base de données.");
+    error_log($e->getMessage());
+    die("Une erreur technique est survenue. Veuillez réessayer plus tard.");
   }
 } else {
   header("Location: ../../pages/admin_login.php");

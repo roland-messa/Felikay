@@ -1,3 +1,14 @@
+<?php
+
+$viewsToday = $pdo->query("SELECT COUNT(*) FROM visites WHERE DATE(date_visite) = CURDATE()")->fetchColumn() ?: 0;
+
+$uniqueVisitors = $pdo->query("SELECT COUNT(DISTINCT ip_address) FROM visites")->fetchColumn() ?: 0;
+
+$topPages = $pdo->query("SELECT page_visitee, COUNT(*) as nb FROM visites GROUP BY page_visitee ORDER BY nb DESC LIMIT 5")->fetchAll();
+?>
+
+
+
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
   <div class="bg-white p-8 rounded-3xl border border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
     <p class="text-[10px] uppercase font-bold text-slate-400 mb-2">Vues aujourd'hui</p>

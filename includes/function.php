@@ -1,4 +1,5 @@
 <?php
+// C:\wamp64\www\ProjetFelykay\includes\function.php
 
 function display_alert()
 {
@@ -9,6 +10,9 @@ function display_alert()
 
   $type = $_GET['msg'];
   $config = [
+    // 🚨 AJOUT DE LA CLÉ WELCOME UTILISÉE APRÈS L'INSCRIPTION
+    'welcome'               => ['bg' => 'bg-black', 'border' => 'border-stone-800', 'text' => 'text-white', 'icon' => '✨', 'label' => "Bienvenue dans la Maison, $prenom ! Votre compte a été créé avec succès."],
+
     'success'               => ['bg' => 'bg-green-50', 'border' => 'border-green-100', 'text' => 'text-green-700', 'icon' => '✓', 'label' => 'Opération réussie !'],
     'success_order'         => ['bg' => 'bg-black', 'border' => 'border-stone-800', 'text' => 'text-white', 'icon' => '✨', 'label' => "Merci $prenom ! Votre commande Felikay est confirmée."],
     'success_registration'  => ['bg' => 'bg-black', 'border' => 'border-stone-800', 'text' => 'text-white', 'icon' => '✉', 'label' => "Bienvenue ! Votre compte a été créé. Vous pouvez maintenant vous connecter."],
@@ -16,6 +20,7 @@ function display_alert()
     'error'                 => ['bg' => 'bg-red-50', 'border' => 'border-red-100', 'text' => 'text-red-700', 'icon' => '✕', 'label' => 'Une erreur est survenue.'],
     'error_login'           => ['bg' => 'bg-red-50', 'border' => 'border-red-100', 'text' => 'text-red-700', 'icon' => '✕', 'label' => 'Email ou mot de passe incorrect.'],
     'success_contact'       => ['bg' => 'bg-black', 'border' => 'border-stone-800', 'text' => 'text-white', 'icon' => '✉', 'label' => 'Merci. Votre message a été transmis à la Maison Felikay.'],
+    'timeout'               => ['bg' => 'bg-amber-50', 'border' => 'border-amber-200', 'text' => 'text-amber-800', 'icon' => '⏳', 'label' => 'Session expirée par sécurité. Veuillez vous reconnecter.'],
     'error_email_exists'    => ['bg' => 'bg-red-50', 'border' => 'border-red-100', 'text' => 'text-red-700', 'icon' => '✕', 'label' => 'Cette adresse email possède déjà un compte Felikay.']
   ];
 
@@ -34,12 +39,16 @@ function display_alert()
     <script>setTimeout(() => { document.getElementById('notification')?.remove(); }, 6000);</script>";
 }
 
+
 function isAdmin()
 {
   if (session_status() === PHP_SESSION_NONE) session_start();
 
   if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
-    header("Location: ../admin_login.php");
+    // ÉTAPE CLÉ : On enregistre l'URL actuelle pour y revenir après le login
+    $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
+
+    header("Location: /ProjetFelykay/pages/admin_login.php");
     exit();
   }
 }
@@ -73,43 +82,50 @@ function getProductBadge($p)
 }
 
 
-function uploadImage($file, $folder = '../../assets/img/produits/')
+function uploadImage($file)
 {
-  if (!isset($file) || $file['error'] !== 0) {
-    return false;
-  }
+  if (!isset($file) || $file['error'] !== 0) return false;
 
-  // 2. Extensions autorisées
+  // Utilisation d'un chemin absolu via DOCUMENT_ROOT pour éviter les erreurs de dossier
+  $basePath = $_SERVER['DOCUMENT_ROOT'] . '/ProjetFelykay/assets/img/produits/';
+
   $allowed_extensions = ['jpg', 'jpeg', 'png', 'webp', 'jfif'];
   $file_extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 
-  if (!in_array($file_extension, $allowed_extensions)) {
-    return false;
-  }
+  if (!in_array($file_extension, $allowed_extensions)) return false;
 
-  // 3. Création du dossier s'il n'existe pas
-  if (!file_exists($folder)) {
-    mkdir($folder, 0777, true);
+  if (!file_exists($basePath)) {
+    mkdir($basePath, 0777, true);
   }
 
   $new_name = 'produit_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $file_extension;
-  $target_path = $folder . $new_name;
+  $target_path = $basePath . $new_name;
 
-  // 5. Déplacement du fichier temporaire vers le dossier final
   if (move_uploaded_file($file['tmp_name'], $target_path)) {
-    return "assets/img/produits/" . $new_name;
+    return $new_name;
   }
-
   return false;
 }
 
 
-
-//  Compte les produits dont le stock est épuisé ou critique
-
+/**
+ * Compte les produits dont le stock est épuisé ou critique
+ * Sécurisé contre les plantages de structure de base de données
+ */
 function get_low_stock_count($pdo, $threshold = 0)
 {
-  $stmt = $pdo->prepare("SELECT COUNT(*) FROM produits WHERE stock_total <= ?");
-  $stmt->execute([$threshold]);
-  return $stmt->fetchColumn();
+  try {
+    // Vérification préventive pour s'assurer que la colonne existe
+    $check = $pdo->query("SHOW COLUMNS FROM produits LIKE 'stock_total'")->fetch();
+    if (!$check) {
+      return 0; // Retourne 0 si la colonne n'existe pas encore pour éviter un crash complet
+    }
+
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM produits WHERE stock_total <= ?");
+    $stmt->execute([$threshold]);
+    return (int) $stmt->fetchColumn();
+  } catch (PDOException $e) {
+    // Sécurité silencieuse en cas de table non installée ou erreur de migration
+    return 0;
+  }
 }

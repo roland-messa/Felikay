@@ -7,27 +7,16 @@ include '../includes/header.php';
 include '../includes/navbar.php';
 include '../config/db.php';
 
-// 1. PARAMÈTRES DE FILTRAGE ET PAGINATION
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $articlesPerPage = 12;
 $offset = ($currentPage - 1) * $articlesPerPage;
 
-// Initialisation des variables pour éviter les erreurs "Undefined variable"
-$all_articles = [];
-$total_count = 0;
-$totalPages = 1;
+$cat_filter    = $_GET['cat'] ?? 'all';
+$color_filter  = $_GET['color'] ?? 'all';
+$genre_filter  = $_GET['genre'] ?? 'all';
+$age_filter    = $_GET['age'] ?? 'all';
+$type_filter   = $_GET['type'] ?? 'all';
 
-// Filtres récupérés de l'URL
-$cat_filter   = $_GET['cat'] ?? 'all';
-$color_filter = $_GET['color'] ?? 'all';
-$size_filter  = $_GET['size'] ?? 'all';
-$genre_filter = $_GET['genre'] ?? 'all';
-$age_filter   = $_GET['age'] ?? 'all';
-$type_filter  = $_GET['type'] ?? 'all';
-
-/**
- * Fonction pour générer des URLs de filtrage cumulables
- */
 function filterUrl($newParams)
 {
   $params = $_GET;
@@ -39,212 +28,136 @@ function filterUrl($newParams)
 }
 
 try {
-  // 2. RÉCUPÉRATION DES CATÉGORIES POUR LE MENU
-  $stmt_cats = $pdo->query("SELECT c.*, COUNT(p.id) as total 
-                              FROM categories c 
-                              LEFT JOIN produits p ON c.id = p.categorie_id 
-                              GROUP BY c.id");
-  $categories_data = $stmt_cats->fetchAll(PDO::FETCH_ASSOC);
-
-  $count_total = $pdo->query("SELECT COUNT(*) FROM produits")->fetchColumn();
-
-  // 3. CONSTRUCTION DE LA REQUÊTE PRINCIPALE
-  $sql = "SELECT p.*, c.nom as cat_name FROM produits p 
-            LEFT JOIN categories c ON p.categorie_id = c.id WHERE 1=1";
-
-  $count_sql = "SELECT COUNT(*) FROM produits p WHERE 1=1";
-
-  $conditions = "";
+  $sql = "SELECT DISTINCT p.*, c.nom as cat_name FROM produits p 
+          LEFT JOIN categories c ON p.categorie_id = c.id WHERE 1=1";
   $params = [];
 
   if ($cat_filter !== 'all') {
-    $conditions .= " AND p.categorie_id = :cat_id";
-    $params[':cat_id'] = $cat_filter;
+    $sql .= " AND p.categorie_id = :cat";
+    $params[':cat'] = $cat_filter;
   }
-
-  // FILTRE COULEUR (Via table de liaison produit_couleurs)
-  if ($color_filter !== 'all') {
-    $conditions .= " AND p.id IN (SELECT produit_id FROM produit_couleurs WHERE couleur_id = :color_id)";
-    $params[':color_id'] = $color_filter;
-  }
-
-  // FILTRE TAILLE (Via table de liaison produit_tailles)
-  if ($size_filter !== 'all') {
-    $conditions .= " AND p.id IN (SELECT produit_id FROM produit_tailles WHERE taille = :size)";
-    $params[':size'] = $size_filter;
-  }
-
   if ($genre_filter !== 'all') {
-    $conditions .= " AND p.genre = :genre";
+    $sql .= " AND p.genre = :genre";
     $params[':genre'] = $genre_filter;
   }
+  // CORRECTION ICI AUSSI
   if ($age_filter !== 'all') {
-    $conditions .= " AND p.tranche_age = :age";
-    $params[':age'] = $age_filter;
+    $sql .= " AND p.tranche_age LIKE :age";
+    $params[':age'] = '%' . $age_filter . '%';
   }
   if ($type_filter !== 'all') {
-    $conditions .= " AND p.type_accessoire = :type";
+    $sql .= " AND (p.type_accessoire = :type OR p.nom LIKE :type_like)";
     $params[':type'] = $type_filter;
+    $params[':type_like'] = '%' . $type_filter . '%';
+  }
+  if ($color_filter !== 'all') {
+    $sql .= " AND p.id IN (SELECT produit_id FROM produit_couleurs WHERE couleur_id = :col)";
+    $params[':col'] = $color_filter;
   }
 
-  $sql .= $conditions;
-  $count_sql .= $conditions;
-
-  // Calcul du total pour la pagination
-  $total_stmt = $pdo->prepare($count_sql);
-  $total_stmt->execute($params);
-  $total_count = $total_stmt->fetchColumn();
-
-  $totalPages = max(1, ceil($total_count / $articlesPerPage));
-
-  // Récupération des articles paginés
-  $sql .= " LIMIT :limit OFFSET :offset";
+  // Exécution avec pagination
+  $sql .= " ORDER BY p.created_at DESC LIMIT $articlesPerPage OFFSET $offset";
   $stmt = $pdo->prepare($sql);
-
-  foreach ($params as $key => $val) {
-    $stmt->bindValue($key, $val);
-  }
-  $stmt->bindValue(':limit', $articlesPerPage, PDO::PARAM_INT);
-  $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-  $stmt->execute();
+  $stmt->execute($params);
   $all_articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-  // 4. RÉCUPÉRATION DES COULEURS POUR LE FILTRE
-  $all_colors = $pdo->query("SELECT * FROM couleurs")->fetchAll(PDO::FETCH_ASSOC);
+  $all_colors = $pdo->query("SELECT * FROM couleurs LIMIT 12")->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-  error_log($e->getMessage());
-  if (!isset($all_colors)) $all_colors = [];
+  die($e->getMessage());
 }
 ?>
+
+<style>
+  .modal-catalog {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.98);
+    z-index: 1000;
+    overflow-y: auto;
+  }
+
+  .modal-catalog.active {
+    display: block;
+    animation: fadeIn 0.4s ease;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
 
 <main class="pt-24 bg-[#FDFDFD]">
   <section class="py-12">
     <div class="max-w-[1400px] mx-auto px-6 flex flex-col md:flex-row gap-12">
 
-      <aside class="w-full md:w-1/4 lg:w-1/5 space-y-8">
-        <div class="relative border-b border-stone-200 pb-2">
-          <input type="text" id="searchInput" onkeyup="searchFunction()" placeholder="Rechercher une pièce..."
-            class="w-full text-[11px] uppercase tracking-widest focus:outline-none bg-transparent">
-        </div>
-
-        <div class="filter-section">
-          <h4 class="text-[11px] uppercase font-bold tracking-[0.3em] mb-6">Garde-Robe</h4>
-          <ul class="text-[12px] space-y-4 text-stone-500 tracking-wide">
-            <li>
-              <a href="?cat=all" class="hover:text-black transition flex justify-between <?php echo ($cat_filter === 'all') ? 'text-black font-bold' : ''; ?>">
-                Tout l'univers <span><?php echo $count_total; ?></span>
-              </a>
-            </li>
-
-            <?php foreach ($categories_data as $cat):
-              if ($cat['nom'] == 'Perruques' || $cat['nom'] == 'Électronique') continue;
-            ?>
-              <li class="group">
-                <a href="<?php echo filterUrl(['cat' => $cat['id'], 'genre' => 'all', 'age' => 'all']); ?>" class="hover:text-black transition flex justify-between <?php echo ($cat_filter == $cat['id']) ? 'text-black font-bold' : ''; ?>">
-                  <?php echo htmlspecialchars($cat['nom']); ?>
-                  <span><?php echo $cat['total']; ?></span>
-                </a>
-
-                <?php if (($cat['id'] == 3 || $cat['id'] == 6) && $cat_filter == $cat['id']): ?>
-                  <div class="mt-4 ml-3 pl-4 border-l border-stone-100 space-y-4 animate-fadeIn">
-                    <div class="space-y-2">
-                      <p class="text-[9px] uppercase font-bold text-black tracking-tighter">Genre</p>
-                      <div class="flex flex-col gap-1.5">
-                        <a href="<?php echo filterUrl(['genre' => 'homme']); ?>" class="hover:text-black <?php echo ($genre_filter == 'homme') ? 'text-black font-bold' : ''; ?>">• Garçon</a>
-                        <a href="<?php echo filterUrl(['genre' => 'femme']); ?>" class="hover:text-black <?php echo ($genre_filter == 'femme') ? 'text-black font-bold' : ''; ?>">• Fille</a>
-                        <a href="<?php echo filterUrl(['genre' => 'unisexe']); ?>" class="hover:text-black <?php echo ($genre_filter == 'unisexe') ? 'text-black font-bold' : ''; ?>">• Mixte</a>
-                      </div>
-                    </div>
-                  </div>
-                <?php endif; ?>
-              </li>
-            <?php endforeach; ?>
+      <aside class="w-full md:w-1/4 lg:w-1/5 space-y-10">
+        <div>
+          <h4 class="text-[11px] uppercase font-bold tracking-[0.3em] mb-6 border-b pb-2">Catalogues</h4>
+          <ul class="text-[12px] space-y-5 uppercase tracking-widest font-medium">
+            <li><a href="collection.php" class="hover:text-stone-400">Tout Voir</a></li>
+            <li><button onclick="openModal('modal-enfants')" class="hover:text-stone-400 text-left w-full">Enfants</button></li>
+            <li><button onclick="openModal('modal-adultes')" class="hover:text-stone-400 text-left w-full">Adultes</button></li>
+            <li><button onclick="openModal('modal-deco')" class="hover:text-stone-400 text-left w-full">Déco</button></li>
+            <li><button onclick="openModal('modal-gadgets')" class="hover:text-stone-400 text-left w-full">Gadgets</button></li>
           </ul>
         </div>
 
-        <div class="filter-section">
-          <h4 class="text-[11px] uppercase font-bold tracking-[0.3em] mb-4">Tailles</h4>
-          <div class="grid grid-cols-4 gap-2">
-            <?php foreach (['XS', 'S', 'M', 'L', 'XL'] as $t): ?>
-              <a href="<?php echo filterUrl(['size' => $t]); ?>"
-                class="border py-2 text-[10px] text-center transition-all <?php echo ($size_filter === $t) ? 'bg-black text-white border-black' : 'border-stone-200 hover:border-black'; ?>">
-                <?php echo $t; ?>
-              </a>
-            <?php endforeach; ?>
-          </div>
-        </div>
-
-        <div class="filter-section mt-8">
-          <h4 class="text-[11px] uppercase font-bold tracking-[0.3em] mb-4">Couleurs</h4>
-          <div class="flex flex-wrap gap-3">
+        <div>
+          <h4 class="text-[11px] uppercase font-bold tracking-[0.3em] mb-4">Nuances</h4>
+          <div class="flex flex-wrap gap-2">
             <?php foreach ($all_colors as $c): ?>
-              <a href="<?php echo filterUrl(['color' => $c['id']]); ?>"
-                title="<?php echo htmlspecialchars($c['nom']); ?>"
-                class="w-6 h-6 rounded-full border border-stone-200 transition-all hover:scale-125 hover:shadow-md block <?php echo ($color_filter == $c['id']) ? 'ring-2 ring-black ring-offset-2' : ''; ?>"
-                style="background-color: <?php echo $c['code_hex']; ?>;">
-              </a>
+              <a href="<?php echo filterUrl(['color' => $c['id']]); ?>" class="w-5 h-5 rounded-full border border-stone-200" style="background:<?php echo $c['code_hex']; ?>"></a>
             <?php endforeach; ?>
           </div>
         </div>
-
-        <?php if ($cat_filter !== 'all' || $color_filter !== 'all' || $size_filter !== 'all' || $genre_filter !== 'all'): ?>
-          <div class="pt-4">
-            <a href="collection.php" class="inline-flex items-center gap-2 text-[9px] uppercase tracking-widest bg-stone-900 text-white px-4 py-2 rounded-full hover:bg-stone-700 transition">
-              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path d="M6 18L18 6M6 6l12 12"></path>
-              </svg>
-              Effacer tout
-            </a>
-          </div>
-        <?php endif; ?>
-
       </aside>
 
       <section class="flex-1">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
-          <?php if (empty($all_articles)): ?>
-            <div class="col-span-full py-20 text-center">
-              <p class="text-stone-400 italic">Aucun article ne correspond à votre sélection.</p>
-              <a href="collection.php" class="text-xs underline mt-4 block">Retourner à la collection complète</a>
-            </div>
-          <?php endif; ?>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <?php foreach ($all_articles as $article):
 
-          <?php foreach ($all_articles as $article) :
-            $img = "../" . str_replace('../', '', $article['image_principale']);
-            $detail_url = "ArticleSeul.php?id=" . $article['id'];
+            // Image venant de la base
+            $image_path = trim($article['image_principale']);
+
+            // Nettoyage du chemin
+            $image_path = str_replace('../', '', $image_path);
+            $image_path = ltrim($image_path, '/');
+
+            // Vérifie si assets/img existe déjà
+            if (strpos($image_path, 'assets/img/') === false) {
+
+              // Ajout automatique du bon dossier
+              $image_path = 'assets/img/produits/' . $image_path;
+            }
+
+            // URL finale correcte
+            $img_path = '/ProjetFelykay/' . $image_path;
+
           ?>
             <div class="group">
-              <a href="<?php echo $detail_url; ?>" class="relative block aspect-[3/4] overflow-hidden bg-[#F5F5F5] mb-4 border border-stone-100">
-                <img src="<?php echo $img; ?>" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                <div class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-all translate-y-4 group-hover:translate-y-0 z-20">
-                  <button onclick="event.preventDefault(); addToCart(<?php echo $article['id']; ?>, '<?php echo addslashes($article['nom']); ?>', <?php echo $article['prix']; ?>, '<?php echo $img; ?>')"
-                    class="w-full bg-white text-black py-3 text-[9px] font-bold uppercase tracking-widest shadow-xl hover:bg-black hover:text-white transition-colors">
-                    Ajouter au Panier
-                  </button>
-                </div>
+              <a href="ArticleSeul.php?id=<?php echo $article['id']; ?>" class="block aspect-[3/4] overflow-hidden bg-stone-100 mb-3 border border-stone-50">
+                <img src="<?php echo $img_path; ?>" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="<?php echo htmlspecialchars($article['nom']); ?>">
               </a>
-
               <div class="text-center">
-                <span class="text-[8px] uppercase tracking-[0.2em] text-stone-400 mb-1 block">
-                  <?php echo htmlspecialchars($article['cat_name']); ?>
-                </span>
-                <a href="<?php echo $detail_url; ?>" class="hover:underline decoration-stone-300 underline-offset-4">
-                  <h3 class="text-[11px] uppercase font-medium tracking-wider mb-2"><?php echo $article['nom']; ?></h3>
-                </a>
-                <p class="font-serif italic text-stone-600 text-[14px]"><?php echo number_format($article['prix'], 2); ?> $</p>
+                <h3 class="text-[10px] uppercase tracking-wider"><?php echo htmlspecialchars($article['nom']); ?></h3>
+                <p class="text-[12px] font-serif italic text-stone-500"><?php echo number_format($article['prix'], 2); ?> $</p>
               </div>
             </div>
           <?php endforeach; ?>
         </div>
 
-        <?php if ($totalPages > 1): ?>
-          <div class="mt-20 flex justify-center items-center gap-4">
-            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-              <a href="<?php echo filterUrl(['page' => $i]); ?>"
-                class="w-10 h-10 flex items-center justify-center border border-stone-200 rounded-full text-[12px] transition-all hover:border-black <?php echo ($i == $currentPage) ? 'bg-black text-white border-black' : 'text-stone-500'; ?>">
-                <?php echo $i; ?>
-              </a>
-            <?php endfor; ?>
+        <?php if (empty($all_articles)): ?>
+          <div class="py-20 text-center">
+            <p class="font-serif italic text-stone-400">Aucune pièce ne correspond à votre sélection.</p>
           </div>
         <?php endif; ?>
       </section>
@@ -252,17 +165,153 @@ try {
   </section>
 </main>
 
+<!-- MODALS -->
+
+<!-- MODALS (Remplacer la section modal-enfants existante) -->
+<div id="modal-enfants" class="modal-catalog">
+  <div class="max-w-7xl mx-auto p-10">
+    <button onclick="closeModal()" class="float-right text-4xl font-light hover:text-stone-400">&times;</button>
+    <h2 class="text-3xl font-serif mb-16 text-center uppercase tracking-[0.5em]">Univers Enfants</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
+
+      <!-- GROUPE 1: NOURRISSONS -->
+      <div>
+        <h3 class="font-bold border-b-2 border-black pb-2 mb-6 uppercase text-sm tracking-widest">Nourrissons (0-5 ans)</h3>
+        <div class="grid grid-cols-2 gap-4 text-[11px] text-stone-500 uppercase tracking-widest">
+          <ul class="space-y-3">
+            <li class="font-black text-black mb-2">Fille</li>
+            <li><a href="ArticleEnfants.php?age=0-5&genre=femme&type=nuit" class="hover:underline">Nuit</a></li>
+            <li><a href="ArticleEnfants.php?age=0-5&genre=femme&type=quotidien" class="hover:underline">Quotidien</a></li>
+            <li><a href="ArticleEnfants.php?age=0-5&genre=femme&type=evenement" class="hover:underline">Événements</a></li>
+            <li><a href="ArticleEnfants.php?age=0-5&genre=femme&type=accessoires" class="hover:underline">Accessoires</a></li>
+          </ul>
+          <ul class="space-y-3">
+            <li class="font-black text-black mb-2">Garçon</li>
+            <li><a href="ArticleEnfants.php?age=0-5&genre=homme&type=nuit" class="hover:underline">Nuit</a></li>
+            <li><a href="ArticleEnfants.php?age=0-5&genre=homme&type=quotidien" class="hover:underline">Quotidien</a></li>
+            <li><a href="ArticleEnfants.php?age=0-5&genre=homme&type=evenement" class="hover:underline">Événements</a></li>
+            <li><a href="ArticleEnfants.php?age=0-5&genre=homme&type=accessoires" class="hover:underline">Accessoires</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- GROUPE 2: 6-14 ANS -->
+      <div>
+        <h3 class="font-bold border-b-2 border-black pb-2 mb-6 uppercase text-sm tracking-widest">Enfants (6-14 ans)</h3>
+        <div class="grid grid-cols-2 gap-4 text-[11px] text-stone-500 uppercase tracking-widest">
+          <ul class="space-y-3">
+            <li class="font-black text-black mb-2">Fille</li>
+            <li><a href="ArticleEnfants.php?age=6-14&genre=femme&type=nuit" class="hover:underline">Nuit</a></li>
+            <li><a href="ArticleEnfants.php?age=6-14&genre=femme&type=quotidien" class="hover:underline">Quotidien</a></li>
+            <li><a href="ArticleEnfants.php?age=6-14&genre=femme&type=evenement" class="hover:underline">Événements</a></li>
+            <li><a href="ArticleEnfants.php?age=6-14&genre=femme&type=accessoires" class="hover:underline">Accessoires</a></li>
+          </ul>
+          <ul class="space-y-3">
+            <li class="font-black text-black mb-2">Garçon</li>
+            <li><a href="ArticleEnfants.php?age=6-14&genre=homme&type=nuit" class="hover:underline">Nuit</a></li>
+            <li><a href="ArticleEnfants.php?age=6-14&genre=homme&type=quotidien" class="hover:underline">Quotidien</a></li>
+            <li><a href="ArticleEnfants.php?age=6-14&genre=homme&type=evenement" class="hover:underline">Événements</a></li>
+            <li><a href="ArticleEnfants.php?age=6-14&genre=homme&type=accessoires" class="hover:underline">Accessoires</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- GROUPE 3: 14-18 ANS -->
+      <div>
+        <h3 class="font-bold border-b-2 border-black pb-2 mb-6 uppercase text-sm tracking-widest">Ados (14-18 ans)</h3>
+        <div class="grid grid-cols-2 gap-4 text-[11px] text-stone-500 uppercase tracking-widest">
+          <ul class="space-y-3">
+            <li class="font-black text-black mb-2">Fille</li>
+            <li><a href="ArticleEnfants.php?age=14-18&genre=femme&type=nuit" class="hover:underline">Nuit</a></li>
+            <li><a href="ArticleEnfants.php?age=14-18&genre=femme&type=quotidien" class="hover:underline">Quotidien</a></li>
+            <li><a href="ArticleEnfants.php?age=14-18&genre=femme&type=evenement" class="hover:underline">Événements</a></li>
+            <li><a href="ArticleEnfants.php?age=14-18&genre=femme&type=soir" class="hover:underline">Soir</a></li>
+            <li><a href="ArticleEnfants.php?age=14-18&genre=femme&type=accessoires" class="hover:underline">Accessoires</a></li>
+          </ul>
+          <ul class="space-y-3">
+            <li class="font-black text-black mb-2">Garçon</li>
+            <li><a href="ArticleEnfants.php?age=14-18&genre=homme&type=nuit" class="hover:underline">Nuit</a></li>
+            <li><a href="ArticleEnfants.php?age=14-18&genre=homme&type=quotidien" class="hover:underline">Quotidien</a></li>
+            <li><a href="ArticleEnfants.php?age=14-18&genre=homme&type=evenement" class="hover:underline">Événements</a></li>
+            <li><a href="ArticleEnfants.php?age=14-18&genre=homme&type=soir" class="hover:underline">Soir</a></li>
+            <li><a href="ArticleEnfants.php?age=14-18&genre=homme&type=accessoires" class="hover:underline">Accessoires</a></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal Adultes -->
+<div id="modal-adultes" class="modal-catalog">
+  <div class="max-w-4xl mx-auto p-10">
+    <button onclick="closeModal()" class="float-right text-3xl font-light">&times;</button>
+    <h2 class="text-2xl font-serif mb-12 text-center uppercase tracking-widest">Univers Adultes</h2>
+    <div class="grid grid-cols-2 gap-20">
+      <div>
+        <h3 class="font-bold border-b pb-2 mb-4 uppercase text-xs">Femme</h3>
+        <ul class="text-[11px] space-y-3 uppercase tracking-widest">
+          <li><a href="<?php echo filterUrl(['age' => 'adulte', 'genre' => 'femme', 'type' => 'quotidien']); ?>">Quotidien</a></li>
+          <li><a href="<?php echo filterUrl(['age' => 'adulte', 'genre' => 'femme', 'type' => 'evenement']); ?>">Événements</a></li>
+          <li><a href="<?php echo filterUrl(['age' => 'adulte', 'genre' => 'femme', 'type' => 'soir']); ?>">Soir</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-bold border-b pb-2 mb-4 uppercase text-xs">Homme</h3>
+        <ul class="text-[11px] space-y-3 uppercase tracking-widest">
+          <li><a href="<?php echo filterUrl(['age' => 'adulte', 'genre' => 'homme', 'type' => 'quotidien']); ?>">Quotidien</a></li>
+          <li><a href="<?php echo filterUrl(['age' => 'adulte', 'genre' => 'homme', 'type' => 'soir']); ?>">Soir</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Déco -->
+<div id="modal-deco" class="modal-catalog">
+  <div class="max-w-3xl mx-auto p-10 text-center">
+    <button onclick="closeModal()" class="float-right text-3xl font-light">&times;</button>
+    <h2 class="text-2xl font-serif mb-10 uppercase tracking-widest">Décoration & Maison</h2>
+    <ul class="text-[12px] space-y-6 uppercase tracking-[0.3em]">
+      <li><a href="<?php echo filterUrl(['cat' => '7', 'type' => 'maison']); ?>">Maison</a></li>
+      <li><a href="<?php echo filterUrl(['cat' => '7', 'type' => 'decoration']); ?>">Décoration Intérieure</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- Modal Gadgets -->
+<div id="modal-gadgets" class="modal-catalog">
+  <div class="max-w-3xl mx-auto p-10 text-center">
+    <button onclick="closeModal()" class="float-right text-3xl font-light">&times;</button>
+    <h2 class="text-2xl font-serif mb-10 uppercase tracking-widest">Gadgets & Utilitaires</h2>
+    <ul class="text-[12px] space-y-6 uppercase tracking-[0.3em]">
+      <li><a href="<?php echo filterUrl(['cat' => '8', 'type' => 'electroniques']); ?>">Électroniques</a></li>
+      <li><a href="<?php echo filterUrl(['cat' => '8', 'type' => 'cuisine']); ?>">Cuisine</a></li>
+    </ul>
+  </div>
+</div>
+
 <script>
-  function searchFunction() {
-    let input = document.getElementById('searchInput').value.toLowerCase();
-    let cards = document.querySelectorAll('.group');
-    cards.forEach(card => {
-      let h3 = card.querySelector('h3');
-      if (h3) {
-        let name = h3.innerText.toLowerCase();
-        card.style.display = name.includes(input) ? "block" : "none";
-      }
-    });
+  function openModal(id) {
+    const modal = document.getElementById(id);
+    if (modal) {
+      document.querySelectorAll('.modal-catalog').forEach(m => m.classList.remove('active'));
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeModal() {
+    document.querySelectorAll('.modal-catalog').forEach(m => m.classList.remove('active'));
+    document.body.style.overflow = 'auto';
+  }
+
+  window.onclick = function(event) {
+    if (event.target.classList.contains('modal-catalog')) {
+      closeModal();
+    }
   }
 </script>
 

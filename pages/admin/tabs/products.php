@@ -1,7 +1,18 @@
 <div class="bg-gray-100 rounded-3xl border border-slate-300 shadow-sm p-8 mb-10">
   <h4 class="font-serif italic text-xl mb-6">Ajouter un nouvel article</h4>
 
-  <form action="../../assets/actions/process_article.php" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+  <div id="notification" class="hidden fixed top-5 right-5 z-[200] p-4 rounded-xl shadow-2xl border transition-all duration-500 transform translate-x-20 opacity-0">
+    <div class="flex items-center gap-3">
+      <div id="notif-icon" class="w-8 h-8 rounded-full flex items-center justify-center"></div>
+      <p id="notif-text" class="text-sm font-bold uppercase tracking-wide"></p>
+    </div>
+  </div>
+
+
+
+
+  <form id="productForm" action="../../assets/actions/process_article.php" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
     <div class="space-y-4">
       <div>
@@ -10,311 +21,399 @@
       </div>
 
       <div>
-        <label class="text-[10px] uppercase font-bold text-slate-800 block mb-1">Catégorie</label>
-        <select name="categorie_id" id="main_cat" onchange="toggleEnfantFields()" class="w-full p-3 bg-white rounded-xl border border-black text-sm cursor-pointer">
+        <label class="text-[10px] uppercase font-bold text-slate-800 block mb-1">Catalogue Principal</label>
+        <select name="categorie_id" id="main_cat" onchange="updateSubFields()" class="w-full p-3 bg-white rounded-xl border border-black text-sm cursor-pointer font-medium">
           <option value="1">Homme</option>
           <option value="2">Femme</option>
-          <option value="3">Enfants</option>
-          <option value="4">Chaussures Hommes</option>
-          <option value="5">Chaussures Femmes</option>
-          <option value="6">Chaussures Enfants</option>
-          <option value="7">Accessoires</option>
+          <option value="3">Enfants (Vêtements)</option>
+          <option value="6">Enfants (Chaussures)</option>
+          <option value="8">Déco (Maison)</option>
+          <option value="9">Gadgets (Cuisine/Élec)</option>
+          <option value="7">Accessoires Mode</option>
         </select>
       </div>
 
       <div class="p-4 bg-white rounded-2xl border border-black shadow-sm">
-        <label class="text-[10px] uppercase font-bold text-slate-800 block mb-3 text-center">Choisir les couleurs</label>
-        <div class="flex justify-center mb-3">
-          <input type="color" id="colorPicker" value="#000000" class="w-16 h-10 border border-black rounded-lg cursor-pointer">
+        <label class="text-[10px] uppercase font-bold text-slate-800 block mb-3 text-center">Couleurs disponibles</label>
+        <div class="flex justify-center items-center gap-3 mb-3">
+          <input type="color" id="colorPicker" value="#000000" class="w-12 h-10 border border-black rounded-lg cursor-pointer">
+          <button type="button" onclick="addColor()" class="px-4 py-2 bg-black text-white text-[10px] uppercase rounded-lg hover:bg-zinc-800 transition-colors">+ Ajouter</button>
         </div>
-        <div class="text-center mb-3">
-          <button type="button" onclick="addColor()" class="px-4 py-2 bg-black text-white text-[10px] uppercase rounded-lg">+ Ajouter</button>
-        </div>
-        <div id="colorsList" class="flex flex-wrap gap-2 justify-center"></div>
+        <div id="colorsList" class="flex flex-wrap gap-2 justify-center min-h-[30px]"></div>
         <input type="hidden" name="colors" id="colorsInput">
       </div>
     </div>
 
     <div class="space-y-4">
       <div>
-        <label id="label_taille" class="text-[10px] uppercase font-bold text-slate-800 block mb-1">Taille de l'article</label>
-        <input type="text" name="taille_nom" id="input_taille" placeholder="Ex: XL, 42, L..." class="w-full p-3 bg-white rounded-xl border border-black text-sm uppercase font-bold outline-none focus:bg-slate-50 transition-all" required>
+        <label class="text-[10px] uppercase font-bold text-slate-800 block mb-1">Taille / Dimension</label>
+        <input type="text" name="taille_nom" id="input_taille" placeholder="Ex: XL, 42, 120x60..." class="w-full p-3 bg-white rounded-xl border border-black text-sm uppercase font-bold outline-none" required>
       </div>
 
-      <div id="fields_enfant" class="p-4 bg-blue-50/50 rounded-2xl border border-blue-200 space-y-3">
-        <label class="text-[10px] uppercase font-bold text-blue-600 block">Détails de l'article</label>
-        <div class="flex gap-2">
-          <select name="genre" class="flex-1 p-2.5 bg-white rounded-lg border border-blue-300 text-xs outline-none">
-            <option value="homme">Homme / Garçon</option>
-            <option value="femme">Femme / Fille</option>
-            <option value="unisexe">Mixte</option>
-          </select>
-          <select name="tranche_age" id="select_age" class="flex-1 p-2.5 bg-white rounded-lg border border-blue-300 text-xs outline-none">
-            <option value="adulte" selected>Adulte</option>
-            <option value="Enfant (1-18 ans)">Enfant (1-18 ans)</option>
-            <option value="Bébé (0-12 mois)">Bébé (0-12 mois)</option>
-          </select>
-        </div>
-      </div>
+      <div id="dynamic_fields" class="p-4 bg-slate-50 rounded-2xl border border-black space-y-3">
+        <label class="text-[10px] uppercase font-bold text-black block">Classification Automatique</label>
 
-      <div id="fields_accessoire" class="hidden p-4 bg-orange-50/50 rounded-2xl border border-orange-200">
-        <label class="text-[10px] uppercase font-bold text-orange-600 block mb-2">Type Accessoire</label>
-        <select name="type_accessoire" class="w-full p-2.5 bg-white rounded-lg border border-orange-300 text-sm outline-none">
-          <option value="electronique">Électronique</option>
-          <option value="perruque">Perruque</option>
-          <option value="parfum">Parfum</option>
-          <option value="autre">Autre (préciser dans la description)</option>
+        <select name="genre" id="select_genre" class="w-full p-2.5 bg-white rounded-lg border border-slate-300 text-xs outline-none">
+          <option value="femme">Fille / Femme</option>
+          <option value="homme">Garçon / Homme</option>
+          <option value="unisexe">Mixte / Autre</option>
+        </select>
+
+        <select name="tranche_age" id="select_age" class="w-full p-2.5 bg-white rounded-lg border border-slate-300 text-xs outline-none">
+        </select>
+
+        <select name="type_accessoire" id="select_sub_type" class="w-full p-2.5 bg-white rounded-lg border border-slate-300 text-xs outline-none">
         </select>
       </div>
 
       <div>
-        <label class="text-[10px] uppercase font-bold text-slate-800 block mb-1">Prix et Devise</label>
-        <div class="space-y-3">
-          <div class="flex gap-2">
-            <input type="number" step="0.01" name="prix" required class="flex-1 p-3 bg-white rounded-xl border border-black text-sm outline-none" placeholder="0.00">
-            <select name="devise" class="w-28 p-3 bg-black text-white rounded-xl border border-black text-xs font-bold cursor-pointer">
-              <option value="USD">USD ($)</option>
-              <option value="CDF">CDF (FC)</option>
-            </select>
-          </div>
-
-          <div id="promo_price_container" class="hidden">
-            <label class="text-[9px] uppercase font-bold text-red-500 block mb-1">Ancien Prix (Prix barré)</label>
-            <input type="number" step="0.01" name="prix_barre" class="w-full p-3 bg-red-50 rounded-xl border border-red-200 text-sm outline-none border-dashed" placeholder="Ex: 150.00">
-          </div>
+        <label class="text-[10px] uppercase font-bold text-slate-800 block mb-1">Prix & Stock</label>
+        <div class="flex gap-2">
+          <input type="number" step="0.01" name="prix" required class="flex-1 p-3 bg-white rounded-xl border border-black text-sm" placeholder="Prix">
+          <select name="devise" class="w-24 p-3 bg-black text-white rounded-xl text-xs font-bold">
+            <option value="USD">$ USD</option>
+            <option value="CDF">FC</option>
+          </select>
         </div>
-      </div>
-
-      <div>
-        <label class="text-[10px] uppercase font-bold text-slate-800 block mb-1">Stock Initial</label>
-        <input type="number" name="stock_total" value="1" class="w-full p-3 bg-white rounded-xl border border-black text-sm outline-none">
+        <input type="number" name="stock_total" value="1" min="1" class="w-full mt-3 p-3 bg-white rounded-xl border border-black text-sm" placeholder="Quantité en stock">
       </div>
     </div>
 
-    <div class="space-y-4 flex flex-col">
-      <div class="flex-1">
-        <label class="text-[10px] uppercase font-bold text-slate-800 block mb-1">Description</label>
-        <textarea name="description" class="w-full p-3 bg-white rounded-xl border border-black text-sm h-32 resize-none outline-none focus:bg-slate-50 transition-all" placeholder="Détails du produit..."></textarea>
+    <div class="space-y-4">
+      <div>
+        <label class="text-[10px] uppercase font-bold text-slate-800 block mb-1">Image Principale (Face) *</label>
+        <div class="relative group">
+          <input type="file" name="image_principale" required class="text-[10px] w-full p-4 border-2 border-dashed border-slate-300 rounded-xl bg-white cursor-pointer hover:border-black transition-colors">
+        </div>
       </div>
 
+      <div class="p-4 bg-white rounded-2xl border border-black shadow-sm space-y-3">
+        <label class="text-[10px] uppercase font-bold text-slate-800 block mb-1">Vues complémentaires (Optionnel)</label>
 
-
-      <div class="mt-4 space-y-4">
-        <div>
-          <label class="text-[10px] uppercase font-bold text-slate-800 block mb-1">Image Principale (Face)</label>
-          <input type="file" name="image_principale" required class="text-[10px] w-full p-4 border-2 border-dashed border-slate-300 rounded-xl hover:border-black transition-colors cursor-pointer bg-white">
-        </div>
-
-        <button type="button" onclick="toggleExtraViews(event)" class="text-[9px] uppercase font-bold text-black border border-black px-4 py-2 rounded-lg hover:bg-black hover:text-white transition-all">
-          + Ajouter des vues (Dos, Côtés)
-        </button>
-
-        <div id="extra_views" class="hidden grid grid-cols-3 gap-2 mt-4 animate-in fade-in duration-300">
-          <div>
-            <label class="text-[8px] uppercase font-bold text-slate-500 block mb-1">Vue Dos</label>
-            <input type="file" name="image_dos" class="text-[8px] w-full p-2 border border-dashed border-slate-300 rounded-lg bg-white">
+        <div class="flex flex-col gap-2">
+          <div class="flex items-center justify-between">
+            <span class="text-[8px] uppercase font-bold text-slate-400">Dos</span>
+            <input type="file" name="image_dos" class="text-[9px] w-2/3 p-1 border border-slate-200 rounded-lg bg-slate-50 cursor-pointer">
           </div>
-          <div>
-            <label class="text-[8px] uppercase font-bold text-slate-500 block mb-1">Côté Gauche</label>
-            <input type="file" name="image_gauche" class="text-[8px] w-full p-2 border border-dashed border-slate-300 rounded-lg bg-white">
+
+          <div class="flex items-center justify-between">
+            <span class="text-[8px] uppercase font-bold text-slate-400">Gauche</span>
+            <input type="file" name="image_gauche" class="text-[9px] w-2/3 p-1 border border-slate-200 rounded-lg bg-slate-50 cursor-pointer">
           </div>
-          <div>
-            <label class="text-[8px] uppercase font-bold text-slate-500 block mb-1">Côté Droit</label>
-            <input type="file" name="image_droite" class="text-[8px] w-full p-2 border border-dashed border-slate-300 rounded-lg bg-white">
+
+          <div class="flex items-center justify-between">
+            <span class="text-[8px] uppercase font-bold text-slate-400">Droite</span>
+            <input type="file" name="image_droite" class="text-[9px] w-2/3 p-1 border border-slate-200 rounded-lg bg-slate-50 cursor-pointer">
           </div>
         </div>
       </div>
 
-
-
-      <div class="mt-6 p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-4 shadow-inner">
-        <h5 class="text-[10px] uppercase font-bold text-slate-800 border-b pb-2 mb-4">Mise en avant & Statuts</h5>
-
-        <div class="flex flex-wrap gap-3">
-          <label class="flex-1 min-w-[100px] flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-slate-200 hover:border-black transition-colors">
-            <input type="checkbox" name="is_new" value="1" class="w-4 h-4 accent-black">
-            <span class="text-[10px] uppercase font-bold text-slate-600">Nouveauté</span>
+      <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200">
+        <h5 class="text-[9px] uppercase font-black mb-3 tracking-widest text-slate-500">Options d'affichage</h5>
+        <div class="grid grid-cols-2 gap-2">
+          <label class="flex items-center gap-2 bg-white p-2 rounded-lg border border-slate-100 text-[9px] font-bold uppercase cursor-pointer hover:bg-slate-50">
+            <input type="checkbox" name="is_new" value="1" class="accent-black"> Nouveauté
           </label>
-
-          <label class="flex-1 min-w-[100px] flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-slate-200 hover:border-black transition-colors">
-            <input type="checkbox" id="promo_checkbox" name="is_promo" value="1" onchange="togglePromoPrice()" class="w-4 h-4 accent-black">
-            <span class="text-[10px] uppercase font-bold text-slate-600">Promotion</span>
-          </label>
-
-          <label class="flex-1 min-w-[100px] flex items-center gap-2 cursor-pointer bg-white p-2 rounded-lg border border-slate-200 hover:border-black transition-colors">
-            <input type="checkbox" name="actif_accueil" value="1" class="w-4 h-4 accent-black">
-            <span class="text-[10px] uppercase font-bold text-slate-600">Accueil</span>
+          <label class="flex items-center gap-2 bg-white p-2 rounded-lg border border-slate-100 text-[9px] font-bold uppercase cursor-pointer hover:bg-slate-50">
+            <input type="checkbox" name="actif_accueil" value="1" class="accent-black"> Accueil
           </label>
         </div>
-
-        <div class="space-y-3">
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label class="text-[9px] uppercase font-bold text-slate-500 block mb-1">Sous-titre (Rouge)</label>
-              <input type="text" name="subtitle" placeholder="Ex: Essence Pure" class="w-full p-2 bg-white rounded-lg border border-slate-300 text-xs outline-none focus:border-black transition-all">
-            </div>
-            <div>
-              <label class="text-[9px] uppercase font-bold text-slate-500 block mb-1">Badge Noir (Tag)</label>
-              <input type="text" name="promo_tag" placeholder="Ex: Exclusif" class="w-full p-2 bg-white rounded-lg border border-slate-300 text-xs outline-none focus:border-black transition-all">
-            </div>
-          </div>
-
-          <div>
-            <label class="text-[9px] uppercase font-bold text-slate-500 block mb-1">Durée de l'offre</label>
-            <select name="promo_duration" class="w-full p-2 bg-white rounded-lg border border-slate-300 text-xs outline-none focus:border-black cursor-pointer">
-              <option value="">Aucune durée spécifiée</option>
-              <option value="1 semaine">Pendant 1 semaine</option>
-              <option value="1 mois">Pendant 1 mois</option>
-              <option value="Edition Limitée">Édition Limitée</option>
-              <option value="Jusqu'à épuisement">Jusqu'à épuisement des stocks</option>
-            </select>
-          </div>
-        </div>
+        <input type="text" name="promo_tag" placeholder="Badge (ex: -20% ou SOLDE)" class="w-full mt-3 p-2 text-xs rounded-lg border border-slate-300 outline-none focus:border-black">
       </div>
 
-      <button type="submit" class="w-full mt-6 bg-black text-white p-4 rounded-2xl font-bold text-[11px] uppercase tracking-[0.2em] shadow-lg hover:bg-zinc-800 hover:scale-[1.02] active:scale-95 transition-all">
+      <button type="submit" class="w-full bg-black text-white p-5 rounded-2xl font-bold text-[11px] uppercase tracking-[0.2em] shadow-lg hover:bg-zinc-800 hover:-translate-y-1 transition-all duration-300">
         Enregistrer le produit
       </button>
     </div>
   </form>
 </div>
 
-<div class="bg-white rounded-3xl border border-slate-300 shadow-sm overflow-hidden">
-  <table class="w-full text-left text-sm">
-    <thead class="bg-slate-50/50 border-b border-slate-100">
-      <tr class="text-[10px] uppercase font-bold text-slate-800">
-        <th class="p-6">Produit</th>
-        <th class="p-6 text-center">Stock</th>
-        <th class="p-6">Prix</th>
-        <th class="p-6">Couleurs</th>
-        <th class="p-6 text-right">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php foreach ($produits as $p): ?>
-        <tr class="border-b border-slate-50 hover:bg-slate-50/30 transition">
-          <td class="p-6 flex items-center gap-4">
-            <img src="/ProjetFelykay/<?php echo trim($p['image_principale'], './'); ?>"
-              class="w-12 h-14 rounded-lg object-cover shadow-sm border border-slate-100"
-              onerror="this.src='/ProjetFelykay/assets/img/felikay.jpg'">
-
-            <div>
-              <p class="font-bold text-slate-900"><?php echo htmlspecialchars($p['nom']); ?></p>
-
-              <div class="flex flex-wrap gap-1 mt-1">
-                <?php if (!empty($p['is_new'])): ?>
-                  <span class="text-[8px] bg-blue-100 text-blue-600 px-1.5 py-0.5 rounded font-bold uppercase">New</span>
-                <?php endif; ?>
-
-                <?php if (!empty($p['is_promo'])): ?>
-                  <span class="text-[8px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded font-bold uppercase">Promo</span>
-                <?php endif; ?>
-
-                <?php if (!empty($p['actif_accueil'])): ?>
-                  <span class="text-[8px] bg-emerald-100 text-emerald-600 px-1.5 py-0.5 rounded font-bold uppercase">Accueil</span>
-                <?php endif; ?>
-              </div>
-
-              <div class="flex flex-wrap items-center gap-2 mt-1">
-                <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">
-                  <?php
-                  $cat_id  = (int)$p['categorie_id'];
-                  $cat_nom = $p['cat_nom'] ?? 'Article';
-                  $genre   = !empty($p['genre']) ? $p['genre'] : '';
-                  $age     = !empty($p['tranche_age']) ? $p['tranche_age'] : '';
-                  $type_acc = !empty($p['type_accessoire']) ? $p['type_accessoire'] : '';
-
-                  $display_cat = str_ireplace([' Hommes', ' Femmes', ' Enfants', ' Homme', ' Femme', ' Enfant'], '', $cat_nom);
-                  echo htmlspecialchars($display_cat);
-
-                  if ($cat_id === 7 && !empty($type_acc)) {
-                    echo " • " . htmlspecialchars(str_replace('_', ' ', $type_acc));
-                  } else {
-                    if (!empty($age) && strtolower($age) !== 'adulte') echo " " . htmlspecialchars($age);
-                    if (!empty($genre)) echo " • " . htmlspecialchars($genre);
-                  }
-
-                  // AFFICHAGE DE LA DURÉE (NOUVEAU)
-                  if (!empty($p['is_promo']) && !empty($p['promo_duration'])) {
-                    echo ' • <span class="text-red-500 lowercase font-normal">' . htmlspecialchars($p['promo_duration']) . '</span>';
-                  }
-                  ?>
-                </p>
-
-                <?php if (!empty($p['les_tailles'])): ?>
-                  <span class="text-[9px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-bold uppercase">
-                    <?php
-                    echo (in_array($cat_id, [4, 5, 6])) ? 'PT: ' : 'T: ';
-                    echo htmlspecialchars(str_replace(',', ' | ', $p['les_tailles']));
-                    ?>
-                  </span>
-                <?php endif; ?>
-              </div>
-            </div>
-          </td>
-
-          <td class="p-6 text-center">
-            <?php $stock = (int)($p['stock_total'] ?? 0); ?>
-            <span class="px-3 py-1 rounded-lg <?php echo ($stock < 5) ? 'text-red-600 font-bold bg-red-50' : 'text-slate-600 bg-slate-100'; ?>">
-              <?php echo $stock; ?>
-            </span>
-          </td>
-
-          <td class="p-6 font-serif">
-            <span class="font-bold text-slate-900"><?php echo number_format($p['prix'], 2, '.', ' '); ?></span>
-            <span class="text-[10px] font-bold ml-1 text-slate-500"><?php echo htmlspecialchars($p['devise'] ?? 'USD'); ?></span>
-          </td>
-
-          <td class="p-6">
-            <div class="flex gap-1.5 flex-wrap">
-              <?php
-              if (!empty($p['les_couleurs'])) {
-                $colors = explode(',', $p['les_couleurs']);
-                foreach ($colors as $hex) {
-                  echo '<div class="w-4 h-4 rounded-full border border-slate-200 shadow-sm" style="background-color: ' . htmlspecialchars(trim($hex)) . '"></div>';
-                }
-              }
-              ?>
-            </div>
-          </td>
-
-          <td class="p-6 text-right">
-            <div class="flex justify-end gap-2">
-              <a href="../edit_article.php?id=<?php echo $p['id']; ?>" class="p-2 hover:bg-slate-100 rounded-lg text-slate-400 transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
-                </svg>
-              </a>
-              <a href="../../assets/actions/delete_article.php?id=<?php echo $p['id']; ?>" onclick="return confirm('Supprimer cet article ?')" class="p-2 hover:bg-red-50 rounded-lg text-slate-400 hover:text-red-500 transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                </svg>
-              </a>
-            </div>
-          </td>
-
-          <td class="p-6 text-center">
-            <?php $stock = (int)($p['stock_total'] ?? 0); ?>
-            <!-- Le badge devient rouge et gras si le stock tombe en dessous de 5 -->
-            <span class="px-3 py-1 rounded-lg <?php echo ($stock < 5) ? 'text-red-600 font-bold bg-red-50' : 'text-slate-600 bg-slate-100'; ?>">
-              <?php echo ($stock > 0) ? $stock : "ÉPUISÉ"; ?>
-            </span>
-          </td>
-
-        </tr>
-      <?php endforeach; ?>
-    </tbody>
-  </table>
-</div>
-
 <script>
-  if (typeof lucide !== 'undefined') {
-    lucide.createIcons();
+  // GESTION DES COULEURS
+  let colors = [];
+
+  function addColor() {
+    const cp = document.getElementById('colorPicker');
+    const colorValue = cp.value.toUpperCase();
+    if (!colors.includes(colorValue)) {
+      colors.push(colorValue);
+      renderColors();
+    }
+  }
+
+  function renderColors() {
+    const list = document.getElementById('colorsList');
+    const input = document.getElementById('colorsInput');
+    list.innerHTML = '';
+    colors.forEach((c, index) => {
+      const colDiv = document.createElement('div');
+      colDiv.className = "w-7 h-7 rounded-full border border-slate-300 relative group animate-popIn";
+      colDiv.style.backgroundColor = c;
+      colDiv.innerHTML = `<button type="button" onclick="removeColor(${index})" class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 text-[8px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">x</button>`;
+      list.appendChild(colDiv);
+    });
+    input.value = colors.join(',');
+  }
+
+  function removeColor(i) {
+    colors.splice(i, 1);
+    renderColors();
+  }
+
+  function updateSubFields() {
+
+    const cat = document.getElementById('main_cat').value;
+
+    const selectGenre = document.getElementById('select_genre');
+    const selectAge = document.getElementById('select_age');
+    const selectSubType = document.getElementById('select_sub_type');
+
+    // RESET
+    selectGenre.innerHTML = '';
+    selectAge.innerHTML = '';
+    selectSubType.innerHTML = '';
+
+    // =========================
+    // HOMME
+    // =========================
+    if (cat == "1") {
+
+      selectGenre.innerHTML = `
+      <option value="homme">Homme</option>
+      <option value="unisexe">Mixte / Autre</option>
+    `;
+
+      selectAge.innerHTML = `
+      <option value="adulte">Adulte</option>
+    `;
+
+      selectSubType.innerHTML = `
+      <option value="quotidien">Quotidien</option>
+      <option value="evenement">Évènements</option>
+      <option value="soir">Soir</option>
+      <option value="sport">Sport</option>
+    `;
+
+    }
+
+    // =========================
+    // FEMME
+    // =========================
+    else if (cat == "2") {
+
+      selectGenre.innerHTML = `
+      <option value="femme">Femme</option>
+      <option value="unisexe">Mixte / Autre</option>
+    `;
+
+      selectAge.innerHTML = `
+      <option value="adulte">Adulte</option>
+    `;
+
+      selectSubType.innerHTML = `
+      <option value="quotidien">Quotidien</option>
+      <option value="evenement">Évènements</option>
+      <option value="soir">Soir</option>
+      <option value="luxe">Luxe</option>
+    `;
+
+    }
+
+    // =========================
+    // ENFANTS
+    // =========================
+    else if (cat == "3" || cat == "6") {
+
+      selectGenre.innerHTML = `
+      <option value="fille">Fille</option>
+      <option value="garcon">Garçon</option>
+      <option value="unisexe">Mixte</option>
+    `;
+
+      selectAge.innerHTML = `
+      <option value="0-5 ans">Nourrissons (0-5 ans)</option>
+      <option value="6-14 ans">Enfants (6-14 ans)</option>
+      <option value="14-18 ans">Ados (14-18 ans)</option>
+    `;
+
+      selectSubType.innerHTML = `
+      <option value="quotidien">Quotidien</option>
+      <option value="ecole">École</option>
+      <option value="evenement">Évènements</option>
+      <option value="sport">Sport</option>
+    `;
+
+    }
+
+    // =========================
+    // DÉCO
+    // =========================
+    else if (cat == "8") {
+
+      selectGenre.innerHTML = `
+      <option value="maison">Maison</option>
+    `;
+
+      selectAge.innerHTML = `
+      <option value="maison">Maison / Déco intérieure</option>
+    `;
+
+      selectSubType.innerHTML = `
+      <option value="salon">Salon</option>
+      <option value="chambre">Chambre</option>
+      <option value="decoration">Décoration</option>
+    `;
+
+    }
+
+    // =========================
+    // GADGETS
+    // =========================
+    else if (cat == "9") {
+
+      selectGenre.innerHTML = `
+      <option value="mixte">Mixte</option>
+    `;
+
+      selectAge.innerHTML = `
+      <option value="divers">Gadgets divers</option>
+    `;
+
+      selectSubType.innerHTML = `
+      <option value="cuisine">Cuisine</option>
+      <option value="electroniques">Électroniques</option>
+      <option value="maison">Maison</option>
+    `;
+
+    }
+
+    // =========================
+    // AUTRES
+    // =========================
+    else {
+
+      selectGenre.innerHTML = `
+      <option value="unisexe">Mixte / Autre</option>
+    `;
+
+      selectAge.innerHTML = `
+      <option value="adulte">Adulte</option>
+    `;
+
+      selectSubType.innerHTML = `
+      <option value="standard">Standard</option>
+    `;
+    }
+  }
+
+  // FONCTION DE NOTIFICATION (Thème Noir & Blanc)
+  function showNotification(message, type) {
+    const notif = document.getElementById('notification');
+    const text = document.getElementById('notif-text');
+    const icon = document.getElementById('notif-icon');
+
+    text.innerText = message;
+
+    // Reset classes de base
+    notif.className = "fixed top-5 right-5 z-[200] p-4 rounded-xl shadow-2xl border flex items-center gap-3 transform transition-all duration-500 opacity-100 translate-x-0";
+
+    if (type === 'success') {
+      // Style Noir pour le succès
+      notif.classList.add('bg-black', 'text-white', 'border-zinc-800');
+      icon.innerHTML = '<i data-lucide="check-circle" class="w-5 h-5"></i>';
+      icon.className = "w-8 h-8 bg-zinc-800 text-white rounded-full flex items-center justify-center";
+    } else {
+      // Style Blanc/Gris pour l'erreur
+      notif.classList.add('bg-white', 'text-zinc-900', 'border-zinc-200');
+      icon.innerHTML = '<i data-lucide="alert-circle" class="w-5 h-5 text-red-500"></i>';
+      icon.className = "w-8 h-8 bg-zinc-100 rounded-full flex items-center justify-center";
+    }
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+
+    setTimeout(() => {
+      notif.classList.add('opacity-0', 'translate-x-20');
+      setTimeout(() => notif.classList.add('hidden'), 500);
+    }, 4000);
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    if (typeof toggleEnfantFields === 'function') {
-      toggleEnfantFields();
-    }
+    updateSubFields();
+
+    const form = document.getElementById('productForm');
+    const inputs = form.querySelectorAll('input, select');
+
+    // Restoration du brouillon
+    inputs.forEach(input => {
+      if (!input.name) return;
+      const saved = localStorage.getItem('draft_' + input.name);
+      if (saved !== null) {
+        if (input.type === 'checkbox') input.checked = saved === 'true';
+        else input.value = saved;
+      }
+      input.addEventListener('input', () => {
+        const valueToStore = input.type === 'checkbox' ? input.checked : input.value;
+        localStorage.setItem('draft_' + input.name, valueToStore);
+      });
+    });
+
+    const catSelect = document.getElementById('main_cat');
+    catSelect.addEventListener('change', updateSubFields);
+
+    // ENVOI DU FORMULAIRE VIA AJAX
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      const submitBtn = this.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerText;
+
+      submitBtn.disabled = true;
+      submitBtn.innerText = "ENCOURS...";
+
+      fetch(this.action, {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            showNotification(data.message, 'success');
+            form.reset();
+            colors = [];
+            renderColors();
+            inputs.forEach(input => localStorage.removeItem('draft_' + input.name));
+            updateSubFields();
+          } else {
+            showNotification(data.message, 'error');
+          }
+        })
+        .catch(error => {
+          console.error('Erreur:', error);
+          showNotification("Problème de connexion au serveur", 'error');
+        })
+        .finally(() => {
+          submitBtn.disabled = false;
+          submitBtn.innerText = originalText;
+        });
+    });
   });
 </script>
+
+<style>
+  @keyframes popIn {
+    0% {
+      transform: scale(0.5);
+      opacity: 0;
+    }
+
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .animate-popIn {
+    animation: popIn 0.2s ease-out forwards;
+  }
+</style>

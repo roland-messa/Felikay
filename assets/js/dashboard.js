@@ -58,10 +58,13 @@ function openModal() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+
+
 function switchTab(id) {
   const titles = {
     'overview': 'Dashboard',
     'products': 'Catalogue Articles',
+    'inventory': 'Historique Inventaire',
     'orders': 'Gestion Commandes',
     'analytics': 'Vues & Audience',
     'settings': 'Paramètres'
@@ -70,23 +73,29 @@ function switchTab(id) {
   const titleEl = document.getElementById('current-title');
   if (titleEl) titleEl.innerText = titles[id] || 'Admin';
 
+  // Masquer tous les contenus
   document.querySelectorAll('.tab-content').forEach(el => {
     el.classList.add('hidden');
     el.classList.remove('block');
   });
 
+  // Afficher la section cible (ex: section-inventory)
   const target = document.getElementById('section-' + id);
   if (target) {
     target.classList.remove('hidden');
     target.classList.add('block');
   }
 
+  // Gérer l'état actif du bouton
   document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
   if (window.event && window.event.currentTarget) {
     window.event.currentTarget.classList.add('active');
   }
-
 }
+
+
+
+
 
 // --- 3. GESTION DES COMMANDES (AJAX) ---
 

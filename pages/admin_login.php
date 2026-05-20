@@ -21,14 +21,17 @@ if (isset($_SESSION['blocked_until']) && $_SESSION['blocked_until'] > time()) {
   die("Sécurité : Trop d'échecs. Réessayez dans $minutes minute(s).");
 }
 
-// 4. Redirection automatique si déjà connecté (Correction ici pour inclure le livreur)
-if (isset($_SESSION['user_role'])) {
-  if ($_SESSION['user_role'] === 'admin') {
-    header("Location: admin/admin_dashboard.php");
-    exit();
-  } elseif ($_SESSION['user_role'] === 'livreur') {
-    header("Location: livreur/dashboard.php");
-    exit();
+// 4. Redirection automatique désactivée ou corrigée
+if (isset($_SESSION['user_role']) && isset($_SESSION['last_activity'])) {
+  // On vérifie si la session n'est pas expirée avant de rediriger
+  if ((time() - $_SESSION['last_activity']) < 300) {
+    if ($_SESSION['user_role'] === 'admin') {
+      header("Location: admin/admin_dashboard.php");
+      exit();
+    } elseif ($_SESSION['user_role'] === 'livreur') {
+      header("Location: admin/livreur_dashboard.php");
+      exit();
+    }
   }
 }
 
@@ -77,8 +80,19 @@ include __DIR__ . '/../includes/header.php';
   }
 </style>
 
+
+
 <main id="admin-content" class="bg-[#fcfbfb] min-h-screen flex items-center justify-center px-6">
   <div class="w-full max-w-[400px]">
+
+
+    <?php if (isset($_GET['status']) && $_GET['status'] == 'deleted'): ?>
+      <div class="bg-green-100 border border-black text-white px-4 py-3 rounded relative mb-4">
+        L'article a été supprimé avec succès.
+      </div>
+    <?php endif; ?>
+
+
 
     <?php if (function_exists('display_alert')) display_alert(); ?>
 

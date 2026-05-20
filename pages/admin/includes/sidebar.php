@@ -27,16 +27,30 @@ $ruptures = get_low_stock_count($pdo, 0);
       <span>Catalogue</span>
     </button>
 
+    <button onclick="switchTab('inventory', 'Historique Inventaire', event)" class="nav-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition font-medium text-left">
+      <i data-lucide="clipboard-list" class="w-4 h-4"></i>
+      <span>Inventaire</span>
+    </button>
+
     <button onclick="switchTab('orders', 'Commandes Clients', event)" class="nav-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition font-medium text-left">
       <i data-lucide="shopping-bag" class="w-4 h-4"></i>
       <span>Commandes</span>
     </button>
 
-    <!-- NOUVEAU : Suivi des Livraisons & Performances -->
     <button onclick="switchTab('delivery', 'Suivi Livraisons', event)" class="nav-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition font-medium text-left">
       <i data-lucide="truck" class="w-4 h-4"></i>
       <span>Suivi Livraisons</span>
     </button>
+
+    <a href="tournee_livraison.php" class="nav-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition font-medium text-left">
+      <i data-lucide="route" class="w-4 h-4"></i>
+      <span>Tournée Optimisée</span>
+    </a>
+
+    <a href="carte_globale.php" class="nav-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition font-medium text-left">
+      <i data-lucide="map" class="w-4 h-4"></i>
+      <span>Carte des Livraisons</span>
+    </a>
 
     <button onclick="switchTab('communes', 'Tarifs de Livraison', event)" class="nav-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition font-medium text-left">
       <i data-lucide="map-pin" class="w-4 h-4"></i>

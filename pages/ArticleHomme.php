@@ -1,146 +1,189 @@
 <?php
+// C:\wamp64\www\ProjetFelykay\pages\ArticleHomme.php
 include '../config/db.php';
 
-// 1. RÉCUPÉRATION DES FILTRES
+// 1. RÉCUPÉRATION DES FILTRES DEPUIS L'URL
+$genre_filter = $_GET['genre'] ?? 'homme';
+$style_filter = $_GET['style'] ?? 'tous';
 $categorie_filter = $_GET['cat'] ?? 'tous';
 
 try {
-  // CORRECTION : categorie_id 1 (Habits) et 4 (Chaussures Hommes)
-  $base_sql = "SELECT * FROM produits WHERE categorie_id IN (1, 4)";
+  // 2. CONSTRUCTION DE LA REQUÊTE DYNAMIQUE
+  $sql = "SELECT * FROM produits WHERE genre = :genre";
 
-  if ($categorie_filter === 'vetements') {
-    $base_sql .= " AND categorie_id = 1";
-  } elseif ($categorie_filter === 'chaussures') {
-    $base_sql .= " AND categorie_id = 4";
+  if ($style_filter !== 'tous') {
+    $sql .= " AND (description LIKE :style OR nom LIKE :style)";
   }
 
-  $base_sql .= " ORDER BY created_at DESC";
+  if ($categorie_filter === 'vetements') {
+    $sql .= " AND categorie_id = 1";
+  } elseif ($categorie_filter === 'chaussures') {
+    $sql .= " AND categorie_id = 4";
+  }
 
-  $stmt = $pdo->prepare($base_sql);
+  $sql .= " ORDER BY created_at DESC";
+
+  $stmt = $pdo->prepare($sql);
+  $stmt->bindValue(':genre', $genre_filter);
+
+  if ($style_filter !== 'tous') {
+    $stmt->bindValue(':style', '%' . $style_filter . '%');
+  }
+
   $stmt->execute();
-  $articles_hommes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-  $articles_hommes = [];
+  $articles = [];
   error_log($e->getMessage());
 }
 
-// 2. AFFICHAGE DE LA PAGE
-if (basename($_SERVER['PHP_SELF']) == 'ArticleHomme.php') :
-  $pageTitle = "Felikay | Collection Homme";
-  include '../includes/header.php';
-  include '../includes/navbar.php';
+$pageTitle = "Felikay | Collection " . ucfirst($genre_filter);
+include '../includes/header.php';
+include '../includes/navbar.php';
 ?>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-  <style>
-    .swiper-button-next,
-    .swiper-button-prev {
-      color: #000;
-      background: white;
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    }
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-    .swiper-pagination-bullet-active {
-      background: #000 !important;
-      width: 24px;
-      border-radius: 4px;
-    }
+<style>
+  /* Correction de l'espacement pour la pagination (dots) */
+  .menCarousel {
+    padding-bottom: 70px !important;
+    /* Crée l'espace sous les prix */
+  }
 
-    .nav-filter.active {
-      color: black;
-      font-weight: bold;
-      border-bottom: 2px solid black;
-    }
-  </style>
+  .swiper-pagination {
+    bottom: 15px !important;
+    /* Descend les points tout en bas */
+  }
 
-  <main class="bg-[#F9F9F9] min-h-screen">
-    <section class="py-24 px-6 overflow-hidden">
-      <div class="max-w-[1400px] mx-auto">
+  .swiper-pagination-bullet {
+    background: #d1d1d1;
+    opacity: 1;
+  }
 
-        <div class="text-center mb-12">
-          <h2 class="font-serif text-4xl md:text-6xl mb-4 italic">Boutique Hommes</h2>
-          <p class="text-[10px] uppercase tracking-[0.4em] text-gray-400">Coupes impeccables & matières premium</p>
-        </div>
+  .swiper-pagination-bullet-active {
+    background: #000;
+    /* Noir pour le style Felykay */
+  }
 
-        <div class="flex justify-center gap-8 mb-16 text-[11px] uppercase tracking-widest text-stone-400">
-          <a href="?cat=tous" class="nav-filter <?php echo ($categorie_filter == 'tous') ? 'active' : ''; ?> pb-2 transition">Tout voir</a>
-          <a href="?cat=vetements" class="nav-filter <?php echo ($categorie_filter == 'vetements') ? 'active' : ''; ?> pb-2 transition">Vêtements</a>
-          <a href="?cat=chaussures" class="nav-filter <?php echo ($categorie_filter == 'chaussures') ? 'active' : ''; ?> pb-2 transition">Chaussures</a>
-        </div>
+  /* Styles boutons navigation */
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: #000;
+    background: white;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  }
 
-        <div class="swiper menCarousel pb-12">
-          <div class="swiper-wrapper">
-            <?php foreach ($articles_hommes as $item) :
-              $img_path = str_replace('../', '', $item['image_principale']);
-              $final_img = "../" . $img_path;
-              $detail_url = "ArticleSeul.php?id=" . $item['id'];
-            ?>
-              <div class="swiper-slide product-item group">
-                <a href="<?php echo $detail_url; ?>" class="relative block overflow-hidden mb-6 aspect-[3/4] bg-white border border-gray-100 shadow-sm">
-                  <img src="<?php echo $final_img; ?>" class="product-img w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
-                  <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
-                    <button onclick="event.preventDefault(); event.stopPropagation(); addToCart(<?php echo $item['id']; ?>, '<?php echo addslashes($item['nom']); ?>', <?php echo $item['prix']; ?>, '<?php echo $final_img; ?>')"
-                      class="bg-white p-4 rounded-full shadow-lg hover:bg-black hover:text-white transition transform translate-y-8 group-hover:translate-y-0">
-                      <i data-lucide="shopping-bag" class="w-5 h-5"></i>
-                    </button>
-                  </div>
-                </a>
-                <div class="text-left px-2">
-                  <span class="text-[9px] uppercase tracking-widest text-stone-400 block mb-1">
-                    <?php echo ($item['categorie_id'] == 4) ? 'Souliers' : 'Prêt-à-porter'; ?>
-                  </span>
-                  <a href="<?php echo $detail_url; ?>" class="hover:text-stone-600 transition-colors">
-                    <h3 class="product-name text-[11px] uppercase tracking-[0.2em] font-medium mb-2"><?php echo htmlspecialchars($item['nom']); ?></h3>
-                  </a>
-                  <span class="product-price text-[14px] font-light italic text-stone-500">
-                    <?php echo number_format($item['prix'], 2); ?> <?php echo htmlspecialchars($item['devise'] ?? 'USD'); ?>
-                  </span>
-                </div>
+  .nav-filter.active {
+    color: black;
+    font-weight: bold;
+    border-bottom: 2px solid black;
+  }
+</style>
+
+<main class="bg-[#F9F9F9] min-h-screen pt-20">
+  <section class="py-24 px-6 overflow-hidden">
+    <div class="max-w-[1400px] mx-auto">
+
+      <!-- TITRE -->
+      <div class="text-center mb-12">
+        <h2 class="font-serif text-4xl md:text-6xl mb-4 italic">
+          <?php echo ($genre_filter === 'femme') ? 'Boutique Femmes' : 'Boutique Hommes'; ?>
+        </h2>
+        <p class="text-[10px] uppercase tracking-[0.4em] text-gray-400">
+          <?php
+          echo ($style_filter !== 'tous')
+            ? "Style : " . htmlspecialchars($style_filter)
+            : "Coupes impeccables & matières premium";
+          ?>
+        </p>
+      </div>
+
+      <!-- FILTRES -->
+      <div class="flex justify-center gap-8 mb-16 text-[11px] uppercase tracking-widest text-stone-400">
+        <a href="?genre=<?php echo $genre_filter; ?>&cat=tous"
+          class="nav-filter <?php echo ($categorie_filter == 'tous') ? 'active' : ''; ?> pb-2">Tout voir</a>
+        <a href="?genre=<?php echo $genre_filter; ?>&cat=vetements"
+          class="nav-filter <?php echo ($categorie_filter == 'vetements') ? 'active' : ''; ?> pb-2">Vêtements</a>
+        <a href="?genre=<?php echo $genre_filter; ?>&cat=chaussures"
+          class="nav-filter <?php echo ($categorie_filter == 'chaussures') ? 'active' : ''; ?> pb-2">Chaussures</a>
+      </div>
+
+      <!-- CAROUSEL -->
+      <div class="swiper menCarousel">
+        <div class="swiper-wrapper">
+          <?php foreach ($articles as $item) :
+            // Traitement robuste de l'image pour ProjetFelykay
+            $image_raw = trim($item['image_principale']);
+            $image_clean = ltrim(str_replace('../', '', $image_raw), '/');
+
+            if (strpos($image_clean, 'assets/') === false) {
+              $image_clean = 'assets/img/produits/' . $image_clean;
+            }
+            $final_img = '/ProjetFelykay/' . $image_clean;
+          ?>
+            <div class="swiper-slide group">
+              <a href="ArticleSeul.php?id=<?php echo $item['id']; ?>"
+                class="relative block overflow-hidden mb-6 aspect-[3/4] bg-white border border-gray-100 shadow-sm">
+                <img src="<?php echo htmlspecialchars($final_img); ?>"
+                  alt="<?php echo htmlspecialchars($item['nom']); ?>"
+                  class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                  onerror="this.src='/ProjetFelykay/assets/img/felikay.jpg';">
+              </a>
+
+              <div class="text-left px-2">
+                <span class="text-[9px] uppercase tracking-widest text-stone-400 block mb-1">
+                  <?php echo ($item['categorie_id'] == 4) ? 'Souliers' : 'Prêt-à-porter'; ?>
+                </span>
+                <h3 class="text-[11px] uppercase tracking-[0.2em] font-medium mb-2">
+                  <?php echo htmlspecialchars($item['nom']); ?>
+                </h3>
+                <span class="text-[14px] font-light italic text-stone-500">
+                  <?php echo number_format($item['prix'], 2); ?> $
+                </span>
               </div>
-            <?php endforeach; ?>
-          </div>
-
-          <div class="swiper-button-next"></div>
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-pagination"></div>
+            </div>
+          <?php endforeach; ?>
         </div>
 
-        <?php if (empty($articles_hommes)): ?>
-          <p class="text-center text-stone-400 italic py-20">Aucun article disponible pour le moment.</p>
+        <?php if (empty($articles)): ?>
+          <p class="text-center text-stone-400 italic py-20">Aucun article trouvé pour cette sélection.</p>
         <?php endif; ?>
 
+        <!-- NAVIGATION ET PAGINATION -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
+</main>
 
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script>
-    new Swiper('.menCarousel', {
-      slidesPerView: 1,
-      spaceBetween: 30,
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  new Swiper('.menCarousel', {
+    slidesPerView: 1,
+    spaceBetween: 30,
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev"
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true
+    },
+    breakpoints: {
+      640: {
+        slidesPerView: 2
       },
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev"
-      },
-      breakpoints: {
-        640: {
-          slidesPerView: 2
-        },
-        1024: {
-          slidesPerView: 4
-        }
+      1024: {
+        slidesPerView: 4
       }
-    });
-  </script>
+    }
+  });
+</script>
 
-<?php
-  include '../includes/footer.php';
-endif;
-?>
+<?php include '../includes/footer.php'; ?>

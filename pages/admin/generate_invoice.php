@@ -1,201 +1,225 @@
 <?php
+// C:\wamp64\www\ProjetFelykay\assets\actions\generer_recu.php
+require_once '../../vendor/autoload.php';
 require_once '../../config/db.php';
 
-// Correction de l'erreur : On ne lance la session que si elle n'est pas déjà active
-if (session_status() === PHP_SESSION_NONE) {
-  session_start();
-}
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-// 1. Récupération et validation de l'ID
-$id = $_GET['id'] ?? $_GET['order'] ?? null;
+$commande_id = $_GET['id'] ?? null;
+$payment_ref = $_GET['ref'] ?? null;
 
-if (!$id || !is_numeric($id)) {
-  die("ID de commande invalide.");
-}
+if (!$commande_id && !$payment_ref) die("Identifiant de commande manquant.");
 
-// 2. Vérification du propriétaire de la commande
-$check = $pdo->prepare("SELECT user_id FROM commandes WHERE id = ?");
-$check->execute([$id]);
-$order_owner = $check->fetchColumn();
-
-if (!$order_owner) {
-  die("Commande introuvable.");
-}
-
-// Sécurité : admin ou propriétaire uniquement
-if (!isset($_SESSION['admin_id'])) {
-  $current_user_id = $_SESSION['user_id'] ?? null;
-
-  if (!$current_user_id || $order_owner != $current_user_id) {
-    die("Accès refusé. Vous n'êtes pas autorisé à voir cette facture.");
-  }
-}
-
-// 3. Récupération de la commande
-$cmd = $pdo->prepare("
-    SELECT c.*, u.nom as user_nom, u.email as user_email, u.telephone as user_tel 
+// 1. RÉCUPÉRATION DES INFOS (Base de données)
+$query = "
+    SELECT c.*, u.nom as user_nom, u.email as user_email, u.telephone as user_tel,
+           p.mode_paiement, p.statut_paiement, p.reference_interne
     FROM commandes c 
-    LEFT JOIN users u ON c.user_id = u.id 
-    WHERE c.id = ?
-");
-$cmd->execute([$id]);
-$order = $cmd->fetch(PDO::FETCH_ASSOC);
+    LEFT JOIN users u ON c.user_id = u.id
+    LEFT JOIN paiements p ON c.id = p.commande_id
+    WHERE " . ($payment_ref ? "p.reference_interne = ?" : "c.id = ?");
 
-if (!$order) {
-  die("Erreur chargement commande.");
-}
+$stmt = $pdo->prepare($query);
+$stmt->execute([$payment_ref ?? $commande_id]);
+$commande = $stmt->fetch();
 
-// 4. Récupération des produits
-$details = $pdo->prepare("
-    SELECT cd.*, p.nom 
-    FROM commande_details cd 
-    JOIN produits p ON cd.produit_id = p.id 
+if (!$commande) die("Commande introuvable.");
+
+$real_id = $commande['id'];
+$client_email = $commande['user_email'] ?? $commande['email_contact']; // Ajustez selon votre table
+
+// 2. RÉCUPÉRATION DES DÉTAILS (Produit, Taille, Couleur)
+$stmtDetails = $pdo->prepare("
+    SELECT cd.*, p.nom as produit_nom, t.nom as taille_nom, col.nom as couleur_nom 
+    FROM commande_details cd
+    LEFT JOIN produits p ON cd.produit_id = p.id
+    LEFT JOIN tailles t ON cd.taille_id = t.id
+    LEFT JOIN couleurs col ON cd.couleur_id = col.id
     WHERE cd.commande_id = ?
 ");
-$details->execute([$id]);
-$items = $details->fetchAll(PDO::FETCH_ASSOC);
+$stmtDetails->execute([$real_id]);
+$items = $stmtDetails->fetchAll();
 
-// Préparation affichage
-$nom_affichage = !empty($order['nom_complet']) ? $order['nom_complet'] : ($order['user_nom'] ?? 'Client');
-$tel_affichage = !empty($order['telephone']) ? $order['telephone'] : ($order['user_tel'] ?? 'N/A');
+// 3. LOGIQUE DE NOMMAGE & COULEURS
+$is_paid = ($commande['statut_paiement'] === 'reussi' || $commande['statut'] === 'paye');
+$type_document = $is_paid ? "REÇU DE PAIEMENT" : "BON DE COMMANDE";
+$accent_color = $is_paid ? "#2c7a7b" : "#000000"; // Vert sombre si payé, Noir sinon
 
-$frais_livraison = (float)($order['frais_livraison'] ?? 0);
-$sous_total = 0;
+// Logo en Base64 pour le PDF
+$logoPath = '../../assets/img/felikay.jpg';
+$logoBase64 = '';
+if (file_exists($logoPath)) {
+  $data = file_get_contents($logoPath);
+  $logoBase64 = 'data:image/jpg;base64,' . base64_encode($data);
+}
+
+// 4. DESIGN ÉLÉGANT (HTML/CSS)
+$html = '
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: "Helvetica", sans-serif; color: #333; margin: 0; padding: 0; font-size: 11px; }
+        .watermark { position: fixed; top: 30%; left: 10%; transform: rotate(-45deg); font-size: 100px; color: rgba(0, 0, 0, 0.03); font-weight: bold; z-index: -1000; text-transform: uppercase; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .logo-container { width: 70px; height: 70px; margin: 0 auto 10px; border: 1.5px solid #000; border-radius: 50%; overflow: hidden; }
+        .brand { font-size: 24px; font-weight: bold; letter-spacing: 6px; margin-bottom: 5px; text-transform: uppercase; }
+        .doc-type { font-size: 10px; letter-spacing: 3px; font-weight: bold; border: 1px solid ' . $accent_color . '; color: ' . $accent_color . '; padding: 6px 20px; display: inline-block; margin-top: 10px; }
+        
+        .info-table { width: 100%; margin: 30px 0; border-collapse: collapse; }
+        .info-td { vertical-align: top; width: 50%; }
+        .label { font-size: 8px; color: #999; text-transform: uppercase; margin-bottom: 3px; }
+
+        .items-table { width: 100%; border-collapse: collapse; }
+        .items-table th { background: #000; color: #fff; padding: 10px; text-transform: uppercase; font-size: 9px; text-align: left; }
+        .items-table td { padding: 12px 10px; border-bottom: 1px solid #eee; }
+        .detail-text { font-size: 9px; color: #666; text-transform: uppercase; margin-top: 2px; }
+
+        .summary-table { width: 250px; margin-left: auto; margin-top: 20px; }
+        .summary-td { padding: 5px; text-align: right; }
+        .total-final { font-size: 15px; font-weight: bold; border-top: 1.5px solid #000; padding-top: 10px; }
+        
+        .footer { position: fixed; bottom: 20px; width: 100%; text-align: center; font-size: 8px; color: #aaa; }
+    </style>
+</head>
+<body>
+    <div class="watermark">FELIKAY</div>
+    <div class="header">
+        <div class="logo-container"><img src="' . $logoBase64 . '" style="width:100%;"></div>
+        <div class="brand">FELIKAY</div>
+        <div style="font-size: 9px; color: #666;">Maison de Mode • Gombe, Kinshasa</div>
+        <div class="doc-type">' . $type_document . '</div>
+    </div>
+
+    <table class="info-table">
+        <tr>
+            <td class="info-td">
+                <div class="label">Client / Destination</div>
+                <strong style="font-size:12px;">' . htmlspecialchars($commande['nom_complet'] ?? $commande['user_nom']) . '</strong><br>
+                ' . ($commande['frais_livraison'] > 0 ? htmlspecialchars($commande['adresse_livraison']) : "Retrait en Boutique") . '<br>
+                Tél : ' . htmlspecialchars($commande['telephone'] ?? $commande['user_tel']) . '
+            </td>
+            <td class="info-td" style="text-align: right;">
+                <div class="label">Détails</div>
+                <strong>Référence :</strong> #' . $real_id . '<br>
+                <strong>Date :</strong> ' . date("d/m/Y", strtotime($commande['created_at'])) . '<br>
+                <strong>Paiement :</strong> ' . strtoupper($commande['mode_paiement'] ?? 'Non défini') . '
+            </td>
+        </tr>
+    </table>
+
+    <table class="items-table">
+        <thead>
+            <tr>
+                <th>Article & Détails</th>
+                <th style="text-align: center;">Qté</th>
+                <th style="text-align: right;">Total</th>
+            </tr>
+        </thead>
+        <tbody>';
+foreach ($items as $item) {
+  $html .= '<tr>
+                <td>
+                    <strong>' . htmlspecialchars($item['produit_nom']) . '</strong><br>
+                    <div class="detail-text">Taille: ' . ($item['taille_nom'] ?? 'STD') . ' | Couleur: ' . ($item['couleur_nom'] ?? 'Unique') . '</div>
+                </td>
+                <td style="text-align: center;">' . $item['quantite'] . '</td>
+                <td style="text-align: right;">' . number_format($item['prix_unitaire'] * $item['quantite'], 2) . ' $</td>
+            </tr>';
+}
+$html .= '</tbody>
+    </table>
+
+    <table class="summary-table">
+        <tr>
+            <td class="summary-td">Sous-total :</td>
+            <td class="summary-td" style="width:80px;">' . number_format($commande['total_ttc'] - ($commande['frais_livraison'] ?? 0), 2) . ' $</td>
+        </tr>
+        <tr>
+            <td class="summary-td">Livraison :</td>
+            <td class="summary-td">' . number_format($commande['frais_livraison'] ?? 0, 2) . ' $</td>
+        </tr>
+        <tr>
+            <td class="summary-td total-final">TOTAL TTC :</td>
+            <td class="summary-td total-final">' . number_format($commande['total_ttc'], 2) . ' $</td>
+        </tr>
+    </table>
+
+    <div class="footer">FELIKAY • +243 829 045 003 • www.felikay.com</div>
+</body>
+</html>';
+
+// 5. GÉNÉRATION PDF & ENVOI MAIL
+try {
+  $options = new Options();
+  $options->set('isRemoteEnabled', true);
+  $dompdf = new Dompdf($options);
+  $dompdf->loadHtml($html);
+  $dompdf->setPaper('A4', 'portrait');
+  $dompdf->render();
+  $pdfOutput = $dompdf->output();
+
+  // Configuration PHPMailer pour le serveur Felikay
+  $mail = new PHPMailer(true);
+  $mail->isSMTP();
+  $mail->Host       = 'mail5017.site4now.net';
+  $mail->SMTPAuth   = true;
+  $mail->Username   = 'noreply@felikayboutique.com';
+  $mail->Password   = 'Felikay@2026';
+  $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+  $mail->Port       = 465;
+  $mail->CharSet    = 'UTF-8';
+
+  $mail->setFrom('noreply@felikayboutique.com', 'Felikay Maison de Mode');
+  $mail->addAddress($client_email);
+  $mail->addStringAttachment($pdfOutput, "Felikay_" . $type_document . "_" . $real_id . ".pdf");
+
+  $mail->isHTML(true);
+  $mail->Subject = "Votre $type_document Felikay - #$real_id";
+  $mail->Body    = "Merci de votre achat chez Felikay. Veuillez trouver ci-joint votre $type_document.";
+
+  $mail->send();
+  $mail_sent = true;
+} catch (Exception $e) {
+  $mail_sent = false;
+  $error_msg = $mail->ErrorInfo;
+  // Optionnel : Enregistrer l'erreur dans les logs pour le débogage
+  error_log("Erreur d'envoi de mail : " . $error_msg);
+}
+
+// 6. AFFICHAGE DU MESSAGE FINAL AU CLIENT
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 
 <head>
   <meta charset="UTF-8">
-  <title>Facture #ORD-<?= htmlspecialchars($order['id']) ?> | Felikay</title>
+  <title>Confirmation - Felikay</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Montserrat', sans-serif;
-    }
-
-    .font-serif {
-      font-family: 'Playfair Display', serif;
-    }
-
-    @media print {
-      .no-print {
-        display: none;
-      }
-
-      body {
-        background: white;
-        padding: 0;
-      }
-
-      .shadow-lg {
-        border: none;
-        box-shadow: none;
-      }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
 </head>
 
-<body class="bg-gray-100 py-10">
+<body class="bg-stone-50 flex items-center justify-center h-screen">
+  <div class="bg-white p-12 shadow-sm border border-stone-200 text-center max-w-lg">
+    <h1 style="font-family: 'Playfair Display', serif;" class="text-4xl italic mb-8">Felikay</h1>
 
-  <div class="max-w-4xl mx-auto p-12 bg-white border border-slate-200 shadow-lg relative">
-
-    <!-- Filigrane -->
-    <div class="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
-      <h1 class="text-9xl font-serif italic -rotate-12">Felikay</h1>
-    </div>
-
-    <div class="relative z-10">
-
-      <!-- Header avec Logo ajouté à côté du nom -->
-      <div class="flex justify-between items-start border-b border-black pb-8">
-        <div class="flex items-center gap-4">
-          <img src="/ProjetFelykay/assets/img/felikay.jpg" alt="Logo" class="w-16 h-16 object-cover rounded-full border border-gray-100 shadow-sm">
-          <div>
-            <h1 class="text-4xl font-serif italic font-bold">FELIKAY</h1>
-            <p class="text-[10px] text-slate-500 uppercase tracking-widest mt-1">
-              Maison de Mode • Kinshasa
-            </p>
-          </div>
-        </div>
-
-        <div class="text-right text-xs">
-          <p class="font-bold text-lg">Facture #ORD-<?= htmlspecialchars($order['id']) ?></p>
-          <p>Date: <?= date('d/m/Y H:i', strtotime($order['created_at'])) ?></p>
-          <p class="bg-slate-100 px-2 py-1 text-[9px] uppercase mt-1">
-            Statut: <?= htmlspecialchars($order['statut']) ?>
-          </p>
-        </div>
+    <?php if ($mail_sent): ?>
+      <div class="text-stone-800">
+        <p class="text-lg mb-2">Merci pour votre confiance.</p>
+        <p class="text-sm text-stone-500 mb-8 italic">Un reçu de paiement vous a été envoyé par mail à : <br><strong><?= $client_email ?></strong></p>
       </div>
+    <?php else: ?>
+      <p class="text-red-500 mb-8 font-bold">Désolé, l'email n'a pas pu partir. Mais votre commande est bien enregistrée.</p>
+    <?php endif; ?>
 
-      <!-- Client -->
-      <div class="grid grid-cols-2 gap-16 py-10">
-        <div>
-          <p class="text-[10px] uppercase font-bold text-gray-400 mb-2">Client</p>
-          <p class="font-bold text-lg"><?= htmlspecialchars($nom_affichage) ?></p>
-          <p><?= htmlspecialchars($order['adresse_livraison']) ?></p>
-          <p>Q/ <?= htmlspecialchars($order['quartier']) ?> - <?= htmlspecialchars($order['commune']) ?></p>
-          <p>Tél: <?= htmlspecialchars($tel_affichage) ?></p>
-        </div>
-
-        <div class="text-right">
-          <p class="text-[10px] uppercase font-bold text-gray-400 mb-2">Boutique</p>
-          <p class="font-bold">FELIKAY</p>
-          <p>Kinshasa, RDC</p>
-        </div>
-      </div>
-
-      <!-- Produits -->
-      <table class="w-full text-sm">
-        <thead>
-          <tr class="border-b font-bold text-[10px] uppercase">
-            <th class="text-left py-2">Produit</th>
-            <th class="text-center py-2">Prix</th>
-            <th class="text-center py-2">Qté</th>
-            <th class="text-right py-2">Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php foreach ($items as $item):
-            $total_ligne = $item['prix_unitaire'] * $item['quantite'];
-            $sous_total += $total_ligne;
-          ?>
-            <tr class="border-b">
-              <td class="py-3"><?= htmlspecialchars($item['nom']) ?></td>
-              <td class="text-center py-3"><?= number_format($item['prix_unitaire'], 2) ?> $</td>
-              <td class="text-center py-3"><?= $item['quantite'] ?></td>
-              <td class="text-right py-3"><?= number_format($total_ligne, 2) ?> $</td>
-            </tr>
-          <?php endforeach; ?>
-        </tbody>
-      </table>
-
-      <!-- Total -->
-      <div class="mt-8 text-right">
-        <p class="text-sm text-gray-600">Sous-total : <?= number_format($sous_total, 2) ?> $</p>
-        <p class="text-sm text-gray-600">Livraison : <?= number_format($frais_livraison, 2) ?> $</p>
-        <div class="mt-2 border-t border-black pt-2 inline-block min-w-[200px]">
-          <p class="font-bold text-xl">
-            Total : <?= number_format($order['total_ttc'], 2) ?> USD
-          </p>
-        </div>
-      </div>
-
-      <!-- Actions -->
-      <div class="mt-10 no-print flex gap-4">
-        <button onclick="window.print()" class="bg-black text-white px-8 py-3 text-[10px] font-bold uppercase tracking-widest hover:bg-stone-800 transition">
-          Imprimer la facture
-        </button>
-        <a href="http://localhost/ProjetFelykay/index.php" class="border border-black px-8 py-3 text-[10px] font-bold uppercase tracking-widest hover:bg-black hover:text-white transition">
-          Retour boutique
-        </a>
-      </div>
-
-    </div>
+    <a href="../../index.php" class="inline-block border border-black px-10 py-3 text-[10px] font-bold uppercase tracking-[3px] hover:bg-black hover:text-white transition-all">
+      Retour à la boutique
+    </a>
   </div>
-
 </body>
 
 </html>

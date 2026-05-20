@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../config/db.php';
+// require_once '../includes/session_check.php';  
 
 $user_id = $_SESSION['user_id'] ?? null;
 $nom = '';
@@ -115,7 +116,8 @@ $selected_method = $_GET['select'] ?? 'online';
           <h2 class="font-serif text-2xl italic mb-6">Vos informations</h2>
           <div class="space-y-4">
             <input type="text" name="nom_complet" placeholder="Nom complet" value="<?= htmlspecialchars($nom) ?>" required class="w-full border border-gray-200 p-3 text-sm outline-none focus:border-black">
-            <input type="email" name="email" placeholder="Email" value="<?= htmlspecialchars($email) ?>" <?= $user_id ? 'readonly' : 'required' ?> class="w-full border border-gray-200 p-3 text-sm outline-none <?= $user_id ? 'bg-gray-50' : '' ?>">
+
+            <input type="email" name="email" id="client_email" placeholder="Email" value="<?= htmlspecialchars($email) ?>" <?= $user_id ? 'readonly' : 'required' ?> class="w-full border border-gray-200 p-3 text-sm outline-none <?= $user_id ? 'bg-gray-50' : '' ?>">
           </div>
 
           <!-- OPTION DE LIVRAISON -->
@@ -196,7 +198,16 @@ $selected_method = $_GET['select'] ?? 'online';
             <div class="grid grid-cols-2 gap-4">
               <div class="space-y-1">
                 <label class="text-[9px] uppercase font-bold tracking-widest text-stone-400">Quartier</label>
-                <input type="text" name="quartier" id="quartier_input" placeholder="Quartier" class="w-full border border-gray-200 p-3 text-sm outline-none focus:border-black">
+
+                <select name="quartier" id="quartier_select" class="w-full border border-gray-200 p-3 text-sm bg-white outline-none focus:border-black">
+                  <option value="" disabled selected>Sélectionnez une commune d'abord</option>
+                </select>
+
+
+                <div id="new_quartier_container" class="hidden mt-2">
+                  <input type="text" id="new_quartier_input" placeholder="Nom du nouveau quartier" class="w-full border border-orange-200 p-2 text-xs outline-none focus:border-orange-500 bg-orange-50">
+                  <p class="text-[8px] text-orange-600 mt-1 uppercase italic">Ce quartier sera ajouté après validation.</p>
+                </div>
               </div>
               <div class="space-y-1">
                 <label class="text-[9px] uppercase font-bold tracking-widest text-stone-400">Référence</label>
@@ -264,34 +275,33 @@ $selected_method = $_GET['select'] ?? 'online';
     const cart = JSON.parse(localStorage.getItem('felikay_cart')) || [];
     const isOnline = "<?= $selected_method ?>" === "online";
     let deliveryFee = 0;
-    let typingTimer;
 
     function toggleDelivery() {
       const isDelivery = document.getElementById('delivery_toggle').checked;
       const addressSection = document.getElementById('address-section');
       const shopAddress = document.getElementById('shop-address');
 
-      // On cible tous les champs de saisie dans la section adresse
-      const inputs = addressSection.querySelectorAll('input, select');
+      // CORRECTION : On cible les inputs normaux, pas le champ "nouveau quartier" masqué
+      const standardInputs = addressSection.querySelectorAll('input:not(#new_quartier_input), select:not(#new_quartier_input)');
+      const inputNewQuartier = document.getElementById('new_quartier_input');
 
       if (isDelivery) {
         addressSection.classList.remove('hidden');
         shopAddress.classList.add('hidden');
+        standardInputs.forEach(input => input.setAttribute('required', ''));
 
-        // On rend les champs obligatoires seulement s'ils sont visibles
-        inputs.forEach(input => {
-          input.setAttribute('required', '');
-        });
-
-        fetchDeliveryPrice();
+        // On vérifie s'il faut remettre le required sur le nouveau quartier s'il est visible
+        if (inputNewQuartier && !inputNewQuartier.parentElement.classList.contains('hidden')) {
+          inputNewQuartier.setAttribute('required', '');
+        }
       } else {
         addressSection.classList.add('hidden');
         shopAddress.classList.remove('hidden');
 
-        // IMPORTANT : On retire l'obligation pour ne pas bloquer le formulaire
-        inputs.forEach(input => {
+        // On retire le required de TOUS les champs sans exception
+        addressSection.querySelectorAll('input, select').forEach(input => {
           input.removeAttribute('required');
-          input.value = ""; // Optionnel : vide le champ
+          input.value = "";
         });
 
         deliveryFee = 0;
@@ -310,23 +320,41 @@ $selected_method = $_GET['select'] ?? 'online';
       document.getElementById('total_ttc_input').value = finalTotal.toFixed(2);
     }
 
-    async function fetchDeliveryPrice() {
-      const isDelivery = document.getElementById('delivery_toggle').checked;
-      if (!isDelivery) return;
-
+    async function updateQuartiersList() {
       const commune = document.getElementById('commune_select').value;
-      const quartier = document.getElementById('quartier_input').value;
+      const quartierSelect = document.getElementById('quartier_select');
+      if (!commune) return;
 
-      if (commune && quartier.length > 2) {
-        try {
-          const response = await fetch(`../assets/actions/get_delivery_fee.php?commune=${encodeURIComponent(commune)}&quartier=${encodeURIComponent(quartier)}`);
-          const data = await response.json();
-          deliveryFee = data.success ? parseFloat(data.frais) : 0;
-          document.getElementById('frais_livraison_input').value = deliveryFee;
-          updateFinalDisplay();
-        } catch (e) {
-          console.error("Erreur frais livraison");
+      try {
+        const response = await fetch(`../assets/actions/get_neighborhoods.php?commune=${encodeURIComponent(commune)}`);
+        const quartiers = await response.json();
+
+        quartierSelect.innerHTML = '<option value="" disabled selected>Choisir le quartier...</option>';
+
+        if (quartiers.length > 0) {
+          quartiers.forEach(q => {
+            const option = document.createElement('option');
+            option.value = q.quartier;
+            option.dataset.frais = q.frais_usd;
+            option.textContent = q.quartier;
+            quartierSelect.appendChild(option);
+          });
+        } else {
+          quartierSelect.innerHTML = '<option value="" disabled selected>Aucun quartier disponible</option>';
         }
+
+        // CORRECTION : On s'assure de cacher le champ de saisie libre au changement de commune
+        const inputNewQuartier = document.getElementById('new_quartier_input');
+        if (inputNewQuartier) {
+          inputNewQuartier.removeAttribute('required');
+          // Si tu as entouré ton input d'une div pour le masquer, cache-la ici
+          if (inputNewQuartier.parentElement) {
+            // inputNewQuartier.parentElement.classList.add('hidden'); // Optionnel selon ton HTML
+          }
+        }
+
+      } catch (e) {
+        console.error("Erreur chargement quartiers");
       }
     }
 
@@ -354,17 +382,17 @@ $selected_method = $_GET['select'] ?? 'online';
       }
 
       container.innerHTML = cart.map(item => `
-        <div class="flex items-center space-x-4">
-            <div class="w-16 h-20 bg-white border border-gray-100 overflow-hidden">
-                <img src="${item.img}" class="w-full h-full object-cover">
+            <div class="flex items-center space-x-4">
+                <div class="w-16 h-20 bg-white border border-gray-100 overflow-hidden">
+                    <img src="${item.img}" class="w-full h-full object-cover">
+                </div>
+                <div class="flex-1">
+                    <h4 class="text-[10px] uppercase font-bold">${item.name}</h4>
+                    <p class="text-[9px] text-gray-400">Qté: ${item.quantity || 1}</p>
+                </div>
+                <span class="text-xs font-semibold">${(item.price * (item.quantity || 1)).toFixed(2)} $</span>
             </div>
-            <div class="flex-1">
-                <h4 class="text-[10px] uppercase font-bold">${item.name}</h4>
-                <p class="text-[9px] text-gray-400">Qté: ${item.quantity || 1}</p>
-            </div>
-            <span class="text-xs font-semibold">${(item.price * (item.quantity || 1)).toFixed(2)} $</span>
-        </div>
-      `).join('');
+        `).join('');
 
       document.getElementById('cart_data_input').value = JSON.stringify(cart);
       updateFinalDisplay();
@@ -372,13 +400,25 @@ $selected_method = $_GET['select'] ?? 'online';
 
     document.addEventListener('DOMContentLoaded', () => {
       displayOrder();
-      document.getElementById('commune_select').addEventListener('change', fetchDeliveryPrice);
-      document.getElementById('quartier_input').addEventListener('input', () => {
-        clearTimeout(typingTimer);
-        typingTimer = setTimeout(fetchDeliveryPrice, 800);
+
+      document.getElementById('commune_select').addEventListener('change', () => {
+        updateQuartiersList();
+        deliveryFee = 0;
+        updateFinalDisplay();
+      });
+
+      document.getElementById('quartier_select').addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+
+        deliveryFee = parseFloat(selectedOption.dataset.frais || 0);
+
+        document.getElementById('frais_livraison_input').value = deliveryFee;
+        updateFinalDisplay();
       });
     });
   </script>
+
+
 </body>
 
 </html>

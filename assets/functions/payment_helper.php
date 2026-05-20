@@ -1,16 +1,11 @@
 <?php
 
-/**
- * Initialise un paiement mobile via l'API AfreeMosi
- * Version corrigée pour support multi-devise (USD/CDF)
- */
 function initierPaiementMobile($phone, $amount, $currency, $telecom, $description)
 {
   $url = "https://afreemosi.com/api/payment/initiate/InitiateFelikayPayment.ashx";
 
   try {
-    // ====== NORMALISATION DU TÉLÉPHONE ======
-    // On ne garde que les chiffres et on force le préfixe 243 sur les 9 derniers chiffres
+
     $clean = preg_replace('/[^0-9]/', '', $phone);
     $lastNine = substr($clean, -9);
     $phone = '243' . $lastNine;
@@ -28,7 +23,7 @@ function initierPaiementMobile($phone, $amount, $currency, $telecom, $descriptio
     }
 
     // ====== MONTANT ET RÉFÉRENCE ======
-    // Correction : On utilise 2 décimales pour le USD, sans arrondir à l'entier supérieur
+
     $amount_formatted = number_format(floatval($amount), 2, '.', '');
 
     if (floatval($amount_formatted) <= 0) {
@@ -40,8 +35,8 @@ function initierPaiementMobile($phone, $amount, $currency, $telecom, $descriptio
     // ====== PRÉPARATION DU PAYLOAD ======
     $payloadArray = [
       "phone"       => $phone,
-      "amount"      => $amount_formatted, // Format string avec 2 décimales
-      "currency"    => strtoupper(trim($currency)), // Accepte USD ou CDF
+      "amount"      => $amount_formatted,
+      "currency"    => strtoupper(trim($currency)),
       "telecom"     => $telecom,
       "referenceNo" => $ref,
       "description" => $description
