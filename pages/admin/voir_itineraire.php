@@ -12,6 +12,7 @@ if (!isset($_SESSION['user_role']) || !in_array($_SESSION['user_role'], ['admin'
 if (!function_exists('lowercase_clean')) {
   function lowercase_clean($str)
   {
+    if ($str === null) return '';
     $str = mb_strtolower($str, 'UTF-8');
     $str = str_replace([' ', '-', '_', '/'], '', $str);
     return trim($str);
@@ -91,8 +92,8 @@ try {
     $commune_cle = lowercase_clean($commande['commune'] ?? '');
     $type_livr = lowercase_clean($commande['type_livraison'] ?? '');
 
-    // Détection si c'est un retrait sur place / en boutique (selon ton champ type_livraison ou le nom de la commune)
-    if ($type_livr === 'boutique' || $type_livr === 'surplace' || $commune_cle === 'boutique' || $commune_cle === 'atelier') {
+    // Détection si c'est un retrait sur place / en boutique
+    if ($type_livr === 'boutique' || $type_livr === 'surplace' || $type_livr === 'retraitenboutique' || $commune_cle === 'boutique' || $commune_cle === 'atelier') {
       $commande['est_retrait_boutique'] = true;
       $commande['lat'] = $latitude_depart; // Coordonnées de l'atelier
       $commande['lng'] = $longitude_depart;
@@ -144,8 +145,11 @@ try {
           <?= $est_groupe ? "Traitement de plusieurs destinations simultanées" : "Statut actuel de la commande : <span class='font-bold text-gray-700 uppercase'>" . htmlspecialchars($commandes[0]['statut']) . "</span>" ?>
         </p>
       </div>
-      <div class="flex gap-3">
-        <a href="carte_globale.php" class="bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-bold uppercase tracking-wider px-5 py-3 rounded-xl transition">
+      <div class="flex flex-wrap gap-3">
+        <a href="carte_globale.php" class="bg-black hover:bg-gray-900 text-white text-xs font-bold uppercase tracking-wider px-5 py-3 rounded-xl transition shadow-sm flex items-center gap-2">
+          🗺️ Voir l'itinéraire global
+        </a>
+        <a href="admin_dashboard.php?tab=orders" class="bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-bold uppercase tracking-wider px-5 py-3 rounded-xl transition">
           Retour
         </a>
       </div>
@@ -185,11 +189,11 @@ try {
             </div>
             <div>
               <label class="block text-[9px] font-bold uppercase text-gray-400">Secteur ciblé</label>
-              <p class="text-xs font-bold text-slate-700 uppercase"><?= htmlspecialchars($cmd['commune']) ?> <span class="text-gray-300 font-normal">|</span> <?= htmlspecialchars($cmd['quartier']) ?></p>
+              <p class="text-xs font-bold text-slate-700 uppercase"><?= htmlspecialchars($cmd['commune'] ?? '') ?> <span class="text-gray-300 font-normal">|</span> <?= htmlspecialchars($cmd['quartier'] ?? '') ?></p>
             </div>
             <div>
               <label class="block text-[9px] font-bold uppercase text-gray-400">Adresse Complète</label>
-              <p class="text-xs text-gray-600 italic bg-white p-2 rounded-lg border mt-1"><?= htmlspecialchars($cmd['adresse_livraison']) ?></p>
+              <p class="text-xs text-gray-600 italic bg-white p-2 rounded-lg border mt-1"><?= htmlspecialchars($cmd['adresse_livraison'] ?? '') ?></p>
             </div>
           </div>
           <?php if ($index < count($commandes) - 1): ?>
@@ -214,18 +218,19 @@ try {
   <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
 
   <script>
-    const map = L.map('map').setView([-4.3224, 15.3070], 12);
+    // Initialisation de la carte en désactivant la mention d'attribution par défaut
+    const map = L.map('map', {
+      attributionControl: false
+    }).setView([-4.3224, 15.3070], 12);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
     const startLat = <?= $latitude_depart ?>;
     const startLng = <?= $longitude_depart ?>;
     const listeCommandes = <?= json_encode($commandes) ?>;
 
     let routeWaypoints = [];
-    routeWaypoints.push(L.latLng(startLat, startLng)); // Point A : Cuisine Parfaite
+    routeWaypoints.push(L.latLng(startLat, startLng)); // Point A
 
     // Ajouter uniquement les commandes qui NE sont PAS des retraits en boutique pour tracer la route
     listeCommandes.forEach(cmd => {
@@ -257,9 +262,8 @@ try {
         }),
         createMarker: function(i, waypoint, n) {
           if (i === 0) {
-            return L.marker(waypoint.latLng).bindPopup("<b>📍 Départ : La Cuisine Parfaite</b>").openPopup();
+            return L.marker(waypoint.latLng).bindPopup("<b>📍 Départ : Boutique Felikay</b>").openPopup();
           } else {
-            // Filtrer la liste pour trouver la bonne commande correspondante excluant les retraits sur carte
             const livraisonsReelles = listeCommandes.filter(c => !c.est_retrait_boutique);
             const cmdCorrespondante = livraisonsReelles[i - 1];
             return L.marker(waypoint.latLng).bindPopup(`
@@ -275,7 +279,6 @@ try {
         itineraryClassName: 'hidden-itinerary'
       }).addTo(map);
     } else {
-      // S'il n'y a que des retraits en boutique sélectionnés, on place juste un marqueur spécial sur l'atelier
       L.marker([startLat, startLng]).addTo(map).bindPopup(`
         <div style="font-family: sans-serif; text-align:center; padding:5px;">
           <b style="color:#d97706;">🏠 Point de Retrait Client</b><br>

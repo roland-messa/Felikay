@@ -1,5 +1,5 @@
 <?php
-// C:\wamp64\www\ProjetFelykay\assets\actions\generer_recu.php
+// C:\wamp64\www\ProjetFelykay\pages\admin\generate_invoice.php
 require_once '../../vendor/autoload.php';
 require_once '../../config/db.php';
 
@@ -29,9 +29,9 @@ $commande = $stmt->fetch();
 if (!$commande) die("Commande introuvable.");
 
 $real_id = $commande['id'];
-$client_email = $commande['user_email'] ?? $commande['email_contact']; // Ajustez selon votre table
+$client_email = $commande['user_email'] ?? ($commande['email_invite'] ?? '');
 
-// 2. RÉCUPÉRATION DES DÉTAILS (Produit, Taille, Couleur)
+// 2. RÉCUPÉRATION DES DÉTAILS
 $stmtDetails = $pdo->prepare("
     SELECT cd.*, p.nom as produit_nom, t.nom as taille_nom, col.nom as couleur_nom 
     FROM commande_details cd
@@ -43,17 +43,23 @@ $stmtDetails = $pdo->prepare("
 $stmtDetails->execute([$real_id]);
 $items = $stmtDetails->fetchAll();
 
-// 3. LOGIQUE DE NOMMAGE & COULEURS
-$is_paid = ($commande['statut_paiement'] === 'reussi' || $commande['statut'] === 'paye');
-$type_document = $is_paid ? "REÇU DE PAIEMENT" : "BON DE COMMANDE";
-$accent_color = $is_paid ? "#2c7a7b" : "#000000"; // Vert sombre si payé, Noir sinon
+// 3. LOGIQUE DE NOMMAGE, COULEURS ET LIVRAISON
+$is_paid = in_array(strtolower($commande['statut_paiement'] ?? ''), ['reussi', 'completed', 'success', 'paye']) || strtolower($commande['statut'] ?? '') === 'paye';
 
-// Logo en Base64 pour le PDF
+// Changement dynamique du titre
+$type_document = $is_paid ? "FACTURE De PAIEMENT" : "BON DE COMMANDE";
+
+$frais_livraison = floatval($commande['frais_livraison'] ?? 0);
+$is_livraison = ($frais_livraison > 0 && stripos($commande['adresse_livraison'] ?? '', 'boutique') === false);
+
+$accent_color = $is_paid ? "#27ae60" : "#e74c3c"; // Vert si payé, Rouge si impayé
+
+// Logo en Base64
 $logoPath = '../../assets/img/felikay.jpg';
 $logoBase64 = '';
 if (file_exists($logoPath)) {
-  $data = file_get_contents($logoPath);
-  $logoBase64 = 'data:image/jpg;base64,' . base64_encode($data);
+    $data = file_get_contents($logoPath);
+    $logoBase64 = 'data:image/jpg;base64,' . base64_encode($data);
 }
 
 // 4. DESIGN ÉLÉGANT (HTML/CSS)
@@ -68,8 +74,13 @@ $html = '
         .header { text-align: center; margin-bottom: 30px; }
         .logo-container { width: 70px; height: 70px; margin: 0 auto 10px; border: 1.5px solid #000; border-radius: 50%; overflow: hidden; }
         .brand { font-size: 24px; font-weight: bold; letter-spacing: 6px; margin-bottom: 5px; text-transform: uppercase; }
-        .doc-type { font-size: 10px; letter-spacing: 3px; font-weight: bold; border: 1px solid ' . $accent_color . '; color: ' . $accent_color . '; padding: 6px 20px; display: inline-block; margin-top: 10px; }
+        .doc-type { font-size: 10px; letter-spacing: 3px; font-weight: bold; border: 1px solid #000; padding: 6px 20px; display: inline-block; margin-top: 10px; text-transform: uppercase;}
         
+        /* Cadre de statut rouge ou vert */
+        .status-badge { margin: 20px 0; padding: 12px; text-align: center; font-weight: bold; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+        .status-paid { border: 2.5px solid #27ae60; color: #27ae60; background: #f4fdf8; }
+        .status-unpaid { border: 2.5px solid #e74c3c; color: #e74c3c; background: #fdf5f4; }
+
         .info-table { width: 100%; margin: 30px 0; border-collapse: collapse; }
         .info-td { vertical-align: top; width: 50%; }
         .label { font-size: 8px; color: #999; text-transform: uppercase; margin-bottom: 3px; }
@@ -82,7 +93,6 @@ $html = '
         .summary-table { width: 250px; margin-left: auto; margin-top: 20px; }
         .summary-td { padding: 5px; text-align: right; }
         .total-final { font-size: 15px; font-weight: bold; border-top: 1.5px solid #000; padding-top: 10px; }
-        
         .footer { position: fixed; bottom: 20px; width: 100%; text-align: center; font-size: 8px; color: #aaa; }
     </style>
 </head>
@@ -93,14 +103,23 @@ $html = '
         <div class="brand">FELIKAY</div>
         <div style="font-size: 9px; color: #666;">Maison de Mode • Gombe, Kinshasa</div>
         <div class="doc-type">' . $type_document . '</div>
-    </div>
+    </div>';
 
+// Bloc conditionnel avec entourage rouge/vert et détails texte demandés
+$details_livraison = $is_livraison ? "avec livraison incluse" : "retrait en boutique";
+if ($is_paid) {
+    $html .= '<div class="status-badge status-paid">Payé : ' . number_format($commande['total_ttc'], 2) . ' $ (' . $details_livraison . ')</div>';
+} else {
+    $html .= '<div class="status-badge status-unpaid">Solde à payer : ' . number_format($commande['total_ttc'], 2) . ' $ (' . $details_livraison . ')</div>';
+}
+
+$html .= '
     <table class="info-table">
         <tr>
             <td class="info-td">
                 <div class="label">Client / Destination</div>
                 <strong style="font-size:12px;">' . htmlspecialchars($commande['nom_complet'] ?? $commande['user_nom']) . '</strong><br>
-                ' . ($commande['frais_livraison'] > 0 ? htmlspecialchars($commande['adresse_livraison']) : "Retrait en Boutique") . '<br>
+                ' . ($is_livraison ? htmlspecialchars($commande['adresse_livraison']) . '<br>' . htmlspecialchars($commande['quartier'] ?? '') . ', ' . htmlspecialchars($commande['commune'] ?? '') : "Retrait en Boutique") . '<br>
                 Tél : ' . htmlspecialchars($commande['telephone'] ?? $commande['user_tel']) . '
             </td>
             <td class="info-td" style="text-align: right;">
@@ -122,7 +141,7 @@ $html = '
         </thead>
         <tbody>';
 foreach ($items as $item) {
-  $html .= '<tr>
+    $html .= '<tr>
                 <td>
                     <strong>' . htmlspecialchars($item['produit_nom']) . '</strong><br>
                     <div class="detail-text">Taille: ' . ($item['taille_nom'] ?? 'STD') . ' | Couleur: ' . ($item['couleur_nom'] ?? 'Unique') . '</div>
@@ -137,11 +156,11 @@ $html .= '</tbody>
     <table class="summary-table">
         <tr>
             <td class="summary-td">Sous-total :</td>
-            <td class="summary-td" style="width:80px;">' . number_format($commande['total_ttc'] - ($commande['frais_livraison'] ?? 0), 2) . ' $</td>
+            <td class="summary-td" style="width:80px;">' . number_format($commande['total_ttc'] - $frais_livraison, 2) . ' $</td>
         </tr>
         <tr>
             <td class="summary-td">Livraison :</td>
-            <td class="summary-td">' . number_format($commande['frais_livraison'] ?? 0, 2) . ' $</td>
+            <td class="summary-td">' . number_format($frais_livraison, 2) . ' $</td>
         </tr>
         <tr>
             <td class="summary-td total-final">TOTAL TTC :</td>
@@ -155,71 +174,65 @@ $html .= '</tbody>
 
 // 5. GÉNÉRATION PDF & ENVOI MAIL
 try {
-  $options = new Options();
-  $options->set('isRemoteEnabled', true);
-  $dompdf = new Dompdf($options);
-  $dompdf->loadHtml($html);
-  $dompdf->setPaper('A4', 'portrait');
-  $dompdf->render();
-  $pdfOutput = $dompdf->output();
+    $options = new Options();
+    $options->set('isRemoteEnabled', true);
+    $dompdf = new Dompdf($options);
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('A4', 'portrait');
+    $dompdf->render();
+    $pdfOutput = $dompdf->output();
 
-  // Configuration PHPMailer pour le serveur Felikay
-  $mail = new PHPMailer(true);
-  $mail->isSMTP();
-  $mail->Host       = 'mail5017.site4now.net';
-  $mail->SMTPAuth   = true;
-  $mail->Username   = 'noreply@felikayboutique.com';
-  $mail->Password   = 'Felikay@2026';
-  $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-  $mail->Port       = 465;
-  $mail->CharSet    = 'UTF-8';
+    if (!empty($client_email)) {
+        $mail = new PHPMailer(true);
+        $mail->isSMTP();
+        $mail->Host       = 'mail5017.site4now.net';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'noreply@felikayboutique.com';
+        $mail->Password   = 'Felikay@2026';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port       = 465;
+        $mail->CharSet    = 'UTF-8';
 
-  $mail->setFrom('noreply@felikayboutique.com', 'Felikay Maison de Mode');
-  $mail->addAddress($client_email);
-  $mail->addStringAttachment($pdfOutput, "Felikay_" . $type_document . "_" . $real_id . ".pdf");
+        $mail->setFrom('noreply@felikayboutique.com', 'Felikay Maison de Mode');
+        $mail->addAddress($client_email);
+        $mail->addStringAttachment($pdfOutput, "Felikay_" . $type_document . "_" . $real_id . ".pdf");
 
-  $mail->isHTML(true);
-  $mail->Subject = "Votre $type_document Felikay - #$real_id";
-  $mail->Body    = "Merci de votre achat chez Felikay. Veuillez trouver ci-joint votre $type_document.";
-
-  $mail->send();
-  $mail_sent = true;
+        $mail->isHTML(true);
+        $mail->Subject = "Votre $type_document Felikay - #$real_id";
+        $mail->Body    = "Merci de votre achat chez Felikay. Veuillez trouver ci-joint votre $type_document.";
+        $mail->send();
+        $mail_sent = true;
+    } else {
+        $mail_sent = false;
+    }
 } catch (Exception $e) {
-  $mail_sent = false;
-  $error_msg = $mail->ErrorInfo;
-  // Optionnel : Enregistrer l'erreur dans les logs pour le débogage
-  error_log("Erreur d'envoi de mail : " . $error_msg);
+    $mail_sent = false;
+    error_log("Erreur d'envoi de mail : " . $mail->ErrorInfo);
 }
-
-// 6. AFFICHAGE DU MESSAGE FINAL AU CLIENT
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Confirmation - Felikay</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Confirmation - Felikay</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
 </head>
 
 <body class="bg-stone-50 flex items-center justify-center h-screen">
-  <div class="bg-white p-12 shadow-sm border border-stone-200 text-center max-w-lg">
-    <h1 style="font-family: 'Playfair Display', serif;" class="text-4xl italic mb-8">Felikay</h1>
-
-    <?php if ($mail_sent): ?>
-      <div class="text-stone-800">
-        <p class="text-lg mb-2">Merci pour votre confiance.</p>
-        <p class="text-sm text-stone-500 mb-8 italic">Un reçu de paiement vous a été envoyé par mail à : <br><strong><?= $client_email ?></strong></p>
-      </div>
-    <?php else: ?>
-      <p class="text-red-500 mb-8 font-bold">Désolé, l'email n'a pas pu partir. Mais votre commande est bien enregistrée.</p>
-    <?php endif; ?>
-
-    <a href="../../index.php" class="inline-block border border-black px-10 py-3 text-[10px] font-bold uppercase tracking-[3px] hover:bg-black hover:text-white transition-all">
-      Retour à la boutique
-    </a>
-  </div>
+    <div class="bg-white p-12 shadow-sm border border-stone-200 text-center max-w-lg">
+        <h1 style="font-family: 'Playfair Display', serif;" class="text-4xl italic mb-8">Felikay</h1>
+        <?php if ($mail_sent): ?>
+            <div class="text-stone-800">
+                <p class="text-lg mb-2">Merci pour votre confiance.</p>
+                <p class="text-sm text-stone-500 mb-8 italic">Un document vous a été envoyé par mail à : <br><strong><?= htmlspecialchars($client_email) ?></strong></p>
+            </div>
+        <?php else: ?>
+            <p class="text-red-500 mb-8 font-bold">Votre commande est enregistrée. Le reçu PDF sera disponible dans votre espace.</p>
+        <?php endif; ?>
+        <a href="../../index.php" class="inline-block border border-black px-10 py-3 text-[10px] font-bold uppercase tracking-[3px] hover:bg-black hover:text-white transition-all">Retour à la boutique</a>
+    </div>
 </body>
 
 </html>

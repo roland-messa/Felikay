@@ -1,6 +1,8 @@
 <?php
 // C:\wamp64\www\ProjetFelykay\assets\actions\login_process.php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
 require_once '../../config/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -44,10 +46,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($isValid) {
+      // Régénération de l'ID de session pour éviter la fixation de session
       session_regenerate_id(true);
 
       $_SESSION['login_attempts'] = 0;
-      $_SESSION['last_activity'] = time();
+      $_SESSION['last_activity'] = time(); // Initialisation immédiate de l'activité
       $_SESSION['user_id'] = $user['id'];
       $_SESSION['user_nom'] = $user['nom'] ?? 'Utilisateur';
 
@@ -56,11 +59,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       if (isset($_SESSION['redirect_after_login'])) {
         $destination = $_SESSION['redirect_after_login'];
-        unset($_SESSION['redirect_after_login']); // On nettoie la session
+        unset($_SESSION['redirect_after_login']);
         header("Location: " . $destination);
-      }
-      // Sinon, redirection classique par rôle
-      else {
+      } else {
         if ($role === 'admin') {
           header("Location: ../../pages/admin/admin_dashboard.php");
         } elseif ($role === 'livreur') {

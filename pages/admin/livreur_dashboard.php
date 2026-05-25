@@ -13,9 +13,9 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'livreur') {
 $livreur_id = $_SESSION['user_id'];
 
 try {
-  // 1. COURSES ACTIVES
+  // 1. COURSES ACTIVES - On sélectionne c.* pour récupérer l'adresse complète directement depuis la commande
   $stmt = $pdo->prepare("
-        SELECT c.*, u.nom as client_nom, u.telephone as client_tel, u.email as user_email 
+        SELECT c.*, u.nom as user_nom, u.email as user_email 
         FROM commandes c 
         LEFT JOIN users u ON c.user_id = u.id 
         WHERE c.livreur_id = ? AND c.statut IN ('expedie', 'en_cours_de_livraison', 'en_route') 
@@ -24,9 +24,9 @@ try {
   $stmt->execute([$livreur_id]);
   $commandes = $stmt->fetchAll();
 
-  // 2. HISTORIQUE
+  // 2. HISTORIQUE - Récupération également basée sur les données figées de la commande
   $stmtHist = $pdo->prepare("
-        SELECT c.*, u.nom as client_nom 
+        SELECT c.*, u.nom as user_nom 
         FROM commandes c 
         LEFT JOIN users u ON c.user_id = u.id 
         WHERE c.livreur_id = ? AND c.statut IN ('livre', 'livre_payer') 
@@ -70,7 +70,7 @@ try {
     <div class="flex justify-between items-center w-full max-w-4xl mt-4">
       <div class="flex flex-col">
         <span class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">Espace Livreur</span>
-        <span class="text-[11px] font-medium text-black">Coursier : <?= htmlspecialchars($_SESSION['user_nom']) ?></span>
+        <span class="text-[11px] font-medium text-black">Coursier : <?= htmlspecialchars($_SESSION['user_nom'] ?? 'Livreur') ?></span>
       </div>
       <a href="../../assets/actions/logout.php" class="text-[10px] uppercase tracking-widest font-bold text-red-500">Déconnexion</a>
     </div>
@@ -106,29 +106,33 @@ try {
 
       <?php
       foreach ($commandes as $cmd):
+        // Priorité au nom renseigné à la commande, sinon fallback sur la table users
+        $clientNomFinal = !empty($cmd['nom_complet']) ? $cmd['nom_complet'] : ($cmd['user_nom'] ?? 'Client Inconnu');
+        // Téléphone direct de la commande
+        $clientTelFinal = !empty($cmd['telephone']) ? $cmd['telephone'] : 'N/A';
+
         // --- CALCUL DE LA RAPIDITÉ ET DES COULEURS DE DÉLAIS ---
         $heure_creation = strtotime($cmd['created_at']);
         $heure_actuelle = time();
         $minutes_ecoulees = round(($heure_actuelle - $heure_creation) / 60);
 
-        if ($minutes_ecoulees < 120) { // Moins de 2h
+        if ($minutes_ecoulees < 120) {
           $color_bg = 'bg-green-500';
           $color_text = 'text-green-700';
           $color_light_bg = 'bg-green-50';
           $delai_status = "Dans les délais";
-        } elseif ($minutes_ecoulees >= 120 && $minutes_ecoulees < 240) { // Entre 2h et 4h
+        } elseif ($minutes_ecoulees >= 120 && $minutes_ecoulees < 240) {
           $color_bg = 'bg-amber-500';
           $color_text = 'text-amber-700';
           $color_light_bg = 'bg-amber-50';
           $delai_status = "Délai presque atteint";
-        } else { // Plus de 4h
+        } else {
           $color_bg = 'bg-red-500';
           $color_text = 'text-red-700';
           $color_light_bg = 'bg-red-50';
           $delai_status = "En retard";
         }
 
-        // Formatage lisible du temps écoulé
         if ($minutes_ecoulees < 60) {
           $temps_affichage = "depuis " . $minutes_ecoulees . " min";
         } else {
@@ -136,9 +140,8 @@ try {
           $restant_minutes = $minutes_ecoulees % 60;
           $temps_affichage = "depuis " . $heures . "h " . ($restant_minutes > 0 ? $restant_minutes . "m" : "");
         }
-      ?><div class="bg-white border-l-4 p-8 rounded-3xl shadow-sm hover:shadow-md transition-all relative border border-gray-100" style="border-left-color: <?php if ($minutes_ecoulees < 120) echo '#22c55e';
-                                                                                                                                                            elseif ($minutes_ecoulees < 240) echo '#f59e0b';
-                                                                                                                                                            else echo '#ef4444'; ?>;">
+      ?>
+        <div class="bg-white border-l-4 p-8 rounded-3xl shadow-sm hover:shadow-md transition-all relative border border-gray-100" style="border-left-color: <?= ($minutes_ecoulees < 120) ? '#22c55e' : (($minutes_ecoulees < 240) ? '#f59e0b' : '#ef4444') ?>;">
 
           <div class="absolute top-8 left-24 flex items-center gap-1.5 px-2.5 py-1 rounded-full <?= $color_light_bg ?> <?= $color_text ?> text-[8px] font-black uppercase tracking-wider">
             <span class="w-2 h-2 rounded-full <?= $color_bg ?>"></span>
@@ -161,25 +164,33 @@ try {
           <div class="space-y-6">
             <div>
               <h3 class="text-[9px] uppercase tracking-[0.2em] text-gray-400 font-bold mb-1">Client</h3>
-              <p class="text-lg font-bold uppercase"><?= htmlspecialchars($cmd['client_nom'] ?? 'Client') ?></p>
+              <p class="text-lg font-bold uppercase text-slate-900"><?= htmlspecialchars($clientNomFinal) ?></p>
             </div>
 
-            <div class="flex items-start gap-3">
-              <span class="text-sm">📍</span>
-              <div class="text-xs">
-                <p class="font-bold uppercase text-blue-600">
-                  <?= htmlspecialchars($cmd['commune'] ?? 'Commune non précisée') ?>
-                  <span class="text-gray-400 font-normal">|</span>
-                  <?= htmlspecialchars($cmd['quartier'] ?? 'Quartier non précisé') ?>
-                </p>
-                <p class="text-gray-500 italic mt-1">
-                  <?= htmlspecialchars($cmd['adresse_livraison'] ?? 'Pas d\'adresse précise') ?>
-                </p>
+            <div class="flex items-start gap-3 bg-slate-50 p-4 rounded-2xl border border-slate-100">
+              <span class="text-xl">📍</span>
+              <div class="text-xs space-y-1.5 w-full">
+                <div>
+                  <span class="text-[9px] uppercase font-black tracking-wider text-slate-400 block">Secteur / Commune</span>
+                  <p class="font-bold text-slate-900 uppercase">
+                    <?= htmlspecialchars($cmd['commune'] ?? 'Non spécifiée') ?>
+                    <?php if (!empty($cmd['quartier'])): ?>
+                      <span class="text-blue-600"> (Q/ <?= htmlspecialchars($cmd['quartier']) ?>)</span>
+                    <?php endif; ?>
+                  </p>
+                </div>
+
+                <div>
+                  <span class="text-[9px] uppercase font-black tracking-wider text-slate-400 block">Avenue & Numéro</span>
+                  <p class="text-slate-700 font-medium italic">
+                    <?= htmlspecialchars($cmd['adresse_livraison'] ?? 'Aucune précision d\'adresse') ?>
+                  </p>
+                </div>
               </div>
             </div>
 
-            <a href="tel:<?= $cmd['client_tel'] ?? '' ?>" class="block w-full text-center py-3 bg-blue-50 text-blue-700 rounded-xl text-[10px] font-bold uppercase tracking-widest">
-              Appeler : <?= htmlspecialchars($cmd['client_tel'] ?? 'N/A') ?>
+            <a href="tel:<?= $clientTelFinal ?>" class="block w-full text-center py-3 bg-blue-50 text-blue-700 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-blue-100 transition border border-blue-100">
+              📞 Appeler : <?= htmlspecialchars($clientTelFinal) ?>
             </a>
 
             <?php if ($cmd['statut'] !== 'en_route'): ?>
@@ -209,22 +220,26 @@ try {
             <tr>
               <th class="p-5">ID</th>
               <th class="p-5">Client</th>
+              <th class="p-5">Destination (Commune)</th>
               <th class="p-5">Montant</th>
               <th class="p-5 text-right">Date</th>
             </tr>
           </thead>
           <tbody class="text-xs">
-            <?php foreach ($historique as $h): ?>
+            <?php foreach ($historique as $h):
+              $histClientNom = !empty($h['nom_complet']) ? $h['nom_complet'] : ($h['user_nom'] ?? 'Client Inconnu');
+            ?>
               <tr class="border-t border-gray-50">
                 <td class="p-5 font-bold">#<?= $h['id'] ?></td>
-                <td class="p-5"><?= htmlspecialchars($h['client_nom']) ?></td>
+                <td class="p-5 font-medium uppercase text-[11px]"><?= htmlspecialchars($histClientNom) ?></td>
+                <td class="p-5 text-slate-500 font-bold uppercase"><?= htmlspecialchars($h['commune'] ?? 'N/A') ?></td>
                 <td class="p-5 font-bold text-green-600"><?= number_format($h['total_ttc'], 2) ?> $</td>
                 <td class="p-5 text-right text-gray-400 italic">Le <?= date('d/m à H:i', strtotime($h['updated_at'])) ?></td>
               </tr>
             <?php endforeach; ?>
             <?php if (empty($historique)): ?>
               <tr>
-                <td colspan="4" class="p-10 text-center text-gray-300 italic uppercase tracking-widest">Aucun historique</td>
+                <td colspan="5" class="p-10 text-center text-gray-300 italic uppercase tracking-widest">Aucun historique</td>
               </tr>
             <?php endif; ?>
           </tbody>

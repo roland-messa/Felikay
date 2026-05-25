@@ -10,7 +10,7 @@ use PHPMailer\PHPMailer\Exception;
 
 $commande_id = $_GET['id'] ?? null;
 $payment_ref = $_GET['ref'] ?? null;
-$email_force = $_GET['email'] ?? null; // Email passé par process_cash ou process_online
+$email_force = $_GET['email'] ?? null;
 
 if (!$commande_id && !$payment_ref) die("Identifiant de commande manquant.");
 
@@ -30,8 +30,6 @@ $commande = $stmt->fetch();
 if (!$commande) die("Commande introuvable.");
 
 $real_id = $commande['id'];
-
-// Détermination de l'email destinataire (Priorité : Email forcé > Email User > Email Invite)
 $client_email = $email_force ?: ($commande['user_email'] ?: $commande['email_invite']);
 
 // 2. RÉCUPÉRATION DES DÉTAILS
@@ -46,11 +44,13 @@ $stmtDetails = $pdo->prepare("
 $stmtDetails->execute([$real_id]);
 $items = $stmtDetails->fetchAll();
 
-// 3. CALCULS ET LOGIQUE DE PAIEMENT
+// 3. CALCULS ET LOGIQUE DE PAIEMENT & LIVRAISON
 $total_ttc = floatval($commande['total_ttc']);
 $frais_livraison = floatval($commande['frais_livraison'] ?? 0);
 $sous_total = $total_ttc - $frais_livraison;
-$is_livraison = ($frais_livraison > 0);
+
+// Détection de la livraison : si frais > 0 ET que l'adresse ne contient pas "boutique"
+$is_livraison = ($frais_livraison > 0 && stripos($commande['adresse_livraison'] ?? '', 'boutique') === false);
 
 $brut_mode = strtoupper($commande['mode_paiement'] ?? 'CASH');
 $affichage_mode = $brut_mode;
@@ -59,8 +59,11 @@ elseif (strpos($brut_mode, 'ORANGE') !== false) $affichage_mode = "ORANGE MONEY"
 elseif (strpos($brut_mode, 'AIRTEL') !== false) $affichage_mode = "AIRTEL MONEY";
 elseif ($brut_mode === 'CASH') $affichage_mode = "CASH (À LA LIVRAISON)";
 
-$is_paid = in_array(strtolower($commande['statut_paiement'] ?? ''), ['reussi', 'completed', 'success', 'paye']);
-$type_document = $is_paid ? "FACTURE DE PAIEMENT" : "BON DE COMMANDE";
+// Détermination stricte du statut Payé / Non Payé
+$is_paid = in_array(strtolower($commande['statut_paiement'] ?? ''), ['reussi', 'completed', 'success', 'paye']) || strtolower($commande['statut'] ?? '') === 'paye';
+
+// Changement dynamique du titre du document
+$type_document = $is_paid ? "FACTURE" : "BON DE COMMANDE";
 
 // ENCODAGE DU LOGO EN BASE64 POUR DOMPDF
 $logo_path = dirname(__DIR__, 2) . '/assets/img/felikay.jpg';
@@ -81,17 +84,17 @@ $html = '
         .page { padding: 40px; }
         .watermark { position: fixed; top: 35%; left: 10%; transform: rotate(-45deg); font-size: 100px; color: rgba(0, 0, 0, 0.03); font-weight: bold; z-index: -1000; text-transform: uppercase; letter-spacing: 20px; }
         .header { text-align: center; margin-bottom: 40px; border-bottom: 0.5px solid #eee; padding-bottom: 20px; }
-        
-        /* Conteneur et style du logo en cercle */
         .logo-container { margin-bottom: 15px; text-align: center; }
         .logo-img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 1px solid #eee; }
-        
         .brand { font-size: 28px; font-weight: bold; letter-spacing: 8px; text-transform: uppercase; }
         .subtitle { font-size: 9px; letter-spacing: 3px; color: #888; text-transform: uppercase; margin-bottom: 10px;}
         .doc-title { text-align: center; margin-bottom: 30px; font-size: 11px; font-weight: bold; letter-spacing: 4px; border: 1px solid #000; padding: 8px; text-transform: uppercase; }
-        .status-badge { margin: 20px 0; padding: 15px; text-align: center; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 2px; }
-        .status-paid { border: 2px solid #27ae60; color: #27ae60; background: #f4fdf8; }
-        .status-unpaid { border: 2px solid #e74c3c; color: #e74c3c; background: #fdf5f4; }
+        
+        /* Badges demandés entourés en Rouge ou Vert */
+        .status-badge { margin: 20px 0; padding: 15px; text-align: center; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+        .status-paid { border: 2.5px solid #27ae60; color: #27ae60; background: #f4fdf8; }
+        .status-unpaid { border: 2.5px solid #e74c3c; color: #e74c3c; background: #fdf5f4; }
+        
         .info-section { width: 100%; margin-bottom: 30px; }
         .info-box { width: 50%; vertical-align: top; font-size: 11px; }
         .label { font-size: 8px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: block; }
@@ -122,10 +125,13 @@ $html .= '
         <div class="doc-title">' . $type_document . '</div>
     </div>';
 
+// Gestion dynamique de l'affichage de l'entourage et des mentions textuelles
 if ($is_paid) {
-    $html .= '<div class="status-badge status-paid">Payé par ' . $affichage_mode . '</div>';
+    $details_livraison = $is_livraison ? "avec livraison incluse" : "retrait en boutique";
+    $html .= '<div class="status-badge status-paid">Payé : ' . number_format($total_ttc, 2) . ' $ (' . $details_livraison . ')</div>';
 } else {
-    $html .= '<div class="status-badge status-unpaid">Solde à payer : ' . number_format($total_ttc, 2) . ' $</div>';
+    $details_livraison = $is_livraison ? "avec livraison incluse" : "retrait en boutique";
+    $html .= '<div class="status-badge status-unpaid">Solde à payer : ' . number_format($total_ttc, 2) . ' $ (' . $details_livraison . ')</div>';
 }
 
 $html .= '
@@ -134,7 +140,7 @@ $html .= '
             <td class="info-box">
                 <span class="label">Client & Destination</span>
                 <strong style="font-size: 13px;">' . htmlspecialchars($commande['nom_complet'] ?? $commande['user_nom']) . '</strong><br>
-                ' . ($is_livraison ? htmlspecialchars($commande['adresse_livraison']) . '<br>' . htmlspecialchars($commande['quartier']) . ', ' . htmlspecialchars($commande['commune']) : '<strong style="color:#e67e22;">À RETIRER EN BOUTIQUE</strong>') . '<br>
+                ' . ($is_livraison ? htmlspecialchars($commande['adresse_livraison']) . '<br>' . htmlspecialchars($commande['quartier'] ?? '') . ', ' . htmlspecialchars($commande['commune'] ?? '') : '<strong style="color:#e67e22;">RETRAIT EN BOUTIQUE</strong>') . '<br>
                 Tél : ' . htmlspecialchars($commande['telephone'] ?? $commande['user_tel']) . '
             </td>
             <td class="info-box" style="text-align: right;">
@@ -206,5 +212,5 @@ if (!empty($client_email)) {
     }
 }
 
-// 7. SORTIE NAVIGATEUR (Affichage du PDF)
+// 7. SORTIE NAVIGATEUR
 $dompdf->stream("Felikay_" . $real_id . ".pdf", ["Attachment" => false]);
